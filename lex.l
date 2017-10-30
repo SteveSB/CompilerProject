@@ -17,6 +17,7 @@
 Single_line_comment		(\/\/)+[^\n]*
 Integer					[1-9][0-9]*|0
 Identifier              [a-zA-Z_][a-zA-Z0-9_]*
+Float					([+-]?[0-9]+"."[0-9]+"f"?)|[0-9]+"f"?
 
 %%
 "if"			{
@@ -134,6 +135,71 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 							colNo +=strlen(yytext);
 							cout<<"volatile";
 						}
+						
+"break"					{
+							colNo += strlen(yytext); 
+							cout<<"break\n";
+						}
+
+"checked"				{
+							colNo += strlen(yytext); 
+							cout<<"checked\n";
+						}
+
+"default"				{
+							colNo += strlen(yytext); 
+							cout<<"default\n";
+						}
+
+"enum"					{
+							colNo += strlen(yytext); 
+							cout<<"enum\n";
+						}
+
+"finally"				{
+							colNo += strlen(yytext); 
+							cout<<"finally\n";
+						}
+
+"long"					{
+							colNo += strlen(yytext); 
+							cout<<"long\n";
+						}
+
+"operator"				{
+							colNo += strlen(yytext); 
+							cout<<"operator\n";
+						}
+
+"protected"				{
+							colNo += strlen(yytext); 
+							cout<<"protected\n";
+						}
+
+"sbyte"					{
+							colNo += strlen(yytext); 
+							cout<<"sbyte\n";
+						}
+
+"this"					{
+							colNo += strlen(yytext); 
+							cout<<"this\n";
+						}
+
+"unit"					{
+							colNo += strlen(yytext); 
+							cout<<"unit\n";
+						}
+
+"using"					{
+							colNo += strlen(yytext); 
+							cout<<"using\n";
+						}
+
+"while"					{
+							colNo += strlen(yytext); 
+							cout<<"while\n";
+						}
 
 \/\*                                        { BEGIN multilinecomment; }
 <multilinecomment>[^*\n]*					{;}
@@ -156,6 +222,11 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 
 									}
 
+{Float}								{
+										colNo += strlen(yytext);
+										float x = atof(yytext);
+										cout<<x<<endl;
+									}
 
 %%
 

@@ -200,7 +200,56 @@ Float					([+-]?[0-9]+"."[0-9]+"f"?)|[0-9]+"f"?
 							colNo += strlen(yytext); 
 							cout<<"while\n";
 						}
-
+"if"			{
+							colNo += strlen(yytext);
+						}
+"as"
+						{
+							colNo+=strlen(yytext);
+						}
+"case"                  {
+							colNo+=strlen(yytext);
+						}
+						
+"const"					{
+							colNo+=strlen(yytext);
+						}
+"do"					{
+							colNo+=strlen(yytext);
+						}
+"explicit"				{	
+							colNo+=strlen(yytext);
+						}
+"float"					{
+							colNo+=strlen(yytext);
+						}
+"internal"				{
+							colNo+=strlen(yytext);
+						}
+"new"					{
+							colNo+=strlen(yytext);
+						}
+"override"				{
+							colNo+=strlen(yytext);
+						}
+"readonly"				{
+							colNo+=strlen(yytext);
+						}
+"short"					{	
+							colNo+=strlen(yytext);
+						}
+"string"				{	
+							colNo+=strlen(yytext);
+						}
+"true"					{
+							colNo+=strlen(yytext);
+						}
+"unchecked"				{
+							colNo+=strlen(yytext);
+						}
+"virtual"				{
+							colNo+=strlen(yytext);
+						}
 \/\*                                        { BEGIN multilinecomment; }
 <multilinecomment>[^*\n]*					{;}
 <multilinecomment>"*"+[^*/\n]*				{lineNo++;}

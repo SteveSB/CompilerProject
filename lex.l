@@ -59,81 +59,81 @@ Float					([+-]?[0-9]+"."[0-9]+"f"?)|[0-9]+"f"?
 									colNo += strlen(yytext);
 									cout<<"bool\n";
 						}
-"char"
-						{
+
+"char"					{
 							colNo += strlen(yytext);
 							cout<<"char\n";
 
 						}
-"decimal"
-						{
+
+"decimal"				{
 							colNo +=strlen(yytext);
-							cout<<"decimal";
+							cout<<"decimal"<<endl;
 						}
-"else"
-						{
+
+"else"					{
 							colNo +=strlen(yytext);
-							cout<<"else";
+							cout<<"else"<<endl;
 						}
-"false"
-						{
+
+"false"					{
 							colNo +=strlen(yytext);
-							cout<<"false";
+							cout<<"false"<<endl;
 						}
-"foreach"
-						{
+
+"foreach"				{
 							colNo +=strlen(yytext);
-							cout<<"foreach";
+							cout<<"foreach"<<endl;
 						}
-"in"
-						{
+
+"in"					{
 							colNo +=strlen(yytext);
-							cout<<"in";
+							cout<<"in"<<endl;
 						}
-"lock"
-						{
+
+"lock"					{
 							colNo +=strlen(yytext);
-							cout<<"lock";
+							cout<<"lock"<<endl;
 						}
-"object"
-						{
+
+"object"				{
 							colNo +=strlen(yytext);
-							cout<<"object";
+							cout<<"object"<<endl;
 						}
-"private"
-						{
+
+"private"				{
 							colNo +=strlen(yytext);
-							cout<<"private";
+							cout<<"private"<<endl;
 						}
-"return"
-						{
+
+"return"				{
 							colNo +=strlen(yytext);
-							cout<<"return";
+							cout<<"return"<<endl;
 						}
-"stackalloc"
-						{
+
+"stackalloc"			{
 							colNo +=strlen(yytext);
-							cout<<"stackalloc";
+							cout<<"stackalloc"<<endl;
 						}
-"switch"
-						{
+
+"switch"				{
 						colNo +=strlen(yytext);
-						cout<<"switch";
+						cout<<"switch"<<endl;
 						}
-"typeof"
-						{
+
+"typeof"				{
 							colNo +=strlen(yytext);
-							cout<<"typeof";
+							cout<<"typeof"<<endl;
 						}
-"ushort"
-						{
+
+"ushort"				{
 							colNo +=strlen(yytext);
-							cout<<"ushort";
+							cout<<"ushort"<<endl;
 						}
-"volatile"
-						{
+
+"volatile"				{
 							colNo +=strlen(yytext);
-							cout<<"volatile";
+							cout<<"volatile"<<endl;
 						}
 						
 "break"					{

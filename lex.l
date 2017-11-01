@@ -43,7 +43,6 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 
 "abstract"				{
 							colNo += strlen(yytext);
-							cout<<"yeeeeeeeeeees";
 						}
 
 "byte"					{
@@ -442,7 +441,7 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 
 "+"						{
 							colNo += strlen(yytext); 
-							cout<<"plussssssssssssssssssssssssssssssssssss\n";
+							cout<<"plus\n";
 						}
 
 "-"						{

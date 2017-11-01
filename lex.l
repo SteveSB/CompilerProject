@@ -23,82 +23,18 @@ Character				"\'"."\'"
 String					"\"".*"\""
 Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 %%
-"base"			{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"catch"			{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"continue"		{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"extern"		{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"for"			{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"implicit"	    {
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"is"		    {
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"null"			{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}		
-"params"		{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"ref"			{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"sizeof"	    {
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"struct"	    {
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"try"           {
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"unsafe"        {
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"void"			{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
-"value" 		{
-							colNo += strlen(yytext);
-							cout<<yytext;
-				}
 "if"			{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"if";
 				}
 "class"			{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"class";
 				}
 
 "public"		{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"public";
 				}
 
 "int"			        {
@@ -108,58 +44,72 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 
 "abstract"				{
 							colNo += strlen(yytext);
+							cout<<"abstract";
 						}
 
 "byte"					{
 							colNo += strlen(yytext);
+							cout<<"byte";
 						}
 						
 "delegate"				{
 							colNo += strlen(yytext);
+							cout<<"delegate";
 						}
 
 "event"					{
 							colNo += strlen(yytext);
+							cout<<"event";
 						}
 
 "fixed"					{
 							colNo += strlen(yytext);
+							cout<<"fixed";
 						}
 
 "goto"					{
 							colNo += strlen(yytext);
+							cout<<"goto";
 						}
 
 "interface"				{
 							colNo += strlen(yytext);
+							cout<<"interface";
 						}
 
 "namespace"				{
 							colNo += strlen(yytext);
+							cout<<"namespace";
 						}
 
 "out"					{
 							colNo += strlen(yytext);
+							cout<<"out";
 						}
 
 "sealed"				{
 							colNo += strlen(yytext);
+							cout<<"sealed";
 						}
 
 "static"				{
 							colNo += strlen(yytext);
+							cout<<"static";
 						}
 
 "throw"					{
 							colNo += strlen(yytext);
+							cout<<"throw";
 						}
 
 "ulong"					{
 							colNo += strlen(yytext);
+							cout<<"ulong";
 						}
 
 "var"					{
 							colNo += strlen(yytext);
+							cout<<"var";
 						}
 						
 "bool"      			{
@@ -269,57 +219,7 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 
 "long"					{
 							colNo += strlen(yytext); 
-}
-						
-\n					    {
-							colNo=1;
-							lineNo++;
-							cout<<lineNo;
-						}
-\r                      {
-                        colNo=1;
-						lineNo++;
-                        }
-\'                      {
-                        colNo += strlen(yytext);
-						cout<<"'";
-                        }
-\t                      {
-                         colNo += 3;	    
-                        }
-\\                      {
-                         colNo += strlen(yytext);
-                        }
-\0                      {
-                         colNo += strlen(yytext);
-						 cout<<"0";
-                        }
-\a                      {
-                          cout<<"beeb";
-                        }
-\b                      {
-                         if(colNo>1)
-						 colNo--;
-						 cout<<"backspace";
-                        }
-\f                      {
-						 colNo += strlen(yytext);
-                        }
-\v                      {
-						 colNo += strlen(yytext);
-                        }
-
-" "						{
-							colNo += 1; 
-						}
-
-\+						{
-							colNo += strlen(yytext); 
-							cout<<"plussssssssssssssssssssssssssssssssssss\n";
-						}
-
-"-"						{
-							colNo += strlen(yytext); 
+							cout<<"long";
 						}
 
 "operator"				{
@@ -360,82 +260,102 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 "as"
 						{
 							colNo+=strlen(yytext);
+							cout<<"as";
 						}
 
 "case"                  {
 							colNo+=strlen(yytext);
+							cout<<"case";
 						}
 						
 "const"					{
 							colNo+=strlen(yytext);
+							cout<<"const";
 						}
 
 "do"					{
 							colNo+=strlen(yytext);
+							cout<<"do";
 						}
 
 "explicit"				{	
 							colNo+=strlen(yytext);
+							cout<<"explicit";
 						}
 
 "float"					{
 							colNo+=strlen(yytext);
+							cout<<"float";
 						}
 
 "internal"				{
 							colNo+=strlen(yytext);
+							cout<<"internal";
 						}
 
 "new"					{
 							colNo+=strlen(yytext);
+							cout<<"new";
 						}
 
 "override"				{
 							colNo+=strlen(yytext);
+							cout<<"override";
 						}
 
 "readonly"				{
 							colNo+=strlen(yytext);
+							cout<<"readonly";
 						}
 
 "short"					{	
 							colNo+=strlen(yytext);
+							cout<<"short";
 						}
 
 "string"				{	
 							colNo+=strlen(yytext);
+							cout<<"string";
 						}
 
 "true"					{
 							colNo+=strlen(yytext);
+							cout<<"true";
 						}
 
 "unchecked"				{
 							colNo+=strlen(yytext);
+							cout<<"unchecked";
 						}
 
 "virtual"				{
 							colNo+=strlen(yytext);
+							cout<<"virtual";
 						}
 
 "base"					{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"base";
 						}
 
 "catch"					{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"catch";
 						}
 
 "continue"				{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"continue";
 						}
+						
+"double"				{
+							colNo += strlen(yytext);
+							cout<<"double";
+}						
 						
 "extern"				{
 							colNo += strlen(yytext);
-							cout<<yytext;
+							cout<<"extern";
 						}
 						
 "for"					{
@@ -497,6 +417,10 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 							colNo += strlen(yytext);
 							cout<<yytext;
 						}
+
+\\                      {
+                         colNo += strlen(yytext);
+                        }
 						
 \r                      {
 							colNo=1;
@@ -692,7 +616,7 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 		
 {Identifier}						{ colNo += strlen(yytext);
 										cout<<yytext<<endl;;
-										cout<<"\t it is iddd \n";
+										cout<<"\t it is id \n";
 									}
 
 {Float}								{
@@ -723,12 +647,8 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 									}
 {Double}                            {
                                      colNo += strlen(yytext);
-									 cout<<yytext;
+									 cout<<"doubleeeee"<<yytext;
                                     }
-{Identifier}						{ colNo += strlen(yytext);
-										cout<<yytext<<endl;;
-										cout<<"\t it is id \n";
-		                           }
 %%
 int main(void)
 {

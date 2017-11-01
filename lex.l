@@ -721,7 +721,7 @@ Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 										int x=atoi(yytext);
 										cout<<x<<endl;
 									}
-{double}                            {
+{Double}                            {
                                      colNo += strlen(yytext);
 									 cout<<yytext;
                                     }

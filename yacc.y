@@ -9,7 +9,6 @@
   int yylex(void);
   int yyparse();
   void yyerror(char *);
-  //FILE *yyin;
   
   FlexLexer* lexer = new yyFlexLexer();
   
@@ -42,7 +41,7 @@
 
 /* C.1.4 Tokens */
 %token T_IDENTIFIER 
-%token T_INTEGER_LITERAL T_REAL_LITERAL T_CHARACTER_LITERAL T_STRING_LITERAL 
+%token T_LITERAL_INTEGER T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING 
 
 /* C.1.7 KEYWORDS */ 
 %token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_BACKSPACE T_STRING_END T_TAB T_DOUBLE_LITERAL T_DOT
@@ -89,10 +88,10 @@
 /***** C.1.8 Literals *****/
 literal
   : boolean_literal
-  | T_INTEGER_LITERAL
-  | T_REAL_LITERAL
-  | T_CHARACTER_LITERAL
-  | T_STRING_LITERAL
+  | T_LITERAL_INTEGER
+  | T_LITERAL_REAL
+  | T_LITERAL_CHARACTER
+  | T_LITERAL_STRING
   | T_DOUBLE_LITERAL
   | T_NULL_LITERAL
   ;
@@ -133,13 +132,13 @@ numeric_type
   | T_DECIMAL
   ;
 integral_type
-  : T_SBYTE | T_BYTE | T_SHORT | T_USHORT | T_INTEGER_LITERAL | T_UINT | T_LONG | T_ULONG | T_CHARACTER_LITERAL | T_BOOLEAN
+  : T_SBYTE | T_BYTE | T_SHORT | T_USHORT | T_INT | T_UINT | T_LONG | T_ULONG | T_CHAR | T_BOOLEAN
   ;
 floating_point_type
   : T_FLOAT | T_DOUBLE
   ;
 class_type
-  : T_OBJECT | T_STRING_LITERAL
+  : T_OBJECT | T_STRING
   ;
 pointer_type
   : type T_MULTIPLY
@@ -730,7 +729,7 @@ modifier
   ;
 /***** C.2.6 Classes *****/
 class_declaration
-  : attributes_opt modifiers_opt T_CLASS T_IDENTIFIER class_base_opt class_body comma_opt {cout << "TESTING" << endl;}
+  : attributes_opt modifiers_opt T_CLASS T_IDENTIFIER class_base_opt class_body comma_opt {cout << "FINISHED WITH NO ERRORS :)" << endl;}
   ;
 class_base_opt
   : /* Nothing */
@@ -1195,11 +1194,11 @@ int yylex()
 void main(void)
 {	
 	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\in.cs", "r", stdin)) {
-		cout << "can't open input file" << endl;
+		cout << "shit1" << endl;
 	}
 
 	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\out.txt", "w", stdout)) {
-		cout << "can't open output file" << endl;
+		cout << "shit2" << endl;
 	}
 	//freopen("errors.txt", "wt", stderr);
 	

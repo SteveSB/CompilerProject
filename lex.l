@@ -68,7 +68,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 							cout<<"int\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
-							//return T_INTEGER_LITERAL;
+							return T_INT;
 						}
 
 "abstract"				{
@@ -196,7 +196,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 							cout<<"char\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
-							return T_CHARACTER_LITERAL;
+							return T_CHAR;
 						}
 
 "decimal"				{
@@ -500,7 +500,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 							cout<<"string\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
-							return T_STRING_LITERAL;
+							return T_STRING;
 						}
 
 "unchecked"				{
@@ -1129,19 +1129,19 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 										colNo += strlen(yytext);
 										int x=atoi(yytext);
 										cout<<"Found int:	"<<x<<endl;
-										return T_INT;
+										return T_LITERAL_INTEGER;
 									}
 
 {Character}							{
 										colNo += strlen(yytext);
 										cout<<"Found Char:	"<<yytext<<endl;
-										return T_CHAR;
+										return T_LITERAL_CHARACTER;
 									}
 							
 {String}							{
 										colNo += strlen(yytext);
 										cout<<"Found String:	"<<yytext<<endl;
-										return T_STRING;
+										return T_LITERAL_STRING;
 									}
 
 {Double}                            {

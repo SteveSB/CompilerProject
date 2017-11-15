@@ -1,0 +1,17 @@
+[
+Found ID:	Flags
+]
+
+public
+enum
+Found ID:	CarOptions
+
+{
+
+	it is a single line comment
+
+Found ID:	SunRoof
+=
+Found int:	0
+Found ID:	x01
+		Parse error!  Message: syntax error, unexpected T_IDENTIFIER, expecting T_CLOSE_BRACKETS

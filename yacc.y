@@ -3,6 +3,7 @@
 #define YYERROR_VERBOSE
   extern int yylineno;
   #define _CRT_SECURE_NO_WARNINGS
+  #define YYDEBUG 1
   #include <iostream>
   using namespace std;
   #include <FlexLexer.h>
@@ -33,7 +34,6 @@
 		}r;
 	}
 
-%nonassoc test
 %nonassoc LO_TER
 	
 /* Special tokens to help disambiguate rank_specifiers */
@@ -41,11 +41,11 @@
 
 /* C.1.4 Tokens */
 %token T_IDENTIFIER 
-%token T_LITERAL_INTEGER T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING 
+%token T_LITERAL_INTEGER T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING T_LITERAL_FLOAT T_LITERAL_DOUBLE T_LITERAL_BOOLEAN
 
 /* C.1.7 KEYWORDS */ 
-%token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_BACKSPACE T_STRING_END T_TAB T_DOUBLE_LITERAL T_DOT
-%token  T_FINAL T_LNUMBER T_VALUE T_BOOLEAN
+%token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_BACKSPACE T_STRING_END T_TAB T_DOT
+%token  T_FINAL T_LNUMBER T_VALUE
 %token  T_ABSTRACT T_AS T_BASE T_BOOL T_BREAK
 %token  T_BYTE T_CASE T_CATCH T_CHAR T_CHECKED
 %token  T_CLASS T_CONST T_CONTINUE T_DECIMAL T_DEFAULT
@@ -62,6 +62,7 @@
 %token  T_TRY T_TYPEOF T_UINT T_ULONG T_UNCHECKED
 %token  T_UNSAFE T_USHORT T_USING T_VIRTUAL T_VOID
 %token  T_VOLATILE T_WHILE T_VAR 
+%nonassoc test
 
 /* The ones that seem to be context sensitive */
 /* Attribute Targets */
@@ -92,7 +93,8 @@ literal
   | T_LITERAL_REAL
   | T_LITERAL_CHARACTER
   | T_LITERAL_STRING
-  | T_DOUBLE_LITERAL
+  | T_LITERAL_DOUBLE
+  | T_LITERAL_BOOLEAN
   | T_NULL_LITERAL
   ;
 boolean_literal
@@ -105,9 +107,11 @@ boolean_literal
 namespace_name
   : qualified_identifier
   ;
+/*
 type_name
   : qualified_identifier
   ;
+*/
 /***** C.2.2 Types *****/
 type
   : non_array_type
@@ -115,7 +119,8 @@ type
   ;
 non_array_type
   : simple_type
-  | type_name
+/*  |qualified_identifier
+  | type_name   */
   ;
 simple_type
   : primitive_type
@@ -132,7 +137,7 @@ numeric_type
   | T_DECIMAL
   ;
 integral_type
-  : T_SBYTE | T_BYTE | T_SHORT | T_USHORT | T_INT | T_UINT | T_LONG | T_ULONG | T_CHAR | T_BOOLEAN
+  : T_SBYTE | T_BYTE | T_SHORT | T_USHORT | T_INT | T_UINT | T_LONG | T_ULONG | T_CHAR
   ;
 floating_point_type
   : T_FLOAT | T_DOUBLE
@@ -142,6 +147,7 @@ class_type
   ;
 pointer_type
   : type T_MULTIPLY
+  | qualified_identifier T_MULTIPLY
   | T_VOID T_MULTIPLY
   ;
 array_type
@@ -234,9 +240,11 @@ new_expression
   ;
 object_creation_expression
   : T_NEW type T_OPEN_PARENNTHESES argument_list_opt T_CLOSE_PARENNTHESES
+  | T_NEW qualified_identifier T_OPEN_PARENNTHESES argument_list_opt T_CLOSE_PARENNTHESES
   ;
 array_creation_expression
   : T_NEW non_array_type T_OPEN_ARRAY expression_list T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
+  | T_NEW qualified_identifier T_OPEN_ARRAY expression_list T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
   | T_NEW array_type array_initializer
   ;
 array_initializer_opt
@@ -245,6 +253,7 @@ array_initializer_opt
   ;
 typeof_expression
   : T_TYPEOF T_OPEN_PARENNTHESES type T_CLOSE_PARENNTHESES
+  | T_TYPEOF T_OPEN_PARENNTHESES qualified_identifier T_CLOSE_PARENNTHESES
   | T_TYPEOF T_OPEN_PARENNTHESES T_VOID T_CLOSE_PARENNTHESES
   ;
 checked_expression
@@ -261,10 +270,11 @@ addressof_expression
   ;
 sizeof_expression
   : T_SIZEOF T_OPEN_PARENNTHESES type T_CLOSE_PARENNTHESES
+  | T_SIZEOF T_OPEN_PARENNTHESES qualified_identifier T_CLOSE_PARENNTHESES
   ;
 postfix_expression
   : primary_expression
-  | qualified_identifier
+  | qualified_identifier %prec test
   | post_increment_expression
   | post_decrement_expression
   | pointer_member_access
@@ -339,6 +349,8 @@ relational_expression
   | relational_expression T_GEQ shift_expression
   | relational_expression T_IS type
   | relational_expression T_AS type
+  | relational_expression T_IS qualified_identifier
+  | relational_expression T_AS qualified_identifier
   ;
 equality_expression
   : relational_expression
@@ -431,6 +443,7 @@ declaration_statement
   ;
 local_variable_declaration
   : type variable_declarators
+  | qualified_identifier variable_declarators
   ;
 variable_declarators
   : variable_declarator
@@ -446,10 +459,12 @@ variable_initializer
   | stackalloc_initializer
   ;
 stackalloc_initializer
-: T_STACKALLOC type  T_OPEN_ARRAY expression T_CLOSE_ARRAY 
+  : T_STACKALLOC type T_OPEN_ARRAY expression T_CLOSE_ARRAY 
+  | T_STACKALLOC qualified_identifier T_OPEN_ARRAY expression T_CLOSE_ARRAY 
   ; 
 local_constant_declaration
   : T_CONST type constant_declarators
+  | T_CONST qualified_identifier constant_declarators
   ;
 constant_declarators
   : constant_declarator
@@ -549,6 +564,7 @@ statement_expression_list
   ;
 foreach_statement
   : T_FOREACH T_OPEN_PARENNTHESES type T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement
+  | T_FOREACH T_OPEN_PARENNTHESES qualified_identifier T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement
   ;
 jump_statement
   : break_statement
@@ -589,7 +605,8 @@ catch_clauses
   ;
 catch_clause
   : T_CATCH T_OPEN_PARENNTHESES class_type identifier_opt T_CLOSE_PARENNTHESES block
-  | T_CATCH T_OPEN_PARENNTHESES type_name identifier_opt T_CLOSE_PARENNTHESES block
+//  | T_CATCH T_OPEN_PARENNTHESES type_name identifier_opt T_CLOSE_PARENNTHESES block
+  | T_CATCH T_OPEN_PARENNTHESES qualified_identifier identifier_opt T_CLOSE_PARENNTHESES block
   | T_CATCH block
   ;
 identifier_opt
@@ -617,7 +634,8 @@ resource_acquisition
   ;
 fixed_statement
 /*! : T_FIXED T_OPEN_PARENNTHESES pointer_type fixed_pointer_declarators T_CLOSE_PARENNTHESES embedded_statement */
-  : T_FIXED T_OPEN_PARENNTHESES  type fixed_pointer_declarators T_CLOSE_PARENNTHESES embedded_statement
+  : T_FIXED T_OPEN_PARENNTHESES type fixed_pointer_declarators T_CLOSE_PARENNTHESES embedded_statement
+  | T_FIXED T_OPEN_PARENNTHESES qualified_identifier fixed_pointer_declarators T_CLOSE_PARENNTHESES embedded_statement
   ;
 fixed_pointer_declarators
   : fixed_pointer_declarator
@@ -739,10 +757,15 @@ class_base
   : T_COLON class_type
   | T_COLON interface_type_list
   | T_COLON class_type T_COMMA interface_type_list
+  | T_COLON qualified_identifier
+  | T_COLON class_type T_COMMA qualified_identifier
   ;
 interface_type_list
-  : type_name
-  | interface_type_list T_COMMA type_name
+/*  : type_name   
+  : interface_type_list T_COMMA type_name 
+  | qualified_identifier T_COMMA type_name   */
+  : interface_type_list T_COMMA qualified_identifier
+  | qualified_identifier T_COMMA qualified_identifier
   ;
 class_body
   : T_OPEN_BRACKETS class_member_declarations_opt T_CLOSE_BRACKETS
@@ -770,9 +793,11 @@ class_member_declaration
   ;
 constant_declaration
   : attributes_opt modifiers_opt T_CONST type constant_declarators T_SEMICOLON
+  | attributes_opt modifiers_opt T_CONST qualified_identifier constant_declarators T_SEMICOLON
   ;
 field_declaration
   : attributes_opt modifiers_opt type variable_declarators T_SEMICOLON
+  | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON
   ;
 method_declaration
   : method_header method_body
@@ -781,14 +806,15 @@ method_declaration
 method_header
   : attributes_opt modifiers_opt type qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
   | attributes_opt modifiers_opt T_VOID qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
+  | attributes_opt modifiers_opt qualified_identifier  qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
   ;
 formal_parameter_list_opt
   : /* Nothing */
   | formal_parameter_list
   ;
 return_type
-  : type
-  | T_VOID
+/*  : type   */
+  : T_VOID
   ;
 method_body
   : block
@@ -956,6 +982,7 @@ struct_interfaces_opt
   ;
 struct_interfaces
   : T_COLON interface_type_list
+  | T_COLON qualified_identifier
   ;
 struct_body
   : T_OPEN_BRACKETS struct_member_declarations_opt T_CLOSE_BRACKETS
@@ -1005,6 +1032,7 @@ interface_base_opt
   ;
 interface_base
   : T_COLON interface_type_list
+  | T_COLON qualified_identifier
   ;
 interface_body
   : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS
@@ -1093,6 +1121,7 @@ enum_member_declaration
 /***** C.2.11 Delegates *****/
 delegate_declaration
   : attributes_opt modifiers_opt T_DELEGATE return_type T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES T_SEMICOLON
+  | attributes_opt modifiers_opt T_DELEGATE qualified_identifier T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES T_SEMICOLON
   ;
 
 /***** C.2.12 Attributes *****/
@@ -1130,15 +1159,19 @@ attribute_list
   | attribute_list T_COMMA attribute
   ;
 attribute
-  : attribute_name attribute_arguments_opt
+//  : attribute_name attribute_arguments_opt
+  : qualified_identifier attribute_arguments_opt
   ;
 attribute_arguments_opt
   : /* Nothing */
   | attribute_arguments
   ;
+/*
 attribute_name
-  : type_name
+  : qualified_identifier
+  : type_name   
   ;
+*/
 attribute_arguments
   : T_OPEN_PARENNTHESES expression_list_opt T_CLOSE_PARENNTHESES
   ;
@@ -1193,6 +1226,7 @@ int yylex()
 
 void main(void)
 {	
+	yydebug = 1;
 	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\in.cs", "r", stdin)) {
 		cout << "shit1" << endl;
 	}
@@ -1208,5 +1242,4 @@ void main(void)
 	fclose(stdout);
 	fclose(stdin);
 	//fclose(stderr);
-	
 }

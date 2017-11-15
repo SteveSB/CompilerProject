@@ -548,7 +548,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 							cout<<"double\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
-							return T_DOUBLE_LITERAL;
+							return T_DOUBLE;
 						}						
 						
 "extern"				{
@@ -647,9 +647,24 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 							return T_VOID;
 						}
 
+"get"					{
+							colNo += strlen(yytext);
+							cout<<"get\n";
+							yylval.r.myLineNo=lineNo;
+							yylval.r.myColNo=colNo;
+							return T_GET;
+						}
+
+"set"					{
+							colNo += strlen(yytext);
+							cout<<"set\n";
+							yylval.r.myLineNo=lineNo;
+							yylval.r.myColNo=colNo;
+							return T_SET;
+						}
+
 \t                      {
 							colNo += 3;
-							cout<<"t\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_TAB;
@@ -730,7 +745,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 " "						{
 							colNo += 1;
-							cout<<"\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							//return T_SPACE;
@@ -1109,7 +1123,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 {Boolean}							{
 										colNo += strlen(yytext);
 										cout<<"Booool:	"<<yytext<<endl;
-										return T_BOOLEAN;
+										return T_LITERAL_BOOLEAN;
 									}
 		
 {Identifier}						{
@@ -1122,7 +1136,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 										colNo += strlen(yytext);
 										float x = atof(yytext);
 										cout<<"Found float:	"<<x<<endl;
-										return T_FLOAT;
+										return T_LITERAL_FLOAT;
 									}
 									
 {Integer}							{
@@ -1147,6 +1161,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 {Double}                            {
 										colNo += strlen(yytext);
 										cout<<"Found double:	"<<yytext<<endl;
-										return T_DOUBLE;
+										return T_LITERAL_DOUBLE;
                                     }
 %%

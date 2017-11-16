@@ -1,17 +1,132 @@
-[
-Found ID:	Flags
-]
-
-public
-enum
-Found ID:	CarOptions
+namespace
+Found ID:	compiler
 
 {
 
-	it is a single line comment
+class
+Found ID:	swapper
 
-Found ID:	SunRoof
+{
+
+static
+		 Added modifier
+void
+Found ID:	Main
+(
+)
+
+{
+
+int
+Found ID:	i
 =
-Found int:	0
-Found ID:	x01
-		Parse error!  Message: syntax error, unexpected T_IDENTIFIER, expecting T_CLOSE_BRACKETS
+Found int:	1
+;
+
+bool
+Found ID:	b
+=
+Booool:	true
+;
+
+if
+(
+Found ID:	i
+>=
+Found int:	1
+)
+
+{
+
+if
+(
+Found ID:	b
+)
+
+{
+
+if
+(
+Found ID:	i
+<
+Found int:	3
+)
+
+goto
+Found ID:	END
+;
+
+else
+
+goto
+Found ID:	FINISH
+;
+		 if with else
+
+}
+
+}
+		 if without else
+
+else
+
+{
+
+switch
+(
+Found ID:	i
+)
+
+{
+
+case
+Found int:	1
+:
+
+Found ID:	b
+=
+Booool:	false
+;
+
+break
+;
+
+default
+:
+
+if
+(
+Found ID:	i
+<
+Found int:	2
+)
+
+break
+;
+
+}
+		 if without else
+
+}
+		 if with else
+
+Found ID:	END
+:
+
+return
+;
+
+Found ID:	FINISH
+:
+
+return
+;
+
+}
+
+}
+		 Added class body
+
+}
+FINISHED CLASS WITH NO ERRORS :)
+TESTING

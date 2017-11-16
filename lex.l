@@ -686,7 +686,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 							yylval.r.myColNo=colNo;
                         	return T_BACKSPACE;
 						}
-						
+
 \f                      {
 							colNo += strlen(yytext);
 							cout<<"f\n";
@@ -1152,9 +1152,45 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 										return T_LITERAL_CHARACTER;
 									}
 							
+
 {String}							{
-										colNo += strlen(yytext);
-										cout<<"Found String:	"<<yytext<<endl;
+										string temp="";
+										int i=0;
+										for(i=0;i<strlen(yytext)-1;i++)
+										{
+											if(yytext[i]=='\\'){
+												if(yytext[i+1]=='\\')
+													temp+='\\';
+												else if(yytext[i+1]=='n')
+													temp+='\n';
+												else if(yytext[i+1]=='b')
+													{
+														int d=temp.size();
+														temp=temp.substr(0,d-1);
+													}
+												else if(yytext[i+1]=='t')
+													temp+='\t';
+												else if(yytext[i+1]=='a')
+													temp+='\a';
+												else if(yytext[i+1]=='f')
+													temp+='\f';
+												else if(yytext[i+1]=='v')
+													temp+='\v';
+												else if(yytext[i+1]=='0')
+													temp+='\0';
+												else 
+													{cout<<"error";return 0;}
+												i++;
+											}
+											else
+												temp+=yytext[i];
+										}
+										if(i!=strlen(yytext)&&yytext[i]!='\\')
+											temp+=yytext[i];
+										yytext = (char *)malloc(temp.size() + 1);
+										memcpy(yytext, temp.c_str(), temp.size() + 1);
+										temp="";
+										printf("%s",yytext);
 										return T_LITERAL_STRING;
 									}
 

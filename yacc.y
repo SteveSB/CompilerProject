@@ -44,7 +44,7 @@
 %token T_LITERAL_INTEGER T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING T_LITERAL_FLOAT T_LITERAL_DOUBLE T_LITERAL_BOOLEAN
 
 /* C.1.7 KEYWORDS */ 
-%token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_BACKSPACE T_STRING_END T_TAB T_DOT
+%token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_STRING_END T_DOT T_TAB T_BACKSPACE
 %token  T_FINAL T_LNUMBER T_VALUE
 %token  T_ABSTRACT T_AS T_BASE T_BOOL T_BREAK
 %token  T_BYTE T_CASE T_CATCH T_CHAR T_CHECKED
@@ -490,8 +490,8 @@ selection_statement
   | switch_statement
   ;
 if_statement
-  : T_IF T_OPEN_PARENNTHESES boolean_expression T_CLOSE_PARENNTHESES embedded_statement %prec test 
-  | T_IF T_OPEN_PARENNTHESES boolean_expression T_CLOSE_PARENNTHESES embedded_statement T_ELSE embedded_statement
+  : T_IF T_OPEN_PARENNTHESES boolean_expression T_CLOSE_PARENNTHESES embedded_statement %prec test { cout << "\t\t if without else\n"; }
+  | T_IF T_OPEN_PARENNTHESES boolean_expression T_CLOSE_PARENNTHESES embedded_statement T_ELSE embedded_statement { cout << "\t\t if with else\n"; }
   ;
 switch_statement
   : T_SWITCH T_OPEN_PARENNTHESES expression T_CLOSE_PARENNTHESES switch_block
@@ -646,7 +646,7 @@ fixed_pointer_declarator
   ;
 compilation_unit
   : using_directives_opt attributes_opt 
-  | using_directives_opt namespace_member_declarations
+  | using_directives_opt namespace_member_declarations { cout << "TESTING" <<endl;}
   ;
 using_directives_opt
   : /* Nothing */
@@ -726,7 +726,7 @@ modifiers_opt
   | modifiers
   ;
 modifiers
-  : modifier
+  : modifier { cout << "\t\t Added modifier\n";}
   | modifiers modifier
   ;
 modifier
@@ -747,11 +747,11 @@ modifier
   ;
 /***** C.2.6 Classes *****/
 class_declaration
-  : attributes_opt modifiers_opt T_CLASS T_IDENTIFIER class_base_opt class_body comma_opt {cout << "FINISHED WITH NO ERRORS :)" << endl;}
+  : attributes_opt modifiers_opt T_CLASS T_IDENTIFIER class_base_opt class_body comma_opt {cout << "FINISHED CLASS WITH NO ERRORS :)" << endl;}
   ;
 class_base_opt
   : /* Nothing */
-  | class_base
+  | class_base { cout << "\t\t Added class base\n";}
   ;
 class_base
   : T_COLON class_type
@@ -768,7 +768,7 @@ interface_type_list
   | qualified_identifier T_COMMA qualified_identifier
   ;
 class_body
-  : T_OPEN_BRACKETS class_member_declarations_opt T_CLOSE_BRACKETS
+  : T_OPEN_BRACKETS class_member_declarations_opt T_CLOSE_BRACKETS { cout << "\t\t Added class body\n"; }
   ;
 class_member_declarations_opt
   : /* Nothing */
@@ -1024,18 +1024,18 @@ variable_initializer_list
 
 /***** C.2.9 Interfaces *****/
 interface_declaration
-  : attributes_opt modifiers_opt T_INTERFACE T_IDENTIFIER interface_base_opt interface_body comma_opt
+  : attributes_opt modifiers_opt T_INTERFACE T_IDENTIFIER interface_base_opt interface_body comma_opt { cout << "FINISHED INTERFACE WITH NO EERRORS." << endl }
   ;
 interface_base_opt
   : /* Nothing */
-  | interface_base
+  | interface_base { cout << "\t\t Added interface base\n"; }
   ;
 interface_base
   : T_COLON interface_type_list
   | T_COLON qualified_identifier
   ;
 interface_body
-  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS
+  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS { cout << "\t\t Added interface body"; }
   ;
 interface_member_declarations_opt
   : /* Nothing */
@@ -1129,7 +1129,7 @@ attributes
   : attribute_sections
   ;
 attribute_sections
-  : attribute_section
+  : attribute_section {cout << "\t\t added attribute\n";}
   | attribute_sections attribute_section
   ;
 attribute_section
@@ -1226,13 +1226,13 @@ int yylex()
 
 void main(void)
 {	
-	yydebug = 1;
+	//yydebug = 1;
 	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\in.cs", "r", stdin)) {
-		cout << "shit1" << endl;
+		cout << "cant't open input file!" << endl;
 	}
 
 	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\out.txt", "w", stdout)) {
-		cout << "shit2" << endl;
+		cout << "can't open output file!" << endl;
 	}
 	//freopen("errors.txt", "wt", stderr);
 	

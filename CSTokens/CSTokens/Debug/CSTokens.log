@@ -1,0 +1,31 @@
+﻿Build started 12/8/2017 04:07:33 م.
+     1>Project "C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\CSTokens\CSTokens.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\lex.yy.cc ..\yacc.cpp
+         yacc.cpp
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(536): warning C4273: 'malloc' : inconsistent dll linkage
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(642) : see previous definition of 'malloc'
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(543): warning C4273: 'free' : inconsistent dll linkage
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(641) : see previous definition of 'free'
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(2695): warning C4065: switch statement contains 'default' but no 'case' labels
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(2727): warning C4065: switch statement contains 'default' but no 'case' labels
+         Generating Code...
+         Compiling...
+         lex.yy.cc
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\lex.l(1143): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\lex.l(1165): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\lex.yy.cc(3069): warning C4273: 'isatty' : inconsistent dll linkage
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\io.h(332) : see previous definition of 'isatty'
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.lib" /MACHINE:X86 Debug\lex.yy.obj
+         Debug\yacc.obj
+         Debug\MyMap.obj
+         Debug\MyParser.obj
+         Debug\SymbolTable.obj
+         CSTokens.vcxproj -> C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.exe
+     1>Done Building Project "C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\CSTokens\CSTokens.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.86

@@ -1,0 +1,132 @@
+interface
+Found ID:	IPoint
+{
+int
+Found ID:	x
+{
+get
+;
+set
+;
+}
+int
+Found ID:	y
+{
+get
+;
+set
+;
+}
+}
+		 Added interface bodyinterface
+FINISHED INTERFACE WITH NO EERRORS.
+Found ID:	ISampleInterface
+{
+void
+Found ID:	SampleMethod
+(
+)
+;
+}
+		 Added interface bodyclass
+FINISHED INTERFACE WITH NO EERRORS.
+Found ID:	Point
+:
+Found ID:	IPoint
+,
+Found ID:	ISampleInterface
+{
+		 Added class base
+private
+		 Added modifier
+int
+Found ID:	_x
+;
+private
+		 Added modifier
+int
+Found ID:	_y
+;
+public
+		 Added modifier
+Found ID:	Point
+(
+int
+Found ID:	x
+,
+int
+Found ID:	y
+)
+{
+Found ID:	_x
+=
+Found ID:	x
+;
+Found ID:	_y
+=
+Found ID:	y
+;
+}
+public
+		 Added modifier
+int
+Found ID:	x
+{
+get
+{
+return
+Found ID:	_x
+;
+}
+set
+{
+Found ID:	_x
+=
+Found ID:	value
+;
+}
+}
+public
+		 Added modifier
+int
+Found ID:	y
+{
+get
+{
+return
+Found ID:	_y
+;
+}
+set
+{
+Found ID:	_y
+=
+Found ID:	value
+;
+}
+}
+void
+Found ID:	ISampleInterface
+.
+Found ID:	SampleMethod
+(
+)
+{
+Found ID:	ISampleInterface
+Found ID:	obj
+=
+new
+Found ID:	ImplementationClass
+(
+)
+;
+Found ID:	obj
+.
+Found ID:	SampleMethod
+(
+)
+;
+}
+}
+		 Added class body
+TESTING

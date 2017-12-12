@@ -28,6 +28,6 @@ public:
 	MapElement* Map_Array[MAX_LENGTH];
 	MyMap();
 	~MyMap();
-	void put_element_in_map_array(char*, void*,int);
+	void put_element_in_map_array(char*, void*);
 	void* get_element_from_map_array(char*);
 };

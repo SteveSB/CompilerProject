@@ -32,6 +32,18 @@ bool Access_Modifier::get_private() {
 	return this->isPrivate;
 }
 
+std::ostream& operator<<(std::ostream& out, Access_Modifier* obj){
+	char* ac = "";
+	if (obj->get_public())
+		ac = "PUBLIC";
+	else if (obj->get_protected())
+		ac = "PROTECTED";
+	else if (obj->get_private())
+		ac = "PRIVATE";
+
+	return out << ac;
+}
+
 /*void Access_Modifier::print_access_modifier() {
 	if (this->isPublic)
 		std::cout << "Access_Modifier is: PUBLIC";
@@ -44,23 +56,21 @@ bool Access_Modifier::get_private() {
 /*Data_Storage*/
 Data_Storage::Data_Storage() {
 	this->isStatic = false;
-	this->isFinal = false;
 }
 
 void Data_Storage::set_static(bool isStatic) {
 	this->isStatic = isStatic;
 }
 
-void Data_Storage::set_final(bool isFinal) {
-	this->isFinal = isFinal;
-}
-
 bool Data_Storage::get_static() {
 	return isStatic;
 }
 
-bool Data_Storage::getFinal() {
-	return this->isFinal;
+std::ostream& operator<<(std::ostream& os, Data_Storage* obj){
+	char* ac = "";
+	if (obj->get_static())
+		ac = "static";
+	return os << ac;
 }
 
 /*void Data_Storage::print_data_storage() {
@@ -92,9 +102,13 @@ Data_Storage* Data_Modifier::get_data_storage() {
 	return this->data_storage;
 }
 
+std::ostream& operator<<(std::ostream& os, Data_Modifier* obj){
+	return os << obj->get_data_storage() << obj->get_access_modifier();
+}
+
 /*Local_Variable*/
 Local_Variable::Local_Variable() {
-
+	this->local_variable_name = new char[255];
 }
 
 void Local_Variable::set_local_variable_name(char* name) {
@@ -113,12 +127,17 @@ void* Local_Variable::get_local_variable_val() {
 	return this->local_variable_val;
 }
 
+std::ostream& operator<<(std::ostream& os, Local_Variable* obj){
+	return os << "The Local_Variable name is: " << obj->get_local_variable_name() << "\n\t val is: " << obj->get_local_variable_val();
+}
+
 /*void Local_Variable::print_local_variable() {
 	std::cout << "The Local_Variable name is: " << this->get_local_variable_name() << "\n\t val is: " << this->get_local_variable_val();
 }*/
 
 /*Parameter*/
 Parameter::Parameter() {
+	this->param_name = new char[225];
 	this->Next_Param = nullptr;
 }
 
@@ -154,6 +173,10 @@ Parameter* Parameter::get_next_param() {
 	return this->Next_Param;
 }
 
+std::ostream& operator<<(std::ostream& os, Parameter* obj){
+	return os << "The Parameter name is: " << obj->get_param_name() << "\n\t val is: " << obj->get_param_val() << "\n\t num is: " << obj->get_param_num();
+}
+
 /*void Parameter::print_parameter() {
 	std::cout << "The Parameter name is: " << this->get_param_name() << "\n\t val is: " << this->get_param_val() << "\n\t num is: " << this->get_param_num();
 }*/
@@ -179,6 +202,17 @@ Parameter* List_Parameters::get_current_param() {
 
 Parameter* List_Parameters::get_root_param() {
 	return this->Root_Param;
+}
+
+std::ostream& operator<<(std::ostream& os, List_Parameters* obj){
+	os << "\n List_Parameters Current_Param is: \n";
+	Parameter* p = obj->get_root_param();
+	while (p)
+	{
+		os << p << "\n";
+		p = p->get_next_param();
+	}
+	return os;
 }
 
 /*void List_Parameters::print_param_list() {
@@ -221,6 +255,7 @@ void* Block_Scope::get_owner_type() {
 
 /*Function*/
 Function::Function() {
+	this->Function_Name = new char[225];
 	this->Scope = new Block_Scope();
 	this->Function_Params = new List_Parameters();
 	this->Function_Data_Modifier = new Data_Modifier();
@@ -265,6 +300,20 @@ Data_Modifier* Function::get_function_data_midufuer() {
 
 bool Function::get_is_constractor() {
 	return this->is_constractor;
+}
+
+std::ostream& operator<<(std::ostream& os, Function* obj)
+{
+	if (obj->get_function_name())
+		os << "Function Name is: " << obj->get_function_name();
+	if (obj->get_function_parameters())
+		os << "\n Params is:" << obj->get_function_parameters();
+	if (obj->get_function_data_midufuer())
+		os << "\n Modifier is: " << obj->get_function_data_midufuer();
+	if (obj->get_is_constractor())
+		os << "\n is constractor";
+	return os;
+
 }
 
 /*void Function::print_function() {
@@ -338,6 +387,7 @@ FunctionList* FunctionList::add_function_to_list(FunctionList* list, Function* f
 
 /*Data_Member*/
 Data_Member::Data_Member() {
+	this->Data_Member_Name = new char[225];
 	this->Data_Member_Modifier = new Data_Modifier();
 }
 
@@ -357,12 +407,19 @@ Data_Modifier* Data_Member::get_data_member_modifier() {
 	return this->Data_Member_Modifier;
 }
 
+std::ostream& operator<<(std::ostream& os, Data_Member* obj)
+{
+	os << "Data_Member Name is: " << obj->get_data_member_name();
+	return os;
+}
+
 /*void Data_Member::print_data_member(){
 	std::cout << "Data_Member Name is: " << this->Data_Member_Name;
 }*/
 
 /*Class*/
 Class::Class() {
+	this->Class_Name = new char[225];
 	this->Class_Data_Modifier = new Data_Modifier();
 	this->Class_Scope = new Block_Scope();
 	this->isInner = false;
@@ -409,8 +466,18 @@ InheritanceList* Class::get_list_of_inheritance() {
 	return this->List_of_Inheritance;
 }
 
+std::ostream& operator<<(std::ostream& os, Class* obj){
+	os << "Class Name :" << obj->get_class_name();
+	os << obj->get_class_data_modifier();
+	os << obj->get_list_of_inheritance();
+	if (obj->get_is_inner())
+		os << "inner Class \n";
+	return os;
+}
+
 /*InheritanceList*/
 InheritanceList::InheritanceList() {
+	this->Parent_Name = new char[225];
 	this->parent = nullptr;
 	this->Next_Parent = nullptr;
 	this->Root_Parent = nullptr;
@@ -473,10 +540,24 @@ void InheritanceList::print_list_of_parent() {
 
 }*/
 
+std::ostream& operator<<(std::ostream& os, InheritanceList* obj)
+{
+	InheritanceList* g = new InheritanceList();
+	g->set_root_parent(obj->get_root_parent());
+	g->set_next_parent(obj->get_next_parent());
+	g->set_current_parent(obj->get_current_parent());
+	while (g->get_current_parent() != NULL)
+	{
+		os << "the name " << g->get_parent_name();
+		g->set_current_parent(g->get_next_parent());
+	}
+	return os;
+}
+
 /*SymbolTable*/
 SymbolTable::SymbolTable() {
-	this->Current_Scope = new Block_Scope();
 	this->Root_Scope = new Block_Scope();
+	this->Current_Scope = this->Root_Scope;
 }
 
 void SymbolTable::set_current_scope(Block_Scope* current) {
@@ -497,30 +578,20 @@ Block_Scope* SymbolTable::get_root_scope() {
 
 void SymbolTable::add_data_member_to_current_scope(Data_Member* dm) {
 	//TODO:HOW_TO_ADD_DM_TO_THE_SCOPE
-	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm, 1);
+	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm);
 }
 
-void SymbolTable::add_class_to_current_scope(char* className) {
-	//TODO:HOW_TO_ADD_CLASS_TO_THE_SCOPE
-	Class* clas = new Class();
-	clas->set_class_name(className);
-	this->get_current_scope()->get_map()->put_element_in_map_array(className, clas, 2);
+void SymbolTable::add_class_to_current_scope(Class* clas) {
+	this->get_current_scope()->get_map()->put_element_in_map_array(clas->get_class_name(), clas);
 }
 
-void SymbolTable::add_function_to_current_scope(char* funcName, List_Parameters* list, Access_Modifier* am) {
-	//TODO:HOW_TO_ADD_FUNCTION_TO_THE_SCOPE
-	Function* func = new Function();
-	func->set_function_name(funcName);
-	func->set_function_parameters(list);
-	Data_Modifier* dm = new Data_Modifier();
-	dm->set_access_modifier(am);
-	func->set_function_data_modifier(dm);
-	this->get_current_scope()->get_map()->put_element_in_map_array(funcName, func, 3);
+void SymbolTable::add_function_to_current_scope(Function* func) {
+	this->get_current_scope()->get_map()->put_element_in_map_array(func->get_function_name(), func);
 }
 
 void SymbolTable::add_local_variable_to_current_scope(Data_Member* dm) {
 	//TODO:HOW_TO_ADD_LOCAL_VARIABLE_TO_THE_SCOPE
-	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm, 4);
+	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm);
 }
 
 void SymbolTable::add_parameter_to_list(Parameter* param, List_Parameters* list) {

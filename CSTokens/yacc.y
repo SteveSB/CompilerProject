@@ -51,7 +51,7 @@
 
 /* C.1.4 Tokens */
 %token T_IDENTIFIER T_NOT_IDENTIFIER
-%token T_LITERAL_INTEGER T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING T_LITERAL_FLOAT T_LITERAL_DOUBLE T_LITERAL_BOOLEAN
+%token T_LITERAL_INTEGER T_LITERAL_LONG T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING T_LITERAL_FLOAT T_LITERAL_DOUBLE T_LITERAL_BOOLEAN
 
 /* C.1.7 KEYWORDS */ 
 %token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_STRING_END T_DOT T_TAB T_BACKSPACE 
@@ -765,8 +765,8 @@ modifiers_opt
   | modifiers static_opt
   ;
 modifiers
-  : modifier { cout << "\t\t Added modifier\n";}
-  /*| modifiers modifier{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error modifer can't type more the modifier","");}*/
+  : modifier				{ cout << "\t\t Added modifier\n";}
+  | modifiers modifier		{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error modifer can't type more the modifier","");}
   ;
 modifier
   : T_ABSTRACT
@@ -774,9 +774,9 @@ modifier
   | T_INTERNAL
   | T_NEW
   | T_OVERRIDE
-  | T_PRIVATE
-  | T_PROTECTED
-  | T_PUBLIC
+  | T_PRIVATE				{	$<am>$=p->set_access_modifier(3);	}
+  | T_PROTECTED				{	$<am>$=p->set_access_modifier(2);	}
+  | T_PUBLIC				{	$<am>$=p->set_access_modifier(1);	}
   | T_READONLY
   | T_SEALED
   | T_UNSAFE
@@ -785,7 +785,7 @@ modifier
   ;
 static_opt
   : /* Nothing */
-  | T_STATIC
+  | T_STATIC				{	$<ds>$=p->set_data_storage(1);		}
   ;
   identif
   : T_IDENTIFIER
@@ -804,16 +804,12 @@ static_opt
 /***** C.2.6 Classes *****/
 class_declaration
   : class_h class_body						{
-												if (errorRec.errQ->isEmpty()) {
 													$<clas>$ = p->finish_class_declaration($<clas>1, NULL, NULL);
-												}
 											}
   ;
 class_h
   : attributes_opt modifiers_opt T_CLASS identifier class_base_opt		{
-												if (errorRec.errQ->isEmpty()) {
-													$<clas>$ = p->create_class($<r.str>5, NULL);
-												}
+													$<clas>$ = p->create_class($<r.str>4, NULL);
 											}
   | attributes_opt modifiers_opt T_CLASS class_base_opt  { errorRec.errQ->enqueue($<r.myLineNo>-1,$<r.myColNo>-1,"error not identifier (T_NOT_IDENTIFIER) ","");}
   ;
@@ -870,14 +866,25 @@ field_declaration
   | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON
   ;
 method_declaration
-  : method_header method_body
-
+  : method_header method_body				{
+												if (errorRec.errQ->isEmpty()) {
+													$<func>$ = p->finish_function_declaration($<func>1, NULL);
+	           									}
+											}
   ;
 /* Inline return_type to avoid conflict with field_declaration */
 method_header
-  : attributes_opt modifiers_opt type qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
+  : attributes_opt modifiers_opt type qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES 	{
+													$<func>$ = p->create_function($<r.str>4, NULL, $<am>$, $<ds>$);
+											}
   | attributes_opt modifiers_opt T_VOID qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
+  	{
+													$<func>$ = p->create_function($<r.str>4, NULL, $<am>$, $<ds>$);
+											}
   | attributes_opt modifiers_opt qualified_identifier  qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
+ 	{
+													$<func>$ = p->create_function($<r.str>4, NULL, $<am>$, $<ds>$);
+											}
   ;
 formal_parameter_list_opt
   : /* Nothing */
@@ -900,7 +907,9 @@ formal_parameter
   | parameter_array
   ;
 fixed_parameter
-  : attributes_opt parameter_modifier_opt type T_IDENTIFIER
+  : attributes_opt parameter_modifier_opt type T_IDENTIFIER		{
+																	$<lp>$ = p->add_parameters($<r.str>4,NULL);
+																}
   ;
 parameter_modifier_opt
   : /* Nothing */

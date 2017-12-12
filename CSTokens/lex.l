@@ -15,7 +15,7 @@
 %x multilinecomment
 		
 Single_line_comment		(\/\/)+[^\n]*
-NotIdentifier           [0-9\?\,\*\-\+\%\$\#\!\^\@]+[\.\?\,\*\-\+\%\$\#\!\^\@a-zA-Z_]+|[\?\,\*\-\+\%\$\#\!\^\@]
+NotIdentifier           [0-9\?\*\-\+\%\$\#\^\@]+[\.\?\*\-\+\%\$\#\!\^\@a-zA-Z_]+|[\?\*\-\+\%\$\#\!\^\@]
 Boolean                 "true"|"false"
 Identifier              [a-zA-Z_][a-zA-Z0-9_]*
 Float					([+-]?[0-9]+"."[0-9]+"f"?)|[0-9]+"f"
@@ -1128,33 +1128,43 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 		
 {Identifier}						{
 										colNo += strlen(yytext);
-										cout<< "Found ID:	"<<yytext<<endl;
+										cout << "Found ID:	" << yytext << endl;
+										char * x = new char[255];
+										x[0] = '\0';
+										strcpy(x, yytext);
+										yylval.r.str = x;
 										return T_IDENTIFIER;
 									}
 
 {NotIdentifier}                     {
                                        colNo += strlen(yytext);
-									   cout <<"notID!!   :"<<yytext<<endl;
+									   cout << "notID!!   :" << yytext << endl;
 									   return T_NOT_IDENTIFIER;
                                     }
 
 {Float}								{
 										colNo += strlen(yytext);
-										float x = atof(yytext);
-										cout<<"Found float:	"<<x<<endl;
+										float f = atof(yytext);
+										cout << "Found float:	" << f << endl;
+										yylval.r.f = f;
 										return T_LITERAL_FLOAT;
 									}
 									
 {Integer}							{
 										colNo += strlen(yytext);
-										int x=atoi(yytext);
-										cout<<"Found int:	"<<x<<endl;
-										return T_LITERAL_INTEGER;
+										int i = atoi(yytext);
+										yylval.r.i = i;
+										cout << "Found int:	"<< i << endl;
+										if(strlen(yytext) <= 4)
+											return T_LITERAL_INTEGER;
+										else
+											return T_LITERAL_LONG;
 									}
 
 {Character}							{
 										colNo += strlen(yytext);
 										cout<<"Found Char:	"<<yytext<<endl;
+										yylval.r.c = yytext[0];
 										return T_LITERAL_CHARACTER;
 									}
 							
@@ -1197,6 +1207,7 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 										memcpy(yytext, temp.c_str(), temp.size() + 1);
 										temp="";
 										printf("%s",yytext);
+										yylval.r.str = yytext;
 										return T_LITERAL_STRING;
 									}
 

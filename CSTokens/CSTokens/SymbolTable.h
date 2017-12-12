@@ -1,6 +1,8 @@
 #include "MyMap.h"
+#include <iostream>
 
 class Access_Modifier {
+	friend std::ostream& operator<<(std::ostream& os, Access_Modifier* obj);
 private:
 	bool isPublic;
 	bool isProtected;
@@ -17,19 +19,18 @@ public:
 };
 
 class Data_Storage {
+	friend std::ostream& operator<<(std::ostream& os, Data_Storage* obj);
 private:
 	bool isStatic;
-	bool isFinal;
 public:
 	Data_Storage();
 	void set_static(bool);
-	void set_final(bool);
 	bool get_static();
-	bool getFinal();
 	//void print_data_storage();
 };
 
 class Data_Modifier {
+	friend std::ostream& operator<<(std::ostream& os, Data_Modifier* obj);
 private:
 	Access_Modifier* access_modifier;
 	Data_Storage* data_storage;
@@ -42,6 +43,7 @@ public:
 };
 
 class Local_Variable {
+	friend std::ostream& operator<<(std::ostream& os, Local_Variable* obj);
 private:
 	char* local_variable_name;
 	void* local_variable_val;
@@ -55,6 +57,7 @@ public:
 };
 
 class Parameter {
+	friend std::ostream& operator<<(std::ostream& os, Local_Variable* obj);
 private:
 	char* param_name;
 	void* param_val;
@@ -74,6 +77,7 @@ public:
 };
 
 class List_Parameters {
+	friend std::ostream& operator<<(std::ostream& os, List_Parameters* obj);
 private:
 	Parameter* Current_Param;
 	Parameter* Root_Param;
@@ -87,6 +91,7 @@ public:
 };
 
 class Block_Scope {
+	friend std::ostream& operator<<(std::ostream& os, Block_Scope* obj);
 private:
 	MyMap* map;
 	Block_Scope* Parent_Scope;
@@ -102,6 +107,7 @@ public:
 };
 
 class Function {
+	friend std::ostream& operator<<(std::ostream& os, Function* obj);
 private:
 	char* Function_Name;
 	Block_Scope* Scope;
@@ -124,6 +130,7 @@ public:
 };
 
 class FunctionList {
+	friend std::ostream& operator<<(std::ostream& os, FunctionList* obj);
 private:
 	Function* function;
 	FunctionList* Next_Function;
@@ -149,6 +156,7 @@ public:
 };
 
 class Data_Member {
+	friend std::ostream& operator<<(std::ostream& os, Data_Member* obj);
 private:
 	char* Data_Member_Name;
 	Data_Modifier* Data_Member_Modifier;
@@ -163,6 +171,7 @@ public:
 
 class InheritanceList;
 class Class {
+	friend std::ostream& operator<<(std::ostream& os, Class* obj);
 private:
 	char* Class_Name;
 	Data_Modifier* Class_Data_Modifier;
@@ -184,6 +193,7 @@ public:
 };
 
 class InheritanceList {
+	friend std::ostream& operator<<(std::ostream& os, InheritanceList* obj);
 	friend class Class;
 private:
 	Class* parent;
@@ -208,6 +218,7 @@ public:
 };
 
 class SymbolTable {
+	friend std::ostream& operator<<(std::ostream& os, SymbolTable* obj);
 private:
 	Block_Scope* Current_Scope;
 	Block_Scope* Root_Scope;
@@ -218,8 +229,8 @@ public:
 	Block_Scope* get_current_scope();
 	Block_Scope* get_root_scope();
 	void add_data_member_to_current_scope(Data_Member*);
-	void add_class_to_current_scope(char*);
-	void add_function_to_current_scope(char*, List_Parameters*, Access_Modifier*);
+	void add_class_to_current_scope(Class*);
+	void add_function_to_current_scope(Function*);
 	void add_local_variable_to_current_scope(Data_Member*);
 	void add_parameter_to_list(Parameter*, List_Parameters*);
 	FunctionList* check_for_main_function(Function*, FunctionList*&, Block_Scope*);

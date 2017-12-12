@@ -17,6 +17,6 @@ public:
 	Function* finish_function_declaration(Function*, bool);
 	Local_Variable* create_local_variable(Data_Member*);//add colNo & LineNo
 	Access_Modifier* set_access_modifier(int);
-	Data_Storage* set_data_storage(int, Data_Storage*);//add colNo & LineNo
+	Data_Storage* set_data_storage(int);//add colNo & LineNo
 	List_Parameters* add_parameters(char*, List_Parameters*);//add colNo & LineNo
 };

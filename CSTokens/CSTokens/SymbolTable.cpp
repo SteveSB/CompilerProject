@@ -86,6 +86,12 @@ Data_Modifier::Data_Modifier() {
 	this->data_storage = new Data_Storage();
 }
 
+Data_Modifier::Data_Modifier(Access_Modifier* am, Data_Storage* ds) {
+	this->access_modifier = am;
+	this->data_storage = ds;
+}
+
+
 void Data_Modifier::set_access_modifier(Access_Modifier* am) {
 	this->access_modifier = am;
 }
@@ -128,7 +134,8 @@ void* Local_Variable::get_local_variable_val() {
 }
 
 std::ostream& operator<<(std::ostream& os, Local_Variable* obj){
-	return os << "The Local_Variable name is: " << obj->get_local_variable_name() << "\n\t val is: " << obj->get_local_variable_val();
+	return os << "The Local_Variable name is: " << obj->get_local_variable_name() ;
+	//<< "\n\t val is: " << obj->get_local_variable_val()
 }
 
 /*void Local_Variable::print_local_variable() {
@@ -174,7 +181,10 @@ Parameter* Parameter::get_next_param() {
 }
 
 std::ostream& operator<<(std::ostream& os, Parameter* obj){
-	return os << "The Parameter name is: " << obj->get_param_name() << "\n\t val is: " << obj->get_param_val() << "\n\t num is: " << obj->get_param_num();
+	os << "The Parameter name is: " << obj->get_param_name();
+		 //if (obj->get_param_num())
+			//	 os<< "\n\t num is: " << obj->get_param_num();
+		return os;
 }
 
 /*void Parameter::print_parameter() {
@@ -183,9 +193,8 @@ std::ostream& operator<<(std::ostream& os, Parameter* obj){
 
 /*List_Parameters*/
 List_Parameters::List_Parameters() {
-	this->Current_Param = new Parameter();
+	this->Current_Param = NULL;
 	this->Root_Param = new Parameter();
-	this->Root_Param = this->Current_Param;
 }
 
 void List_Parameters::set_current_param(Parameter* current) {
@@ -205,7 +214,7 @@ Parameter* List_Parameters::get_root_param() {
 }
 
 std::ostream& operator<<(std::ostream& os, List_Parameters* obj){
-	os << "\n List_Parameters Current_Param is: \n";
+	os << "\n List_Parameters : \n";
 	Parameter* p = obj->get_root_param();
 	while (p)
 	{
@@ -306,10 +315,10 @@ std::ostream& operator<<(std::ostream& os, Function* obj)
 {
 	if (obj->get_function_name())
 		os << "Function Name is: " << obj->get_function_name();
-	if (obj->get_function_parameters())
-		os << "\n Params is:" << obj->get_function_parameters();
+	if (obj->get_function_parameters()->get_current_param() != NULL)
+		os << obj->get_function_parameters();
 	if (obj->get_function_data_midufuer())
-		os << "\n Modifier is: " << obj->get_function_data_midufuer();
+		//os << "\n Modifier is: " << obj->get_function_data_midufuer();
 	if (obj->get_is_constractor())
 		os << "\n is constractor";
 	return os;
@@ -409,7 +418,8 @@ Data_Modifier* Data_Member::get_data_member_modifier() {
 
 std::ostream& operator<<(std::ostream& os, Data_Member* obj)
 {
-	os << "Data_Member Name is: " << obj->get_data_member_name();
+	if (obj->get_data_member_name())
+		os << "Data_Member Name is: " << obj->get_data_member_name();
 	return os;
 }
 
@@ -467,11 +477,13 @@ InheritanceList* Class::get_list_of_inheritance() {
 }
 
 std::ostream& operator<<(std::ostream& os, Class* obj){
-	os << "Class Name :" << obj->get_class_name();
-	os << obj->get_class_data_modifier();
-	os << obj->get_list_of_inheritance();
+	os << "Class Name :" << obj->get_class_name() << "\n";
+	os << obj->get_class_data_modifier() << endl;
+	if (obj->get_list_of_inheritance())
+		os << obj->get_list_of_inheritance();
 	if (obj->get_is_inner())
 		os << "inner Class \n";
+
 	return os;
 }
 
@@ -576,22 +588,20 @@ Block_Scope* SymbolTable::get_root_scope() {
 	return this->Root_Scope;
 }
 
-void SymbolTable::add_data_member_to_current_scope(Data_Member* dm) {
-	//TODO:HOW_TO_ADD_DM_TO_THE_SCOPE
-	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm);
-}
-
 void SymbolTable::add_class_to_current_scope(Class* clas) {
-	this->get_current_scope()->get_map()->put_element_in_map_array(clas->get_class_name(), clas);
+	this->get_current_scope()->get_map()->put_element_in_map_array(clas->get_class_name(), clas, 1);
 }
 
 void SymbolTable::add_function_to_current_scope(Function* func) {
-	this->get_current_scope()->get_map()->put_element_in_map_array(func->get_function_name(), func);
+	this->get_current_scope()->get_map()->put_element_in_map_array(func->get_function_name(), func, 2);
 }
 
-void SymbolTable::add_local_variable_to_current_scope(Data_Member* dm) {
-	//TODO:HOW_TO_ADD_LOCAL_VARIABLE_TO_THE_SCOPE
-	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm);
+void SymbolTable::add_data_member_to_current_scope(Data_Member* dm) {
+	this->get_current_scope()->get_map()->put_element_in_map_array(dm->get_data_member_name(), dm, 3);
+}
+
+void SymbolTable::add_local_variable_to_current_scope(Local_Variable* lv) {
+	this->get_current_scope()->get_map()->put_element_in_map_array(lv->get_local_variable_name(), lv, 4);
 }
 
 void SymbolTable::add_parameter_to_list(Parameter* param, List_Parameters* list) {

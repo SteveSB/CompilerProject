@@ -1,6 +1,7 @@
 #include "MyMap.h"
 #include <iostream>
 
+using namespace std;
 class Access_Modifier {
 	friend std::ostream& operator<<(std::ostream& os, Access_Modifier* obj);
 private:
@@ -36,6 +37,7 @@ private:
 	Data_Storage* data_storage;
 public:
 	Data_Modifier();
+	Data_Modifier(Access_Modifier*, Data_Storage*);
 	void set_access_modifier(Access_Modifier*);
 	void set_data_storage(Data_Storage*);
 	Access_Modifier* get_access_modifier();
@@ -231,7 +233,7 @@ public:
 	void add_data_member_to_current_scope(Data_Member*);
 	void add_class_to_current_scope(Class*);
 	void add_function_to_current_scope(Function*);
-	void add_local_variable_to_current_scope(Data_Member*);
+	void add_local_variable_to_current_scope(Local_Variable*);
 	void add_parameter_to_list(Parameter*, List_Parameters*);
 	FunctionList* check_for_main_function(Function*, FunctionList*&, Block_Scope*);
 	//void print_symbol_table(Block_Scope*);

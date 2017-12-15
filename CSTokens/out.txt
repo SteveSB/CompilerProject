@@ -1,28 +1,21 @@
-
-
-
-
-
-
-
-	 it is a Multi Line Comment 
 class
-Found ID:	omar
+Found ID:	test
 {
 private
 		 Added modifier
-int
-Found ID:	move
-(
-)
-{
-}
-public
-		 Added modifier
 static
-void
-Found ID:	main
-(
-)
+string
+Found ID:	firstMember
+;
+class
+Found ID:	firstClass
 {
-}
+static
+float
+Found ID:	secondMember
+,
+Found ID:	TESTING
+;
+static
+long
+Found ID:	firstMethod

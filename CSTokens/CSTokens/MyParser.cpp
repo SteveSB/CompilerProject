@@ -38,10 +38,7 @@ Function* MyParser::create_function(char* funName, List_Parameters* list_of_par,
 	Function* fun = new Function();
 	fun->set_function_name(funName);
 	fun->set_function_parameters(list_of_par);
-	Data_Modifier* data = new Data_Modifier();
-	data->set_access_modifier(data_mod);
-	data->set_data_storage(dataStro);
-	fun->set_function_data_modifier(data);
+	fun->set_function_data_modifier(new Data_Modifier(data_mod, dataStro));
 	return this->start_function_declaration(fun);
 }
 
@@ -62,22 +59,37 @@ Function* MyParser::finish_function_declaration(Function* fun, bool bo) {
 	return fun;
 }
 
-Data_Member* MyParser::create_data_member(Data_Member*) {
-	return new Data_Member();
+Data_Member* MyParser::create_data_member(char* name, Access_Modifier* am, Data_Storage* ds) {
+	Data_Member* dataMember = new Data_Member();
+	dataMember->set_data_member_name(name);
+	dataMember->set_data_member_modifier(new Data_Modifier(am, ds));
+	this->Symbol_Table->add_data_member_to_current_scope(dataMember);
+	return dataMember;
 }
 
-Local_Variable* MyParser::create_local_variable(Data_Member* dataMe) {
-	Local_Variable* locVar = new Local_Variable();
-	locVar->set_local_variable_name(dataMe->get_data_member_name());
-	locVar->set_local_variable_val(NULL);
-	return locVar;
+Local_Variable* MyParser::create_local_variable(char* name) {
+	Local_Variable* localVariable = new Local_Variable();
+	localVariable->set_local_variable_name(name);
+	localVariable->set_local_variable_val(NULL);
+	this->Symbol_Table->add_local_variable_to_current_scope(localVariable);
+	return localVariable;
 }
 
 List_Parameters* MyParser::add_parameters(char* namePar, List_Parameters* listPar) {
-	Parameter* p = new Parameter();
-	p->set_param_name(namePar);
-	listPar->get_current_param()->set_next_param(p);
-	listPar->set_current_param(p);
+	if (listPar->get_current_param() == NULL){
+		Parameter* p = new Parameter();
+		p->set_param_name(namePar);
+		p->set_next_param(NULL);
+		listPar->set_root_param(p);
+		listPar->set_current_param(p);
+		
+	}
+	else{
+		Parameter* p = new Parameter();
+		p->set_param_name(namePar);
+		listPar->get_current_param()->set_next_param(p);
+		listPar->set_current_param(p);
+	}
 	return listPar;
 }
 
@@ -107,4 +119,43 @@ Data_Storage* MyParser::set_data_storage(int type) {
 
 Data_Member* MyParser::name_am_ds_val_of_data_member(char*, Access_Modifier*, Data_Storage*) {
 	return new Data_Member();
+}
+
+void MyParser::sprint(MyMap* map){
+	for (int i = 0; i < MAX_LENGTH; i++)
+		{
+	if (map->Map_Array[i] != NULL)
+			{
+		MapElement* temp = map->Map_Array[i];
+		while (temp != NULL)
+				{
+			if (temp->type == 1)
+					{
+				cout << (Class*)temp->get_map_element() << endl;
+				Class* tmp = ((Class*)temp->get_map_element());
+				this->sprint(tmp->get_class_scope()->get_map());
+				}
+			else if (temp->type == 2)
+					{
+				cout << (Function*)temp->get_map_element() << endl;
+				Function* func = (Function*)temp->get_map_element();
+				this->sprint(func->get_function_scope()->get_map());
+				}
+			else if (temp->type == 3){
+				cout << (Data_Member*)temp->get_map_element()<<endl;
+			}
+			else if (temp->type == 4)
+			{
+				cout << (Local_Variable*)temp->get_map_element() << endl;
+			}
+				temp = temp->get_next();
+			}
+		}
+	}	
+}
+
+void MyParser::print(SymbolTable* obj){
+	Block_Scope* ob = obj->get_root_scope();
+	MyMap* map = ob->get_map();
+	this->sprint(map);
 }

@@ -7,8 +7,8 @@ private:
 	char* element_name;
 	void* Element;
 	MapElement* next_element;
-	int type;
 public:
+	int type;
 	void set_map_element_name(char*);
 	char* get_map_element_name();
 	void set_map_element(void*);
@@ -28,6 +28,6 @@ public:
 	MapElement* Map_Array[MAX_LENGTH];
 	MyMap();
 	~MyMap();
-	void put_element_in_map_array(char*, void*);
+	void put_element_in_map_array(char*, void*, int);
 	void* get_element_from_map_array(char*);
 };

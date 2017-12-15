@@ -361,7 +361,7 @@
 
 
 #if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 29 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\yacc.y"
+#line 33 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\yacc.y"
 typedef union YYSTYPE {
 	struct R{
 		int i;
@@ -372,12 +372,12 @@ typedef union YYSTYPE {
 		int myColNo;
 	}r;
 	class Local_Variable* lv;
-	class Data_Memmber* dm;
+	class Data_Member* dm;
 	class Class* clas;
 	class Function* func;
 	class Access_Modifier* am;
 	class Data_Storage* ds;
-	class List_Parameters* lp;
+	/*class List_Parameters* lp;*/
 	} YYSTYPE;
 /* Line 1447 of yacc.c.  */
 #line 384 "yacc.hpp"

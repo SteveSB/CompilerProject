@@ -16,6 +16,10 @@
   FlexLexer* lexer = new yyFlexLexer();
   MyParser* p = new MyParser();
   ErrorRecovery errorRec;
+  bool isLocal = false;
+  class Access_Modifier* access_modifier;
+  class Data_Storage* data_storage;
+  class List_Parameters* lp;
   class Parser
   {
 	public:
@@ -36,12 +40,12 @@
 		int myColNo;
 	}r;
 	class Local_Variable* lv;
-	class Data_Memmber* dm;
+	class Data_Member* dm;
 	class Class* clas;
 	class Function* func;
 	class Access_Modifier* am;
 	class Data_Storage* ds;
-	class List_Parameters* lp;
+	/*class List_Parameters* lp;*/
 	}
 
 %nonassoc LO_TER
@@ -453,21 +457,30 @@ labeled_statement
   : T_IDENTIFIER T_COLON statement
   ;
 declaration_statement
-  : local_variable_declaration T_SEMICOLON
+  : local_variable_declaration T_SEMICOLON				{	
+															access_modifier = nullptr;	
+															data_storage = nullptr;
+														}
   | local_constant_declaration T_SEMICOLON
   ;
-local_variable_declaration
+local_variable_declaration		/*TODO*/
   : type variable_declarators
   | qualified_identifier variable_declarators
   ;
-variable_declarators
+variable_declarators			/*TODO*/
   : variable_declarator
   | variable_declarators T_COMMA variable_declarator
   ;
 variable_declarator
-  : identif
+  : identif									{
+												if (isLocal) {
+													$<lv>$ = p->create_local_variable($<r.str>1);
+												} else {
+													$<dm>$ = p->create_data_member($<r.str>1, access_modifier, data_storage);
+												}
+											}
   | identif T_EQUAL variable_initializer
-  | identif T_EQUAL   { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"type error expected value of var ","");}
+  | identif T_EQUAL							{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"type error expected value of var ","");}
   ;
 variable_initializer
   : expression
@@ -681,7 +694,10 @@ fixed_pointer_declarator
   ;
 compilation_unit
   : using_directives_opt attributes_opt 
-  | using_directives_opt namespace_member_declarations { cout << "TESTING" <<endl;}
+  | using_directives_opt namespace_member_declarations		{
+																p->print(p->Symbol_Table); 
+																cout << "TESTING" <<endl;
+															}
   ;
 using_directives_opt
   : /* Nothing */
@@ -765,7 +781,9 @@ modifiers_opt
   | modifiers static_opt
   ;
 modifiers
-  : modifier				{ cout << "\t\t Added modifier\n";}
+  : modifier				{ cout << "\t\t Added modifier\n";
+								$<am>$=$<am>1;
+							}
   | modifiers modifier		{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error modifer can't type more the modifier","");}
   ;
 modifier
@@ -774,9 +792,18 @@ modifier
   | T_INTERNAL
   | T_NEW
   | T_OVERRIDE
-  | T_PRIVATE				{	$<am>$=p->set_access_modifier(3);	}
-  | T_PROTECTED				{	$<am>$=p->set_access_modifier(2);	}
-  | T_PUBLIC				{	$<am>$=p->set_access_modifier(1);	}
+  | T_PRIVATE				{	
+									$<am>$=p->set_access_modifier(3);
+									access_modifier = $<am>$;
+							}
+  | T_PROTECTED				{	
+									$<am>$=p->set_access_modifier(2);
+									access_modifier = $<am>$;
+							}
+  | T_PUBLIC				{	
+									$<am>$=p->set_access_modifier(1);
+									access_modifier = $<am>$;
+							}
   | T_READONLY
   | T_SEALED
   | T_UNSAFE
@@ -785,7 +812,10 @@ modifier
   ;
 static_opt
   : /* Nothing */
-  | T_STATIC				{	$<ds>$=p->set_data_storage(1);		}
+  | T_STATIC				{	
+									$<ds>$=p->set_data_storage(1);
+									data_storage = $<ds>$;
+							}
   ;
   identif
   : T_IDENTIFIER
@@ -810,8 +840,12 @@ class_declaration
 class_h
   : attributes_opt modifiers_opt T_CLASS identifier class_base_opt		{
 													$<clas>$ = p->create_class($<r.str>4, NULL);
+													isLocal = false;
 											}
-  | attributes_opt modifiers_opt T_CLASS class_base_opt  { errorRec.errQ->enqueue($<r.myLineNo>-1,$<r.myColNo>-1,"error not identifier (T_NOT_IDENTIFIER) ","");}
+  | attributes_opt modifiers_opt T_CLASS class_base_opt  { 
+													errorRec.errQ->enqueue($<r.myLineNo>-1,$<r.myColNo>-1,"error not identifier (T_NOT_IDENTIFIER) ","");
+													isLocal = false;
+											  }
   ;
 class_base_opt
   : /* Nothing */
@@ -861,30 +895,51 @@ constant_declaration
   | attributes_opt modifiers_opt T_CONST  constant_declarators T_SEMICOLON{ errorRec.errQ->enqueue($<r.myLineNo>0,$<r.myColNo>0,"error const ","can't const with out type ");}
   | attributes_opt modifiers_opt T_CONST qualified_identifier constant_declarators T_SEMICOLON
   ;
-field_declaration
+field_declaration		/*TODO*/
   : attributes_opt modifiers_opt type variable_declarators T_SEMICOLON
   | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON
   ;
 method_declaration
   : method_header method_body				{
-												if (errorRec.errQ->isEmpty()) {
-													$<func>$ = p->finish_function_declaration($<func>1, NULL);
-	           									}
+												$<func>$ = p->finish_function_declaration($<func>1, NULL);
+												isLocal = false;
 											}
   ;
 /* Inline return_type to avoid conflict with field_declaration */
 method_header
-  : attributes_opt modifiers_opt type qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES 	{
-													$<func>$ = p->create_function($<r.str>4, NULL, $<am>$, $<ds>$);
+  :  method_1 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES 	{	
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = true;
 											}
-  | attributes_opt modifiers_opt T_VOID qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
-  	{
-													$<func>$ = p->create_function($<r.str>4, NULL, $<am>$, $<ds>$);
+  | method_2 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = true;
 											}
-  | attributes_opt modifiers_opt qualified_identifier  qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
- 	{
-													$<func>$ = p->create_function($<r.str>4, NULL, $<am>$, $<ds>$);
+  |  method_3 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = true;
 											}
+  ;
+  method_1
+  : attributes_opt modifiers_opt type qualified_identifier		{
+																		lp = new List_Parameters();
+																		$<func>$ = p->create_function($<r.str>4, lp, access_modifier, data_storage);
+																}
+  ;
+  method_2
+  : attributes_opt modifiers_opt T_VOID qualified_identifier	{
+																		lp = new List_Parameters();
+																		$<func>$ = p->create_function($<r.str>4, lp, access_modifier, data_storage);
+																}
+  ;
+  method_3
+  :	attributes_opt modifiers_opt qualified_identifier  qualified_identifier {
+																		lp = new List_Parameters();
+																		$<func>$ = p->create_function($<r.str>4, lp, access_modifier, data_storage);		
+																			}
   ;
 formal_parameter_list_opt
   : /* Nothing */
@@ -908,7 +963,7 @@ formal_parameter
   ;
 fixed_parameter
   : attributes_opt parameter_modifier_opt type T_IDENTIFIER		{
-																	$<lp>$ = p->add_parameters($<r.str>4,NULL);
+																	lp = p->add_parameters($<r.str>4, lp);
 																}
   ;
 parameter_modifier_opt

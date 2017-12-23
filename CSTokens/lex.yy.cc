@@ -24,6 +24,7 @@
 #include <unistd.h>
 #include <iostream>
 using namespace std;
+
 /* Use prototypes in function declarations. */
 #define YY_USE_PROTOS
 

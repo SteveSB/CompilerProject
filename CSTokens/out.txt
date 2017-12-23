@@ -1,14 +1,15 @@
 class
-Found ID:	test
+Found ID:	outer
+	it is a single line comment
 {
-private
+protected
 		 Added modifier
 static
 string
 Found ID:	firstMember
 ;
 class
-Found ID:	firstClass
+Found ID:	fClass
 {
 static
 float
@@ -19,3 +20,256 @@ Found ID:	TESTING
 static
 long
 Found ID:	firstMethod
+(
+int
+Found ID:	x
+,
+int
+Found ID:	y
+,
+int
+Found ID:	z
+,
+int
+Found ID:	r
+)
+{
+}
+}
+		 Added class body
+public
+		 Added modifier
+static
+class
+Found ID:	firstClass
+:
+Found ID:	fClass
+{
+		 Added class base
+void
+Found ID:	x
+(
+int
+Found ID:	t
+)
+{
+}
+void
+Found ID:	x
+(
+int
+Found ID:	t
+)
+{
+}
+}
+		 Added class body
+	it is a single line comment
+ulong
+Found ID:	thirdMember
+;
+void
+Found ID:	secondMethod
+(
+)
+{
+Found ID:	firstClass
+Found ID:	firstObject
+,
+Found ID:	secondObject
+;
+}
+void
+Found ID:	secondMethod
+(
+)
+{
+	it is a single line comment
+}
+protected
+		 Added modifier
+int
+Found ID:	thirdMethod
+(
+int
+Found ID:	m1
+,
+int
+Found ID:	t2
+,
+int
+Found ID:	q1
+,
+int
+Found ID:	p1
+)
+{
+double
+Found ID:	firstLocal
+;
+}
+public
+		 Added modifier
+static
+void
+Found ID:	main
+(
+)
+{
+double
+Found ID:	firstLocal
+;
+int
+Found ID:	k
+=
+Found int:	0
+;
+if
+(
+Add if
+Found ID:	k
+==
+Found int:	1
+)
+{
+Found ID:	printl
+(
+"f")
+;
+}
+Found ID:	k
+	 if without else
+=
+Found int:	2
+;
+while
+(
+Add while
+Found ID:	k
+--
+)
+{
+int
+Found ID:	i
+=
+Found int:	0
+;
+float
+Found ID:	g
+=
+Found int:	0
+;
+}
+switch
+(
+Add switch
+Found ID:	k
+)
+{
+case
+Found int:	1
+:
+{
+}
+}
+foreach
+(
+Add foreach
+int
+Found ID:	i
+in
+Found ID:	a
+)
+{
+}
+for
+(
+Add for 
+int
+Found ID:	i
+;
+Found ID:	i
+<
+Found int:	10
+;
+Found ID:	i
+++
+)
+Found ID:	firstlocal
+++
+;
+}
+}
+		 Added class body
+Class Name :outer
+
+
+Data_Member Name is: firstMember
+Function Name is: thirdMethod
+ List_Parameters : 
+The Parameter name is: m1
+The Parameter name is: t2
+The Parameter name is: q1
+The Parameter name is: p1
+
+The Local_Variable name is: firstLocal
+Data_Member Name is: thirdMember
+Class Name :fClass
+staticPROTECTED
+
+Function Name is: firstMethod
+ List_Parameters : 
+The Parameter name is: x
+The Parameter name is: y
+The Parameter name is: z
+The Parameter name is: r
+
+Function Name is: fClass
+ is constractor
+Data_Member Name is: secondMember
+Data_Member Name is: TESTING
+Function Name is: outer
+ is constractor
+Function Name is: secondMethod
+Function Name is: secondMethod
+The Local_Variable name is: firstObject
+The Local_Variable name is: secondObject
+Function Name is: main
+
+ List_Blockscope : 
+the type of Block scope is :for
+
+
+ List_Blockscope : 
+the type of Block scope is :while
+
+
+ List_Blockscope : 
+the type of Block scope is :foreach
+
+
+ List_Blockscope : 
+the type of Block scope is :if
+
+
+ List_Blockscope : 
+the type of Block scope is :switch
+
+The Local_Variable name is: k
+The Local_Variable name is: firstLocal
+Class Name :firstClass
+staticPUBLIC
+ the name fClass
+Function Name is: x
+ List_Parameters : 
+The Parameter name is: t
+
+Function Name is: x
+ List_Parameters : 
+The Parameter name is: t
+
+Function Name is: firstClass
+ is constractor
+function overload error  secondMethod
+function overload error  x
+TESTING

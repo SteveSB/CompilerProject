@@ -6,6 +6,16 @@ Access_Modifier::Access_Modifier() {
 	isPublic = false;
 	isProtected = false;
 	isPrivate = false;
+	col = 0;
+	row = 0;
+}
+
+void Access_Modifier::set_row(int row){
+	this->row = row;
+}
+
+void Access_Modifier::set_col(int col){
+	this->col = col;
 }
 
 void Access_Modifier::set_public(bool isPublic) {
@@ -32,7 +42,16 @@ bool Access_Modifier::get_private() {
 	return this->isPrivate;
 }
 
-std::ostream& operator<<(std::ostream& out, Access_Modifier* obj){
+int Access_Modifier::get_row(){
+	return this->col;
+}
+
+int Access_Modifier::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Access_Modifier* obj) {
+	 
 	char* ac = "";
 	if (obj->get_public())
 		ac = "PUBLIC";
@@ -40,8 +59,8 @@ std::ostream& operator<<(std::ostream& out, Access_Modifier* obj){
 		ac = "PROTECTED";
 	else if (obj->get_private())
 		ac = "PRIVATE";
-
-	return out << ac;
+	os << ac;
+	return os;
 }
 
 /*void Access_Modifier::print_access_modifier() {
@@ -56,21 +75,52 @@ std::ostream& operator<<(std::ostream& out, Access_Modifier* obj){
 /*Data_Storage*/
 Data_Storage::Data_Storage() {
 	this->isStatic = false;
+	this->isFinal = false;
+	col = 0;
+	row = 0;
+}
+
+void Data_Storage::set_row(int row){
+	this->row = row;
+}
+
+void Data_Storage::set_col(int col){
+	this->col = col;
 }
 
 void Data_Storage::set_static(bool isStatic) {
 	this->isStatic = isStatic;
 }
 
+void Data_Storage::set_final(bool isFinal) {
+	this->isFinal = isFinal;
+}
+
 bool Data_Storage::get_static() {
 	return isStatic;
 }
 
-std::ostream& operator<<(std::ostream& os, Data_Storage* obj){
+bool Data_Storage::get_final() {
+	return isFinal;
+}
+
+int Data_Storage::get_row(){
+	return this->col;
+}
+
+int Data_Storage::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Data_Storage* obj) {
+	 
 	char* ac = "";
 	if (obj->get_static())
 		ac = "static";
-	return os << ac;
+	if (obj->get_final())
+		ac = "sealed";
+	os << ac;
+	return os;
 }
 
 /*void Data_Storage::print_data_storage() {
@@ -108,13 +158,24 @@ Data_Storage* Data_Modifier::get_data_storage() {
 	return this->data_storage;
 }
 
-std::ostream& operator<<(std::ostream& os, Data_Modifier* obj){
-	return os << obj->get_data_storage() << obj->get_access_modifier();
+std::ostream& operator<<(std::ostream& os, Data_Modifier* obj) {
+	 os << obj->get_data_storage() << obj->get_access_modifier();
+	return os;
 }
 
 /*Local_Variable*/
 Local_Variable::Local_Variable() {
 	this->local_variable_name = new char[255];
+	col = 0;
+	row = 0;
+}
+
+void Local_Variable::set_row(int row){
+	this->row = row;
+}
+
+void Local_Variable::set_col(int col){
+	this->col = col;
 }
 
 void Local_Variable::set_local_variable_name(char* name) {
@@ -133,9 +194,17 @@ void* Local_Variable::get_local_variable_val() {
 	return this->local_variable_val;
 }
 
-std::ostream& operator<<(std::ostream& os, Local_Variable* obj){
-	return os << "The Local_Variable name is: " << obj->get_local_variable_name() ;
-	//<< "\n\t val is: " << obj->get_local_variable_val()
+int Local_Variable::get_row(){
+	return this->col;
+}
+
+int Local_Variable::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Local_Variable* obj) {
+	os << "The Local_Variable name is: " << obj->get_local_variable_name();
+	return os;
 }
 
 /*void Local_Variable::print_local_variable() {
@@ -146,6 +215,16 @@ std::ostream& operator<<(std::ostream& os, Local_Variable* obj){
 Parameter::Parameter() {
 	this->param_name = new char[225];
 	this->Next_Param = nullptr;
+	col = 0;
+	row = 0;
+}
+
+void Parameter::set_row(int row){
+	this->row = row;
+}
+
+void Parameter::set_col(int col){
+	this->col = col;
 }
 
 void Parameter::set_param_name(char* name) {
@@ -180,11 +259,17 @@ Parameter* Parameter::get_next_param() {
 	return this->Next_Param;
 }
 
-std::ostream& operator<<(std::ostream& os, Parameter* obj){
+int Parameter::get_row(){
+	return this->col;
+}
+
+int Parameter::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Parameter* obj) {
 	os << "The Parameter name is: " << obj->get_param_name();
-		 //if (obj->get_param_num())
-			//	 os<< "\n\t num is: " << obj->get_param_num();
-		return os;
+	return os;
 }
 
 /*void Parameter::print_parameter() {
@@ -213,7 +298,7 @@ Parameter* List_Parameters::get_root_param() {
 	return this->Root_Param;
 }
 
-std::ostream& operator<<(std::ostream& os, List_Parameters* obj){
+std::ostream& operator<<(std::ostream& os, List_Parameters* obj) {
 	os << "\n List_Parameters : \n";
 	Parameter* p = obj->get_root_param();
 	while (p)
@@ -236,6 +321,15 @@ Block_Scope::Block_Scope() {
 	this->map = new MyMap();
 	this->Parent_Scope = nullptr;
 	this->Owner_Type = nullptr;
+	this->type = 0;
+}
+
+void Block_Scope::set_type(int type) {
+	this->type = type;
+}
+
+int Block_Scope::get_type() {
+	return this->type;
 }
 
 void Block_Scope::set_map(MyMap* map) {
@@ -262,6 +356,34 @@ void* Block_Scope::get_owner_type() {
 	return this->Owner_Type;
 }
 
+std::ostream& operator<<(std::ostream& os, Block_Scope* obj) {
+	os << "\n List_Blockscope : \n";
+	int type = obj->get_type();
+	char * name;
+	if (type == 1)
+		name = "class";
+	else if (type == 2)
+		name = "function";
+	else if (type == 3)
+		name = "local var";
+	else if (type == 4)
+		name = "data member";
+	else if (type == 5)
+		name = "for";
+	else if (type == 6)
+		name = "while";
+	else if (type == 7)
+		name = "switch";
+	else if (type == 8)
+		name = "empty block";
+	else if (type == 9)
+		name = "foreach";
+	else if (type == 10)
+		name = "if";
+	cout << "the type of Block scope is :" << name << endl;
+	return os;
+}
+
 /*Function*/
 Function::Function() {
 	this->Function_Name = new char[225];
@@ -269,6 +391,17 @@ Function::Function() {
 	this->Function_Params = new List_Parameters();
 	this->Function_Data_Modifier = new Data_Modifier();
 	this->is_constractor = false;
+	this->get_function_scope()->set_type(2);
+	col = 0;
+	row = 0;
+}
+
+void Function::set_row(int row){
+	this->row = row;
+}
+
+void Function::set_col(int col){
+	this->col = col;
 }
 
 void Function::set_function_name(char* name) {
@@ -311,10 +444,18 @@ bool Function::get_is_constractor() {
 	return this->is_constractor;
 }
 
-std::ostream& operator<<(std::ostream& os, Function* obj)
-{
+int Function::get_row(){
+	return this->col;
+}
+
+int Function::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Function* obj) {
 	if (obj->get_function_name())
 		os << "Function Name is: " << obj->get_function_name();
+	if (obj->get_function_parameters() != NULL)
 	if (obj->get_function_parameters()->get_current_param() != NULL)
 		os << obj->get_function_parameters();
 	if (obj->get_function_data_midufuer())
@@ -398,6 +539,16 @@ FunctionList* FunctionList::add_function_to_list(FunctionList* list, Function* f
 Data_Member::Data_Member() {
 	this->Data_Member_Name = new char[225];
 	this->Data_Member_Modifier = new Data_Modifier();
+	col = 0;
+	row = 0;
+}
+
+void Data_Member::set_row(int row){
+	this->row = row;
+}
+
+void Data_Member::set_col(int col){
+	this->col = col;
 }
 
 void Data_Member::set_data_member_name(char* name) {
@@ -416,8 +567,15 @@ Data_Modifier* Data_Member::get_data_member_modifier() {
 	return this->Data_Member_Modifier;
 }
 
-std::ostream& operator<<(std::ostream& os, Data_Member* obj)
-{
+int Data_Member::get_row(){
+	return this->col;
+}
+
+int Data_Member::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Data_Member* obj) {
 	if (obj->get_data_member_name())
 		os << "Data_Member Name is: " << obj->get_data_member_name();
 	return os;
@@ -433,7 +591,19 @@ Class::Class() {
 	this->Class_Data_Modifier = new Data_Modifier();
 	this->Class_Scope = new Block_Scope();
 	this->isInner = false;
+	this->hasConstructor = false;
 	this->List_of_Inheritance = new InheritanceList();
+	this->Class_Scope->set_type(1);
+	col = 0;
+	row = 0;
+}
+
+void Class::set_row(int row){
+	this->row = row;
+}
+
+void Class::set_col(int col){
+	this->col = col;
 }
 
 void Class::set_class_name(char* name) {
@@ -450,6 +620,10 @@ void Class::set_class_scope(Block_Scope* scope) {
 
 void Class::set_is_inner(bool isInner) {
 	this->isInner = isInner;
+}
+
+void Class::set_has_constructor(bool hasConstructor) {
+	this->hasConstructor = hasConstructor;
 }
 
 void Class::set_inheritance_list(InheritanceList* list) {
@@ -472,18 +646,29 @@ bool Class::get_is_inner() {
 	return this->isInner;
 }
 
+bool Class::get_has_constructor() {
+	return this->hasConstructor;
+}
+
 InheritanceList* Class::get_list_of_inheritance() {
 	return this->List_of_Inheritance;
 }
 
-std::ostream& operator<<(std::ostream& os, Class* obj){
+int Class::get_row(){
+	return this->col;
+}
+
+int Class::get_col(){
+	return this->col;
+}
+
+std::ostream& operator<<(std::ostream& os, Class* obj) {
 	os << "Class Name :" << obj->get_class_name() << "\n";
 	os << obj->get_class_data_modifier() << endl;
 	if (obj->get_list_of_inheritance())
 		os << obj->get_list_of_inheritance();
 	if (obj->get_is_inner())
 		os << "inner Class \n";
-
 	return os;
 }
 
@@ -494,6 +679,16 @@ InheritanceList::InheritanceList() {
 	this->Next_Parent = nullptr;
 	this->Root_Parent = nullptr;
 	this->Current_Parent = nullptr;
+	this->col = 0;
+	this->row = 0;
+}
+
+void InheritanceList::set_row(int row){
+	this->row = row;
+}
+
+void InheritanceList::set_col(int col){
+	this->col = col;
 }
 
 void InheritanceList::set_parent(Class* parent) {
@@ -547,21 +742,20 @@ bool InheritanceList::search_for_parent_in_list_of_parent(char* parentName) {
 	return false;
 }
 
-/*
-void InheritanceList::print_list_of_parent() {
+int InheritanceList::get_row(){
+	return this->col;
+}
 
-}*/
+int InheritanceList::get_col(){
+	return this->col;
+}
 
-std::ostream& operator<<(std::ostream& os, InheritanceList* obj)
-{
+std::ostream& operator<<(std::ostream& os, InheritanceList* obj) {
 	InheritanceList* g = new InheritanceList();
-	g->set_root_parent(obj->get_root_parent());
-	g->set_next_parent(obj->get_next_parent());
-	g->set_current_parent(obj->get_current_parent());
-	while (g->get_current_parent() != NULL)
-	{
-		os << "the name " << g->get_parent_name();
-		g->set_current_parent(g->get_next_parent());
+	g = (obj->get_root_parent());
+	while (g) {
+		os << " the name " << g->get_parent_name();
+		g = g->get_next_parent();
 	}
 	return os;
 }
@@ -612,6 +806,31 @@ void SymbolTable::add_parameter_to_list(Parameter* param, List_Parameters* list)
 		curr->set_next_param(curr);
 	}
 	curr->set_next_param(param);
+}
+
+void SymbolTable::add_scope_to_current_scope(Block_Scope *bs, int type){
+	char * name;
+	if (type == 1)
+		name = "class";
+	else if (type == 2)
+		name = "function";
+	else if (type == 3)
+		name = "local var";
+	else if (type == 4)
+		name = "data member";
+	else if (type == 5)
+		name = "for";
+	else if (type == 6)
+		name = "while";
+	else if (type == 7)
+		name = "switch";
+	else if (type == 8)
+		name = "empty block";
+	else if (type == 9)
+		name = "foreach";
+	else if (type == 10)
+		name = "if";
+	this->get_current_scope()->get_map()->put_element_in_map_array(name, bs, type);
 }
 
 FunctionList* SymbolTable::check_for_main_function(Function* func, FunctionList*& list, Block_Scope* scope) {

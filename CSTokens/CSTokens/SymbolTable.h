@@ -8,11 +8,16 @@ private:
 	bool isPublic;
 	bool isProtected;
 	bool isPrivate;
+	int row, col;
 public:
 	Access_Modifier();
 	void set_public(bool);
 	void set_protected(bool);
 	void set_private(bool);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	bool get_public();
 	bool get_protected();
 	bool get_private();
@@ -23,11 +28,18 @@ class Data_Storage {
 	friend std::ostream& operator<<(std::ostream& os, Data_Storage* obj);
 private:
 	bool isStatic;
+	bool isFinal;
+	int row, col;
 public:
 	Data_Storage();
 	void set_static(bool);
+	void set_final(bool);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	bool get_static();
-	//void print_data_storage();
+	bool get_final();
 };
 
 class Data_Modifier {
@@ -49,10 +61,15 @@ class Local_Variable {
 private:
 	char* local_variable_name;
 	void* local_variable_val;
+	int row, col;
 public:
 	Local_Variable();
 	void set_local_variable_name(char*);
 	void set_local_variable_val(void*);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	char* get_local_variable_name();
 	void* get_local_variable_val();
 	//void print_local_variable();
@@ -65,12 +82,17 @@ private:
 	void* param_val;
 	int numb;
 	Parameter* Next_Param;
+	int row, col;
 public:
 	Parameter();
 	void set_param_name(char*);
 	void set_param_val(void*);
 	void set_param_num(int);
 	void set_next_param(Parameter*);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	char* get_param_name();
 	void* get_param_val();
 	int get_param_num();
@@ -98,14 +120,17 @@ private:
 	MyMap* map;
 	Block_Scope* Parent_Scope;
 	void* Owner_Type;
+	int  type;/*1-class,2-functions,3-local var,4-data member,5-for,6-if,7*while,8-switch,9-empty block,10-foreach*/
 public:
 	Block_Scope();
 	void set_map(MyMap*);
 	void set_parent_scope(Block_Scope*);
 	void set_owner_type(void*);
+	void set_type(int); 
 	MyMap* get_map();
 	Block_Scope* get_parent_scope();
 	void* get_owner_type();
+	int get_type();
 };
 
 class Function {
@@ -116,6 +141,7 @@ private:
 	List_Parameters* Function_Params;
 	Data_Modifier* Function_Data_Modifier;
 	bool is_constractor;
+	int row, col;
 public:
 	Function();
 	void set_function_name(char*);
@@ -123,6 +149,10 @@ public:
 	void set_function_parameters(List_Parameters*);
 	void set_function_data_modifier(Data_Modifier*);
 	void set_is_constractor(bool);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	char* get_function_name();
 	Block_Scope* get_function_scope();
 	List_Parameters* get_function_parameters();
@@ -162,10 +192,15 @@ class Data_Member {
 private:
 	char* Data_Member_Name;
 	Data_Modifier* Data_Member_Modifier;
+	int row, col;
 public:
 	Data_Member();
 	void set_data_member_name(char*);
 	void set_data_member_modifier(Data_Modifier*);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	char* get_data_member_name();
 	Data_Modifier* get_data_member_modifier();
 	//void print_data_member();
@@ -179,18 +214,26 @@ private:
 	Data_Modifier* Class_Data_Modifier;
 	Block_Scope* Class_Scope;
 	bool isInner;
+	bool hasConstructor;
 	InheritanceList* List_of_Inheritance;
+	int row, col;
 public:
 	Class();
 	void set_class_name(char*);
 	void set_class_data_modifier(Data_Modifier*);
 	void set_class_scope(Block_Scope*);
 	void set_is_inner(bool);
+	void set_has_constructor(bool);
 	void set_inheritance_list(InheritanceList*);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	char* get_class_name();
 	Data_Modifier* get_class_data_modifier();
 	Block_Scope* get_class_scope();
 	bool get_is_inner();
+	bool get_has_constructor();
 	InheritanceList* get_list_of_inheritance();
 };
 
@@ -203,6 +246,7 @@ private:
 	InheritanceList* Next_Parent;
 	InheritanceList* Root_Parent;
 	InheritanceList* Current_Parent;
+	int row, col;
 public:
 	InheritanceList();
 	void set_parent(Class*);
@@ -210,6 +254,10 @@ public:
 	void set_next_parent(InheritanceList*);
 	void set_root_parent(InheritanceList*);
 	void set_current_parent(InheritanceList*);
+	void set_row(int);
+	void set_col(int);
+	int get_row();
+	int get_col();
 	Class* get_parent();
 	char* get_parent_name();
 	InheritanceList* get_next_parent();
@@ -235,6 +283,7 @@ public:
 	void add_function_to_current_scope(Function*);
 	void add_local_variable_to_current_scope(Local_Variable*);
 	void add_parameter_to_list(Parameter*, List_Parameters*);
+	void add_scope_to_current_scope(Block_Scope *, int);
 	FunctionList* check_for_main_function(Function*, FunctionList*&, Block_Scope*);
 	//void print_symbol_table(Block_Scope*);
 };

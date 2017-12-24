@@ -1,60 +1,86 @@
-interface IPoint
+public class swapper : ISwapper
 {
-    int x
+    public void start(int x)
     {
-        get;
-        set;
-    }
 
-    int y
-    {
-        get;
-        set;
     }
 }
-interface ISampleInterface
+
+interface ISwapper
 {
-    void SampleMethod();
+    void start(int x);
 }
 
-class Point : IPoint, ISampleInterface
+/*public class CSwapper : ISwapper { }
+public static interface ISwapper : CSwapper { }
+interface ISwapper2 { }
+public class swapper : CSwapper, ISwapper, ISwapper2 {}
+
+
+
+class outer //SEALED IS THE SAME AS FINAL*************************
 {
-    private int _x;
-    private int _y;
-
-    public Point(int x, int y)
+    protected static string firstMember;
+    class fClass
     {
-        _x = x;
-        _y = y;
-    }
-    public int x
-    {
-        get
+        static float secondMember, TESTING;
+        static long firstMethod(int x, int y, int z = 7, int r = 5)
         {
-            return _x;
-        }
 
-        set
-        {
-            _x = value;
         }
     }
-
-    public int y
+    public static class firstClass : fClass
     {
-        get
+        void x(int t)
         {
-            return _y;
+
         }
-        set
+        void x(int t)
         {
-            _y = value;
+
         }
     }
-    void ISampleInterface.SampleMethod()
+    //  int thirdMember;
+    ulong thirdMember;
+    void secondMethod()
     {
-        ISampleInterface obj = new ImplementationClass();
+        firstClass firstObject, secondObject;
+    }
+    void secondMethod()
+    {
+        // firstClass firstObject, secondObject;
+    }
 
-        obj.SampleMethod();
+    protected int thirdMethod(int m1, int t2, int q1, int p1)
+    {
+        double firstLocal;
+    }
+
+    public static void main()
+    {
+        double firstLocal;
+        int k = 0;
+        if (k == 1)
+        {
+            printl("f");
+        }
+        k = 2;
+        while (k--)
+        {
+            int i = 0;
+            float g = 0;
+        }
+        switch (k)
+        {
+            case 1: { }
+        }
+
+        foreach (int i in a)
+        {
+
+        }
+        for (int i; i < 10; i++)
+            firstlocal++;
     }
 }
+*/

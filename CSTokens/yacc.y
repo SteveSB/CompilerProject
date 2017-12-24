@@ -16,6 +16,13 @@
   FlexLexer* lexer = new yyFlexLexer();
   MyParser* p = new MyParser();
   ErrorRecovery errorRec;
+  bool isLocal = false;
+  char *classInher="";
+  class Access_Modifier* access_modifier;
+  class Data_Storage* data_storage;
+  class List_Parameters* lp;
+  class InheritanceList* il;
+  class Block_Scope *bs;
   class Parser
   {
 	public:
@@ -36,12 +43,12 @@
 		int myColNo;
 	}r;
 	class Local_Variable* lv;
-	class Data_Memmber* dm;
+	class Data_Member* dm;
 	class Class* clas;
 	class Function* func;
 	class Access_Modifier* am;
 	class Data_Storage* ds;
-	class List_Parameters* lp;
+	/*class List_Parameters* lp;*/
 	}
 
 %nonassoc LO_TER
@@ -51,7 +58,7 @@
 
 /* C.1.4 Tokens */
 %token T_IDENTIFIER T_NOT_IDENTIFIER
-%token T_LITERAL_INTEGER T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING T_LITERAL_FLOAT T_LITERAL_DOUBLE T_LITERAL_BOOLEAN
+%token T_LITERAL_INTEGER T_LITERAL_LONG T_LITERAL_REAL T_LITERAL_CHARACTER T_LITERAL_STRING T_LITERAL_FLOAT T_LITERAL_DOUBLE T_LITERAL_BOOLEAN
 
 /* C.1.7 KEYWORDS */ 
 %token  T_TILDE T_QUESTION_MARK T_COLON T_CLOSE_PARENNTHESES T_OPEN_PARENNTHESES T_CLOSE_BRACKETS T_OPEN_BRACKETS T_OR T_AND T_HASH T_MOD T_XOR T_NOT T_SEMICOLON T_EQUAL T_BIGGER T_SMALLER T_MULTIPLY T_DEVIDE T_MINUS T_SPACE T_BACKSLASH_SINGLE_COTATION T_BACKSLASH_R T_DOUBLE_BACKSLASH T_BACKSLASH_A T_BACKSLASH_PLUS T_BACKSLASH_V T_BACKSLASH_F T_STRING_END T_DOT T_TAB T_BACKSPACE 
@@ -257,10 +264,15 @@ object_creation_expression
   ;
  
 array_creation_expression
-  : T_NEW non_array_type T_OPEN_ARRAY expression_list T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
-  | T_NEW T_OPEN_ARRAY expression_list T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt {errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"expecting type,you can\'t declare array without type","");}
-  | T_NEW qualified_identifier T_OPEN_ARRAY expression_list T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
+  : T_NEW non_array_type T_OPEN_ARRAY expression_list_opt T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
+  | T_NEW T_OPEN_ARRAY expression_list_opt T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt {errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"expecting type,you can\'t declare array without type","");}
+  | T_NEW qualified_identifier T_OPEN_ARRAY expression_list_opt T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
   | T_NEW array_type array_initializer
+  | T_NEW non_array_type temporary
+  ;
+temporary
+  : T_OPEN_ARRAY expression_list_opt T_CLOSE_ARRAY T_OPEN_ARRAY T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt
+  | T_OPEN_ARRAY expression_list_opt T_CLOSE_ARRAY T_OPEN_ARRAY expression_list T_CLOSE_ARRAY rank_specifiers_opt array_initializer_opt {errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"second number not allowed","");}
   ;
 array_initializer_opt
   : /* Nothing */
@@ -453,7 +465,10 @@ labeled_statement
   : T_IDENTIFIER T_COLON statement
   ;
 declaration_statement
-  : local_variable_declaration T_SEMICOLON
+  : local_variable_declaration T_SEMICOLON				{	
+															access_modifier = nullptr;	
+															data_storage = nullptr;
+														}
   | local_constant_declaration T_SEMICOLON
   ;
 local_variable_declaration
@@ -465,9 +480,27 @@ variable_declarators
   | variable_declarators T_COMMA variable_declarator
   ;
 variable_declarator
-  : identif
-  | identif T_EQUAL variable_initializer
-  | identif T_EQUAL   { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"type error expected value of var ","");}
+  : identif									{
+												if (isLocal) {
+													$<lv>$ = p->create_local_variable($<r.str>1, $<r.myColNo>1, $<r.myLineNo>1);
+												} else {
+													$<dm>$ = p->create_data_member($<r.str>1, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
+												}
+											}
+  | identif T_EQUAL variable_initializer	{
+												if (isLocal) {
+													$<lv>$ = p->create_local_variable($<r.str>1, $<r.myColNo>1, $<r.myLineNo>1);
+												} else {
+													$<dm>$ = p->create_data_member($<r.str>1, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
+												}
+											}
+  | identif T_EQUAL							{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"type error expected value of var ","");}
+  | T_OPEN_ARRAY T_CLOSE_ARRAY identif								{	cout << "WTF1";	}
+  | T_OPEN_ARRAY T_CLOSE_ARRAY identif T_EQUAL						{	cout << "WTF2";	}
+  | T_OPEN_ARRAY T_CLOSE_ARRAY identif T_EQUAL variable_initializer {	cout << "WTF3";	}
+  | T_OPEN_ARRAY T_CLOSE_ARRAY T_OPEN_ARRAY T_CLOSE_ARRAY identif								{	cout << "WTF4";	}
+  | T_OPEN_ARRAY T_CLOSE_ARRAY T_OPEN_ARRAY T_CLOSE_ARRAY identif T_EQUAL						{	cout << "WTF5";	}
+  | T_OPEN_ARRAY T_CLOSE_ARRAY T_OPEN_ARRAY T_CLOSE_ARRAY identif T_EQUAL variable_initializer  {	cout << "WTF6";	}
   ;
 variable_initializer
   : expression
@@ -515,12 +548,24 @@ selection_statement
  
   ;
 if_statement
- : T_IF T_OPEN_PARENNTHESES boolexp T_CLOSE_PARENNTHESES embedded_statement %prec test { cout << "\t\t if without else\n"; }
- | T_IF T_OPEN_PARENNTHESES boolexp T_CLOSE_PARENNTHESES embedded_statement T_ELSE embedded_statement { cout << "\t\t if with else\n"; }
-  
+  : if_statement_1 if_statement_2	{ bs = p->finish_scope_declaration(bs, 10);	}
+  ;
+ 
+if_statement_1
+  : T_IF T_OPEN_PARENNTHESES		{  bs = p->create_scope(10); cout<<"Add if"<<endl;	}
+  ;
+if_statement_2
+  : boolexp T_CLOSE_PARENNTHESES embedded_statement %prec test					{ cout << "\t if without else\n"; }
+  | boolexp T_CLOSE_PARENNTHESES embedded_statement T_ELSE embedded_statement	{ cout << "\t if with else\n"; }  
   ;
 switch_statement
-  : T_SWITCH T_OPEN_PARENNTHESES expression T_CLOSE_PARENNTHESES switch_block
+  : switch_statement_1 switch_statement_2	{	bs = p->finish_scope_declaration(bs, 7);	}
+  ;
+switch_statement_1
+  : T_SWITCH T_OPEN_PARENNTHESES			{	bs = p->create_scope(7); cout<<"Add switch"<<endl;	}
+  ;
+switch_statement_2
+  : expression T_CLOSE_PARENNTHESES switch_block
   ;
 switch_block
   : T_OPEN_BRACKETS switch_sections_opt T_CLOSE_BRACKETS
@@ -556,8 +601,13 @@ unsafe_statement
   : T_UNSAFE block
   ;
 while_statement
-  : T_WHILE T_OPEN_PARENNTHESES boolean_expression T_CLOSE_PARENNTHESES embedded_statement
-
+  : while_statement_1 while_statement_2		{	bs = p->finish_scope_declaration(bs, 6);	}
+  ;
+while_statement_1
+  : T_WHILE T_OPEN_PARENNTHESES				{	bs = p->create_scope(6); cout<<"Add while"<<endl;	}
+  ; 
+while_statement_2
+  : boolean_expression T_CLOSE_PARENNTHESES embedded_statement
   ;
 do_statement
   : T_DO embedded_statement T_WHILE T_OPEN_PARENNTHESES boolean_expression T_CLOSE_PARENNTHESES T_SEMICOLON
@@ -565,9 +615,21 @@ do_statement
   ;
   
 for_statement
-  : T_FOR T_OPEN_PARENNTHESES for_initializer_opt T_SEMICOLON for_condition_opt T_SEMICOLON for_iterator_opt T_CLOSE_PARENNTHESES embedded_statement
-  | T_FOR T_OPEN_PARENNTHESES T_CLOSE_PARENNTHESES { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"expecting type,you can\'t in for","");}
-  | T_FOR T_OPEN_PARENNTHESES error  T_CLOSE_PARENNTHESES
+  : for_statement_1 for_statement_2		{
+											bs=p->finish_scope_declaration(bs, 5);
+										}
+  ;  
+for_statement_1
+  : T_FOR T_OPEN_PARENNTHESES			{
+											//cout<<"her father"<<p-> Symbol_Table->get_current_scope()<<"???"<<endl;
+											bs= p->create_scope(5);
+											cout<<"Add for "<<endl;
+										}
+  ;
+for_statement_2
+  : for_initializer_opt T_SEMICOLON for_condition_opt T_SEMICOLON for_iterator_opt T_CLOSE_PARENNTHESES embedded_statement
+  | T_CLOSE_PARENNTHESES	{	errorRec.errQ->enqueue($<r.myLineNo>1, $<r.myColNo>1, "expecting type,you can\'t in for", "");	}
+  | error  T_CLOSE_PARENNTHESES
   ;
 for_initializer_opt
   : /* Nothing */
@@ -596,9 +658,15 @@ statement_expression_list
   | statement_expression_list T_COMMA statement_expression
   ;
 foreach_statement
-  : T_FOREACH T_OPEN_PARENNTHESES type T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement
-  | T_FOREACH T_OPEN_PARENNTHESES T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement{ errorRec.errQ->enqueue($<r.myLineNo>2,$<r.myColNo>2,"error type ","");}
-  | T_FOREACH T_OPEN_PARENNTHESES qualified_identifier T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement
+  : foreach_statement_1 foreach_statement_2		{	bs = p->finish_scope_declaration(bs, 9);	}
+  ;
+foreach_statement_1
+  : T_FOREACH T_OPEN_PARENNTHESES	{	bs = p->create_scope(9); cout<<"Add foreach"<<endl;	}
+  ;
+foreach_statement_2
+  : type T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement
+  | T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement	{	errorRec.errQ->enqueue($<r.myLineNo>2, $<r.myColNo>2, "error type ", "");	}
+  | qualified_identifier T_IDENTIFIER T_IN expression T_CLOSE_PARENNTHESES embedded_statement
   ;
 jump_statement
   : break_statement
@@ -681,7 +749,12 @@ fixed_pointer_declarator
   ;
 compilation_unit
   : using_directives_opt attributes_opt 
-  | using_directives_opt namespace_member_declarations { cout << "TESTING" <<endl;}
+  | using_directives_opt namespace_member_declarations		{
+																p->print(p->Symbol_Table);
+																p->set_Inheritance_pointers(p->Symbol_Table->get_root_scope()->get_map()); 
+																p->check_all(p->Symbol_Table);
+																cout << "TESTING" <<endl;
+															}
   ;
 using_directives_opt
   : /* Nothing */
@@ -761,12 +834,12 @@ type_declaration
  * enum_modifier, delegate_modifier
  */
 modifiers_opt
-  : static_opt
-  | modifiers static_opt
+  : data_storage_opt
+  | modifiers data_storage_opt
   ;
 modifiers
-  : modifier { cout << "\t\t Added modifier\n";}
-  /*| modifiers modifier{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error modifer can't type more the modifier","");}*/
+  : modifier				{ cout << "\t\t Added modifier\n";	}
+  | modifiers modifier		{ errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error modifer can't type more the modifier","");}
   ;
 modifier
   : T_ABSTRACT
@@ -774,66 +847,88 @@ modifier
   | T_INTERNAL
   | T_NEW
   | T_OVERRIDE
-  | T_PRIVATE
-  | T_PROTECTED
-  | T_PUBLIC
+  | T_PRIVATE				{	
+									$<am>$ = p->set_access_modifier(3, $<r.myColNo>1, $<r.myLineNo>1);
+									access_modifier = $<am>$;
+							}
+  | T_PROTECTED				{	
+									$<am>$ = p->set_access_modifier(2, $<r.myColNo>1, $<r.myLineNo>1);
+									access_modifier = $<am>$;
+							}
+  | T_PUBLIC				{	
+									$<am>$ = p->set_access_modifier(1, $<r.myColNo>1, $<r.myLineNo>1);
+									access_modifier = $<am>$;
+							}
   | T_READONLY
-  | T_SEALED
   | T_UNSAFE
   | T_VIRTUAL
   | T_VOLATILE
   ;
-static_opt
+data_storage_opt
   : /* Nothing */
-  | T_STATIC
+  | T_SEALED					{	
+									$<ds>$ = p->set_data_storage(2, $<r.myColNo>1, $<r.myLineNo>1);
+									data_storage = $<ds>$;
+								}
+  | T_STATIC					{	
+									$<ds>$ = p->set_data_storage(1, $<r.myColNo>1, $<r.myLineNo>1);
+									data_storage = $<ds>$;
+								}
+  | T_SEALED T_STATIC			{
+									$<ds>$ = p->set_data_storage(3, $<r.myColNo>1, $<r.myLineNo>1);
+									data_storage = $<ds>$;
+								}
   ;
-  identif
+identif
   : T_IDENTIFIER
   | T_NOT_IDENTIFIER { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_NOT_IDENTIFIER) ","");}
   ;
 
-  identifier
-   : T_IDENTIFIER
-   | T_LITERAL_DOUBLE{errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_INTEGER) ","");}
-   | T_LITERAL_FLOAT{errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_INTEGER) ","");}
-   | T_LITERAL_INTEGER {errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_INTEGER) ","");}
-   | T_NOT_IDENTIFIER { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_NOT_IDENTIFIER) ","");}
-   ;
-
+identifier
+  : T_IDENTIFIER
+  | T_LITERAL_DOUBLE{errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_INTEGER) ","");}
+  | T_LITERAL_FLOAT{errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_INTEGER) ","");}
+  | T_LITERAL_INTEGER {errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_INTEGER) ","");}
+  | T_NOT_IDENTIFIER { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"error not identifier (T_NOT_IDENTIFIER) ","");}
+  ;
    
 /***** C.2.6 Classes *****/
 class_declaration
   : class_h class_body						{
-												if (errorRec.errQ->isEmpty()) {
-													$<clas>$ = p->finish_class_declaration($<clas>1, NULL, NULL);
-												}
+													$<clas>$ = p->finish_class_declaration($<clas>1);
 											}
   ;
 class_h
-  : attributes_opt modifiers_opt T_CLASS identifier class_base_opt		{
-												if (errorRec.errQ->isEmpty()) {
-													$<clas>$ = p->create_class($<r.str>5, NULL);
-												}
+  : attributes_opt modifiers_opt T_CLASS identifier inheritance_list_initializer class_base_opt		{
+													$<clas>$ = p->create_class($<r.str>4, false, il, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = false;
 											}
-  | attributes_opt modifiers_opt T_CLASS class_base_opt  { errorRec.errQ->enqueue($<r.myLineNo>-1,$<r.myColNo>-1,"error not identifier (T_NOT_IDENTIFIER) ","");}
+  | attributes_opt modifiers_opt T_CLASS inheritance_list_initializer class_base_opt  { 
+													errorRec.errQ->enqueue($<r.myLineNo>-1,$<r.myColNo>-1,"error not identifier (T_NOT_IDENTIFIER) ","");
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = false;
+											  }
+  ;
+inheritance_list_initializer
+  : {	il = new InheritanceList();	}
   ;
 class_base_opt
   : /* Nothing */
   | class_base { cout << "\t\t Added class base\n";}
   ;
 class_base
-  : T_COLON class_type
-  | T_COLON interface_type_list
-  | T_COLON class_type T_COMMA interface_type_list
-  | T_COLON qualified_identifier
-  | T_COLON class_type T_COMMA qualified_identifier
+  : T_COLON class_type {}
+  | T_COLON interface_type_list {	il = p->add_class_list($<r.str>2, il);}
+  | T_COLON class_type T_COMMA interface_type_list {}
+  | T_COLON qualified_identifier {  il = p->add_class_list($<r.str>2, il);   }
+  | T_COLON class_type T_COMMA qualified_identifier {}
   ;
 interface_type_list
-/*  : type_name   
-  : interface_type_list T_COMMA type_name 
-  | qualified_identifier T_COMMA type_name   */
-  : interface_type_list T_COMMA qualified_identifier
-  | qualified_identifier T_COMMA qualified_identifier
+  : interface_type_list T_COMMA qualified_identifier	{	il = p->add_class_list($<r.str>3, il);	}
+  | qualified_identifier T_COMMA qualified_identifier	{	il = p->add_class_list($<r.str>3, il);	}
   ;
 class_body
   : T_OPEN_BRACKETS class_member_declarations_opt T_CLOSE_BRACKETS { cout << "\t\t Added class body\n"; }
@@ -866,19 +961,57 @@ constant_declaration
   | attributes_opt modifiers_opt T_CONST qualified_identifier constant_declarators T_SEMICOLON
   ;
 field_declaration
-  : attributes_opt modifiers_opt type variable_declarators T_SEMICOLON
-  | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON
+  : attributes_opt modifiers_opt type variable_declarators T_SEMICOLON					{	
+																							access_modifier = nullptr;	
+																							data_storage = nullptr;
+																						}
+  | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON	{
+															  								access_modifier = nullptr;	
+																							data_storage = nullptr;
+																						}
   ;
-method_declaration
-  : method_header method_body
-
+method_declaration			/*TODO*/
+  : method_header method_body				{
+												$<func>$ = p->finish_function_declaration($<func>1);
+												isLocal = false;
+											}
   ;
 /* Inline return_type to avoid conflict with field_declaration */
 method_header
-  : attributes_opt modifiers_opt type qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
-  | attributes_opt modifiers_opt T_VOID qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
-  | attributes_opt modifiers_opt qualified_identifier  qualified_identifier T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES
-  ;
+	:  method_1 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES 	{	
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = true;
+											}
+	| method_2 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = true;
+											}
+	|  method_3 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+													access_modifier = nullptr;
+													data_storage = nullptr;
+													isLocal = true;
+											}
+	;
+	method_1
+	: attributes_opt modifiers_opt type qualified_identifier		{
+																		lp = new List_Parameters();
+																		$<func>$ = p->create_function($<r.str>4, lp, access_modifier, data_storage, false, $<r.myColNo>1, $<r.myLineNo>1);
+																}
+	;
+	method_2
+	: attributes_opt modifiers_opt T_VOID qualified_identifier	{
+																		lp = new List_Parameters();
+																		$<func>$ = p->create_function($<r.str>4, lp, access_modifier, data_storage, false, $<r.myColNo>1, $<r.myLineNo>1);
+																}
+	;
+	method_3
+	:	attributes_opt modifiers_opt qualified_identifier  qualified_identifier {
+																		lp = new List_Parameters();
+																		$<func>$ = p->create_function($<r.str>4, lp, access_modifier, data_storage, false, $<r.myColNo>1, $<r.myLineNo>1);
+																}
+	;
 formal_parameter_list_opt
   : /* Nothing */
   | formal_parameter_list
@@ -900,7 +1033,12 @@ formal_parameter
   | parameter_array
   ;
 fixed_parameter
-  : attributes_opt parameter_modifier_opt type T_IDENTIFIER
+  : attributes_opt parameter_modifier_opt type T_IDENTIFIER					{
+																				lp = p->add_parameters($<r.str>4 , false , lp);
+																			}
+  | attributes_opt parameter_modifier_opt type T_IDENTIFIER	T_EQUAL literal	{
+																				lp = p->add_parameters($<r.str>4 , true , lp);
+																			}
   ;
 parameter_modifier_opt
   : /* Nothing */
@@ -1005,11 +1143,22 @@ conversion_operator_declarator
   | T_EXPLICIT T_OPERATOR type T_OPEN_PARENNTHESES type T_IDENTIFIER T_CLOSE_PARENNTHESES
   ;
 constructor_declaration
-  : attributes_opt modifiers_opt constructor_declarator constructor_body
-  ;
+	: constructor_declarator constructor_body	{
+													$<func>$ = p->finish_function_declaration($<func>1);
+												}
+	;
 constructor_declarator
-  : T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES constructor_initializer_opt
-  ;
+	: constructor_1 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES constructor_initializer_opt {
+													access_modifier = nullptr;
+													data_storage = nullptr;
+												}
+	;
+constructor_1
+	: attributes_opt modifiers_opt T_IDENTIFIER {
+													lp = new List_Parameters();
+													$<func>$ = p->create_function($<r.str>3, lp, access_modifier, data_storage, true, $<r.myColNo>1, $<r.myLineNo>1);
+												}
+	;
 constructor_initializer_opt
   : /* Nothing */
   | constructor_initializer
@@ -1106,7 +1255,15 @@ variable_initializer_list
 
 /***** C.2.9 Interfaces *****/
 interface_declaration
-  : attributes_opt modifiers_opt T_INTERFACE T_IDENTIFIER interface_base_opt interface_body comma_opt { cout << "FINISHED INTERFACE WITH NO EERRORS." << endl }
+  : interface_header interface_body			{	$<clas>$ = p->finish_class_declaration($<clas>1);	}
+  ;
+interface_header
+  : attributes_opt modifiers_opt T_INTERFACE identif inheritance_list_initializer interface_base_opt	{
+  																					$<clas>$ = p->create_class($<r.str>4, true, il, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
+																					access_modifier = nullptr;
+																					data_storage = nullptr;
+																					isLocal = false;
+																				}
   ;
 interface_base_opt
   : /* Nothing */
@@ -1117,7 +1274,7 @@ interface_base
   | T_COLON qualified_identifier
   ;
 interface_body
-  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS { cout << "\t\t Added interface body"; }
+  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS  comma_opt { cout << "\t\t Added interface body"; }
   ;
 interface_member_declarations_opt
   : /* Nothing */
@@ -1134,9 +1291,32 @@ interface_member_declaration
   | interface_indexer_declaration
   ;
 /* inline return_type to avoid conflict with interface_property_declaration */
-interface_method_declaration
-  : attributes_opt new_opt type T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES interface_empty_body
-  | attributes_opt new_opt T_VOID T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES interface_empty_body
+interface_method_declaration			/*TODO*/
+  : interface_method_header interface_empty_body	{	$<func>$ = p->finish_function_declaration($<func>1);	}
+  ;
+interface_method_header
+  : interface_method_1 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+																	access_modifier = nullptr;
+																	data_storage = nullptr;
+																	isLocal = true;
+																}
+  | interface_method_2 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+  																	access_modifier = nullptr;
+																	data_storage = nullptr;
+																	isLocal = true;
+																}
+  ;
+interface_method_1
+  : attributes_opt new_opt type identif		{
+  												lp = new List_Parameters();
+												$<func>$ = p->create_function($<r.str>4, lp, NULL, NULL, false, $<r.myColNo>1, $<r.myLineNo>1);										
+											}
+  ;
+interface_method_2
+  : attributes_opt new_opt T_VOID identif 	{
+  												lp = new List_Parameters();
+												$<func>$ = p->create_function($<r.str>4, lp, NULL, NULL, false, $<r.myColNo>1, $<r.myLineNo>1);										
+											}
   ;
 new_opt
   : /* Nothing */

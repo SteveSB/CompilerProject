@@ -43,42 +43,15 @@ int MyMap::hash(char* name){
 	return (retVal%map_length);
 }
 
-void MyMap::put_element_in_map_array(char* name, void* element,int num){
+void MyMap::put_element_in_map_array(char* name, void* element, int i){
 	int index = this->hash(name);
 	MapElement * new_elem = new MapElement();
 	new_elem->set_map_element_name(name);
 	new_elem->set_map_element(element);
+	new_elem->type = i;
 	new_elem->set_next(NULL);
 	new_elem->set_next(this->Map_Array[index]);
 	this->Map_Array[index] = new_elem;
-	switch (num)
-	{
-	case 1://DM
-	{
-			  new_elem->set_type(1);
-			  break;
-	}
-	case 2://Class
-	{
-			  new_elem->set_type(2);
-			  break;
-	}
-	case 3://Func
-	{
-			  new_elem->set_type(3);
-			  break;
-	}
-	case 4://LV
-	{
-			  new_elem->set_type(4);
-			  break;
-	}
-	case 5://Param
-	{
-			  new_elem->set_type(5);
-			  break;
-	}
-	}
 }
 
 void* MyMap::get_element_from_map_array(char* name){

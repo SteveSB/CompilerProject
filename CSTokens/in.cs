@@ -1,6 +1,6 @@
-/*public class swapper : ISwapper
+public class swapper : ISwapper
 {
-    public void start()
+    public void start(int x)
     {
 
     }
@@ -8,14 +8,14 @@
 
 interface ISwapper
 {
-    void start();
+    void start(int x);
 }
 
 /*public class CSwapper : ISwapper { }
 public static interface ISwapper : CSwapper { }
 interface ISwapper2 { }
 public class swapper : CSwapper, ISwapper, ISwapper2 {}
-*/
+
 
 
 class outer //SEALED IS THE SAME AS FINAL*************************
@@ -83,3 +83,4 @@ class outer //SEALED IS THE SAME AS FINAL*************************
             firstlocal++;
     }
 }
+*/

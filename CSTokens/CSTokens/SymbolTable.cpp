@@ -215,6 +215,7 @@ std::ostream& operator<<(std::ostream& os, Local_Variable* obj) {
 Parameter::Parameter() {
 	this->param_name = new char[225];
 	this->Next_Param = nullptr;
+	this->virtal = new bool();
 	col = 0;
 	row = 0;
 }
@@ -239,6 +240,10 @@ void Parameter::set_param_num(int number) {
 	this->numb = number;
 }
 
+void Parameter::set_param_virtal(bool virtal){
+	this->virtal = virtal;
+}
+
 void Parameter::set_next_param(Parameter* next) {
 	this->Next_Param = next;
 }
@@ -255,6 +260,10 @@ int Parameter::get_param_num() {
 	return this->numb;
 }
 
+bool Parameter::get_param_virtal(){
+	return this->virtal;
+}
+
 Parameter* Parameter::get_next_param() {
 	return this->Next_Param;
 }
@@ -269,6 +278,10 @@ int Parameter::get_col(){
 
 std::ostream& operator<<(std::ostream& os, Parameter* obj) {
 	os << "The Parameter name is: " << obj->get_param_name();
+	if (!obj->get_param_virtal())
+		os << " this is virtual Parameter ";
+	else
+		os << " this is not virtual Parameter ";
 	return os;
 }
 
@@ -626,6 +639,10 @@ void Class::set_has_constructor(bool hasConstructor) {
 	this->hasConstructor = hasConstructor;
 }
 
+void Class::set_is_interface(bool isInterface) {
+	this->isInterface = isInterface;
+}
+
 void Class::set_inheritance_list(InheritanceList* list) {
 	this->List_of_Inheritance = list;
 }
@@ -650,6 +667,10 @@ bool Class::get_has_constructor() {
 	return this->hasConstructor;
 }
 
+bool Class::get_is_interface() {
+	return this->isInterface;
+}
+
 InheritanceList* Class::get_list_of_inheritance() {
 	return this->List_of_Inheritance;
 }
@@ -663,12 +684,22 @@ int Class::get_col(){
 }
 
 std::ostream& operator<<(std::ostream& os, Class* obj) {
-	os << "Class Name :" << obj->get_class_name() << "\n";
-	os << obj->get_class_data_modifier() << endl;
-	if (obj->get_list_of_inheritance())
-		os << obj->get_list_of_inheritance();
-	if (obj->get_is_inner())
-		os << "inner Class \n";
+	if (!obj->get_is_interface()) {
+		os << "Class Name :" << obj->get_class_name() << "\n";
+		os << obj->get_class_data_modifier() << endl;
+		if (obj->get_list_of_inheritance())
+			os << obj->get_list_of_inheritance();
+		if (obj->get_is_inner())
+			os << "inner Class \n";
+	}
+	else {
+		os << "Interface Name :" << obj->get_class_name() << "\n";
+		os << obj->get_class_data_modifier() << endl;
+		if (obj->get_list_of_inheritance())
+			os << obj->get_list_of_inheritance();
+		if (obj->get_is_inner())
+			os << "inner Interface \n";
+	}
 	return os;
 }
 

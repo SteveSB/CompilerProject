@@ -81,6 +81,7 @@ private:
 	char* param_name;
 	void* param_val;
 	int numb;
+	bool virtal;
 	Parameter* Next_Param;
 	int row, col;
 public:
@@ -88,6 +89,7 @@ public:
 	void set_param_name(char*);
 	void set_param_val(void*);
 	void set_param_num(int);
+	void set_param_virtal(bool);
 	void set_next_param(Parameter*);
 	void set_row(int);
 	void set_col(int);
@@ -96,6 +98,7 @@ public:
 	char* get_param_name();
 	void* get_param_val();
 	int get_param_num();
+	bool get_param_virtal();
 	Parameter* get_next_param();
 	//void print_parameter();
 };
@@ -215,6 +218,7 @@ private:
 	Block_Scope* Class_Scope;
 	bool isInner;
 	bool hasConstructor;
+	bool isInterface;
 	InheritanceList* List_of_Inheritance;
 	int row, col;
 public:
@@ -224,6 +228,7 @@ public:
 	void set_class_scope(Block_Scope*);
 	void set_is_inner(bool);
 	void set_has_constructor(bool);
+	void set_is_interface(bool);
 	void set_inheritance_list(InheritanceList*);
 	void set_row(int);
 	void set_col(int);
@@ -234,6 +239,7 @@ public:
 	Block_Scope* get_class_scope();
 	bool get_is_inner();
 	bool get_has_constructor();
+	bool get_is_interface();
 	InheritanceList* get_list_of_inheritance();
 };
 

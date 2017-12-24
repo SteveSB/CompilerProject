@@ -471,11 +471,11 @@ declaration_statement
 														}
   | local_constant_declaration T_SEMICOLON
   ;
-local_variable_declaration		/*TODO*/
+local_variable_declaration
   : type variable_declarators
   | qualified_identifier variable_declarators
   ;
-variable_declarators			/*TODO*/
+variable_declarators
   : variable_declarator
   | variable_declarators T_COMMA variable_declarator
   ;
@@ -899,21 +899,20 @@ class_declaration
 											}
   ;
 class_h
-  : attributes_opt modifiers_opt T_CLASS identifier test_1 class_base_opt		{
-													/*TODO: CHECK IF SECOND PARAM NULL OR il*/
-													$<clas>$ = p->create_class($<r.str>4, il, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
+  : attributes_opt modifiers_opt T_CLASS identifier inheritance_list_initializer class_base_opt		{
+													$<clas>$ = p->create_class($<r.str>4, false, il, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
 													access_modifier = nullptr;
 													data_storage = nullptr;
 													isLocal = false;
 											}
-  | attributes_opt modifiers_opt T_CLASS test_1 class_base_opt  { 
+  | attributes_opt modifiers_opt T_CLASS inheritance_list_initializer class_base_opt  { 
 													errorRec.errQ->enqueue($<r.myLineNo>-1,$<r.myColNo>-1,"error not identifier (T_NOT_IDENTIFIER) ","");
 													access_modifier = nullptr;
 													data_storage = nullptr;
 													isLocal = false;
 											  }
   ;
-test_1
+inheritance_list_initializer
   : {	il = new InheritanceList();	}
   ;
 class_base_opt
@@ -961,9 +960,15 @@ constant_declaration
   | attributes_opt modifiers_opt T_CONST  constant_declarators T_SEMICOLON{ errorRec.errQ->enqueue($<r.myLineNo>0,$<r.myColNo>0,"error const ","can't const with out type ");}
   | attributes_opt modifiers_opt T_CONST qualified_identifier constant_declarators T_SEMICOLON
   ;
-field_declaration		/*TODO*/
-  : attributes_opt modifiers_opt type variable_declarators T_SEMICOLON
-  | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON
+field_declaration
+  : attributes_opt modifiers_opt type variable_declarators T_SEMICOLON					{	
+																							access_modifier = nullptr;	
+																							data_storage = nullptr;
+																						}
+  | attributes_opt modifiers_opt qualified_identifier variable_declarators T_SEMICOLON	{
+															  								access_modifier = nullptr;	
+																							data_storage = nullptr;
+																						}
   ;
 method_declaration
   : method_header method_body				{
@@ -1028,9 +1033,12 @@ formal_parameter
   | parameter_array
   ;
 fixed_parameter
-  : attributes_opt parameter_modifier_opt type T_IDENTIFIER		{
-																	lp = p->add_parameters($<r.str>4, lp);
-																}
+  : attributes_opt parameter_modifier_opt type T_IDENTIFIER					{
+																				lp = p->add_parameters($<r.str>4 , false , lp);
+																			}
+  | attributes_opt parameter_modifier_opt type T_IDENTIFIER	T_EQUAL literal	{
+																				lp = p->add_parameters($<r.str>4 , true , lp);
+																			}
   ;
 parameter_modifier_opt
   : /* Nothing */
@@ -1246,8 +1254,16 @@ variable_initializer_list
   ;
 
 /***** C.2.9 Interfaces *****/
-interface_declaration
-  : attributes_opt modifiers_opt T_INTERFACE T_IDENTIFIER interface_base_opt interface_body comma_opt { cout << "FINISHED INTERFACE WITH NO EERRORS." << endl }
+interface_declaration			/*TODO*/
+  : interface_header interface_body			{	$<clas>$ = p->finish_class_declaration($<clas>1);	}
+  ;
+interface_header
+  : attributes_opt modifiers_opt T_INTERFACE identif inheritance_list_initializer interface_base_opt	{
+  																					$<clas>$ = p->create_class($<r.str>4, true, il, access_modifier, data_storage, $<r.myColNo>1, $<r.myLineNo>1);
+																					access_modifier = nullptr;
+																					data_storage = nullptr;
+																					isLocal = false;
+																				}
   ;
 interface_base_opt
   : /* Nothing */
@@ -1258,7 +1274,7 @@ interface_base
   | T_COLON qualified_identifier
   ;
 interface_body
-  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS { cout << "\t\t Added interface body"; }
+  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS  comma_opt { cout << "\t\t Added interface body"; }
   ;
 interface_member_declarations_opt
   : /* Nothing */

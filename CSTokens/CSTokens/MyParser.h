@@ -10,7 +10,7 @@ public:
 	SymbolTable* Symbol_Table;
 	ErrorRecovery Error_Recovery;
 	MyParser();
-	Class* create_class(char*, InheritanceList*, Access_Modifier*, Data_Storage*, int, int);//add colNo & LineNo
+	Class* create_class(char*, bool, InheritanceList*, Access_Modifier*, Data_Storage*, int, int);//add colNo & LineNo
 	Class* start_class_declaration(Class*);
 	Class* finish_class_declaration(Class*);
 	Data_Member* name_am_ds_val_of_data_member(char*, Access_Modifier*, Data_Storage*);
@@ -22,7 +22,7 @@ public:
 	Data_Member* create_data_member(char*, Access_Modifier*, Data_Storage*, int, int);//add colNo & LineNo
 	Access_Modifier* set_access_modifier(int, int, int);
 	Data_Storage* set_data_storage(int, int, int);//add colNo & LineNo
-	List_Parameters* add_parameters(char*, List_Parameters*);//add colNo & LineNo
+	List_Parameters* add_parameters(char*, bool, List_Parameters*);//add colNo & LineNo
 	Block_Scope* start_scope_declaration(Block_Scope*, int);
 	Block_Scope* finish_scope_declaration(Block_Scope*, int);
 	void print(SymbolTable*);
@@ -44,6 +44,7 @@ public:
 	void check_inheritance_loop(MyMap*);
 	void check_all_classes_names_over_parents(MyMap*, vector<string>);
 	bool dfs_for_check_inheritance(Class*);
+	void check_function_parameters_virtual(MyMap*);
 private:
 	set<Class*> checked_classes_gray;
 	set<Class*>	checked_classes_black;

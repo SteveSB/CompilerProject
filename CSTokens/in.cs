@@ -1,10 +1,17 @@
+/*public class CSwapper : ISwapper { }
+public static interface ISwapper : CSwapper { }
+interface ISwapper2 { }
+public class swapper : CSwapper, ISwapper, ISwapper2 {}
+*/
+
+
 class outer //SEALED IS THE SAME AS FINAL*************************
 {
     protected static string firstMember;
     class fClass
     {
         static float secondMember, TESTING;
-        static long firstMethod(int x, int y, int z, int r)
+        static long firstMethod(int x, int y, int z = 7, int r = 5)
         {
 
         }

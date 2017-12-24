@@ -6,7 +6,7 @@ MyParser::MyParser() {
 	this->Symbol_Table = new SymbolTable();
 }
 
-Class* MyParser::create_class(char* clasName, InheritanceList* list_of_parent, Access_Modifier* am, Data_Storage* ds, int row, int col) {
+Class* MyParser::create_class(char* clasName, bool isInterface, InheritanceList* list_of_parent, Access_Modifier* am, Data_Storage* ds, int row, int col) {
 	Class* clas = new Class();
 	clas->set_class_name(clasName);
 	if (am == NULL)
@@ -14,6 +14,7 @@ Class* MyParser::create_class(char* clasName, InheritanceList* list_of_parent, A
 	if (ds == NULL)
 		ds = new Data_Storage();
 	clas->set_class_data_modifier(new Data_Modifier(am, ds));
+	clas->set_is_interface(isInterface);
 	clas->set_col(col);
 	clas->set_row(row);
 	clas->set_inheritance_list(list_of_parent);
@@ -30,25 +31,19 @@ Class* MyParser::start_class_declaration(Class* clas) {
 
 Class* MyParser::finish_class_declaration(Class* clas) {
 	if (clas) {
-		/*if (am)
-			clas->get_class_data_modifier()->set_access_modifier(am);
-		else
-			clas->get_class_data_modifier()->get_access_modifier()->set_private(true);
-		if (ds)
-			clas->get_class_data_modifier()->set_data_storage(ds);*/
-
-		if (!clas->get_has_constructor()) {
-			Access_Modifier* am = new Access_Modifier();
-			am->set_public(true);
-			Function* fun = new Function();
-			fun->set_function_name(clas->get_class_name());
-			fun->set_is_constractor(true);
-			fun->set_function_parameters(nullptr);
-			fun->set_function_data_modifier(new Data_Modifier(am, nullptr));
-			clas->set_has_constructor(true);
-			this->Symbol_Table->add_function_to_current_scope(fun);
+		if (!clas->get_is_interface()) {
+			if (!clas->get_has_constructor()) {
+				Access_Modifier* am = new Access_Modifier();
+				am->set_public(true);
+				Function* fun = new Function();
+				fun->set_function_name(clas->get_class_name());
+				fun->set_is_constractor(true);
+				fun->set_function_parameters(nullptr);
+				fun->set_function_data_modifier(new Data_Modifier(am, nullptr));
+				clas->set_has_constructor(true);
+				this->Symbol_Table->add_function_to_current_scope(fun);
+			}
 		}
-
 		this->Symbol_Table->set_current_scope(clas->get_class_scope()->get_parent_scope());
 	}
 	return clas;
@@ -104,10 +99,11 @@ Local_Variable* MyParser::create_local_variable(char* name, int row, int col) {
 	return localVariable;
 }
 
-List_Parameters* MyParser::add_parameters(char* namePar, List_Parameters* listPar) {
+List_Parameters* MyParser::add_parameters(char* namePar, bool virtal, List_Parameters* listPar) {
 	if (listPar->get_current_param() == NULL){
 		Parameter* p = new Parameter();
 		p->set_param_name(namePar);
+		p->set_param_virtal(virtal);
 		p->set_next_param(NULL);
 		listPar->set_root_param(p);
 		listPar->set_current_param(p);
@@ -115,6 +111,7 @@ List_Parameters* MyParser::add_parameters(char* namePar, List_Parameters* listPa
 	else{
 		Parameter* p = new Parameter();
 		p->set_param_name(namePar);
+		p->set_param_virtal(virtal);
 		listPar->get_current_param()->set_next_param(p);
 		listPar->set_current_param(p);
 	}
@@ -165,7 +162,6 @@ Block_Scope* MyParser::create_scope(int type){
 	bs->set_type(type);
 	return this->start_scope_declaration(bs, type);
 }
-
 
 Block_Scope* MyParser::start_scope_declaration(Block_Scope* bs, int type) {
 	bs->set_parent_scope(this->Symbol_Table->get_current_scope());
@@ -231,11 +227,13 @@ void  MyParser::check_all(SymbolTable* obj)
 	this->check_class_names_not_used_multiple_times(map);
 	this->check_function_overload_in_all_classes(map);
 	this->check_function_parameters_names(map);
+	this->check_function_parameters_virtual(map);
 	this->check_variables_and_datamembers_names(map);
 	this->check_inheritance_loop(map);
 	vector<string>x;
 	this->check_all_classes_names_over_parents(map, x);
 }
+
 InheritanceList* MyParser::add_class_list(char* name, InheritanceList *il){
 	if (il->get_current_parent() == NULL)
 	{
@@ -256,10 +254,11 @@ InheritanceList* MyParser::add_class_list(char* name, InheritanceList *il){
 	}
 	return il;
 }
+
 void MyParser::set_Inheritance_pointers(MyMap* map)
 {
 
-	for (int i = 0; i < 12; i++)
+	for (int i = 0; i < MAX_LENGTH; i++)
 	{
 		if (map->Map_Array[i] != NULL)
 		{
@@ -292,9 +291,16 @@ void MyParser::set_Inheritance_pointers(MyMap* map)
 								Class* p = find_Inheritance_class_by_name(parent_scope, name);
 								if (p != NULL)
 								{
-									//cout << "sssss  " << p << endl;
-									ptr->set_parent(p);
-									cout << tmp->get_class_name() << "  inheret from  " << p->get_class_name() << endl;
+									if (!p->get_class_data_modifier()->get_data_storage()->get_final())
+									{
+										//cout << "sssss  " << p << endl;
+										ptr->set_parent(p);
+										cout << tmp->get_class_name() << "  inheret from  " << p->get_class_name() << endl;
+									}
+									else
+									{
+										cout << "error  " << tmp->get_class_name() << " cant inherit from class  " << p->get_class_name() << "  becouse its final" << endl;
+									}
 								}
 								else {
 									cout << "error in inheretance class not found  " << ptr->get_parent_name() << endl;
@@ -311,6 +317,7 @@ void MyParser::set_Inheritance_pointers(MyMap* map)
 	}
 
 }
+
 Class* MyParser::find_Inheritance_class_by_name(Block_Scope* scope, string name)
 {
 
@@ -320,7 +327,7 @@ Class* MyParser::find_Inheritance_class_by_name(Block_Scope* scope, string name)
 	//	if (c->get_list_of_inheritance() == nullptr)return NULL;
 	//	cout << c << endl;
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < MAX_LENGTH; i++)
 	{
 		if (map->Map_Array[i] != NULL)
 		{
@@ -389,6 +396,7 @@ Class* MyParser::find_Inheritance_class_by_name(Block_Scope* scope, string name)
 		return find_Inheritance_class_by_name(parent_scope, name);
 	return NULL;
 }
+
 Class* MyParser::find_inner_classes_inheritence_in_scope(Block_Scope* scope, string name)
 {
 	MyMap* map = scope->get_map();
@@ -450,6 +458,7 @@ void MyParser::check_all_classes_names_over_parents(MyMap* map, vector<string>al
 		}
 	}
 }
+
 void MyParser::check_inheritance_loop(MyMap* map)
 {
 	for (int i = 0; i < MAX_LENGTH; i++)
@@ -482,6 +491,7 @@ void MyParser::check_inheritance_loop(MyMap* map)
 		}
 	}
 }
+
 bool MyParser::dfs_for_check_inheritance(Class* cur)
 {
 	checked_classes_gray.insert(cur);
@@ -511,6 +521,7 @@ bool MyParser::dfs_for_check_inheritance(Class* cur)
 	checked_classes_black.insert(cur);
 	return sol;
 }
+
 void MyParser::check_main_function(MyMap* map)
 {
 	//	cout << "start  print" << endl;
@@ -555,6 +566,7 @@ void MyParser::check_main_function(MyMap* map)
 
 	}
 }
+
 void MyParser::check_main_Class(MyMap* map)
 {
 	//	cout << "start  print" << endl;
@@ -577,6 +589,7 @@ void MyParser::check_main_Class(MyMap* map)
 	}
 	//error
 }
+
 void MyParser::check_function_overload_in_all_classes(MyMap* map)
 {
 	for (int i = 0; i < MAX_LENGTH; i++)
@@ -597,6 +610,7 @@ void MyParser::check_function_overload_in_all_classes(MyMap* map)
 		}
 	}
 }
+
 void MyParser::check_function_overload_in_class(MyMap*map)
 {
 	Function* allFunctions[100];
@@ -650,6 +664,7 @@ void MyParser::check_function_overload_in_class(MyMap*map)
 		}
 	}
 }
+
 void MyParser::check_class_names_not_used_multiple_times(MyMap*map)
 {
 	char* all_names[70];
@@ -709,6 +724,7 @@ void MyParser::check_class_names_not_used_multiple_times(MyMap*map)
 		}
 	}
 }
+
 void MyParser::check_function_parameters_names(MyMap* map)
 {
 	for (int i = 0; i < MAX_LENGTH; i++)
@@ -758,6 +774,7 @@ void MyParser::check_function_parameters_names(MyMap* map)
 		}
 	}
 }
+
 void MyParser::check_variables_and_datamembers_names(MyMap* map)
 {
 	char* allVariables[200];
@@ -808,6 +825,43 @@ void MyParser::check_variables_and_datamembers_names(MyMap* map)
 				{
 					cout << "Variable reused name   " << allVariables[i];
 				}
+			}
+		}
+	}
+}
+
+void MyParser::check_function_parameters_virtual(MyMap* map)
+{
+	for (int i = 0; i < MAX_LENGTH; i++)
+	{
+		if (map->Map_Array[i] != NULL)
+		{
+			MapElement* temp = map->Map_Array[i];
+			while (temp != NULL)
+			{
+				if (temp->type == 1)
+				{
+					//cout << (Class*)temp->get_map_element() << endl;
+					Class* tmp = ((Class*)temp->get_map_element());
+					check_function_parameters_virtual(tmp->get_class_scope()->get_map());
+				}
+				else if (temp->type == 2)
+				{
+					//cout << (Function*)temp->get_map_element() << endl;
+					Function* x = (Function*)temp->get_map_element();
+					List_Parameters* all = x->get_function_parameters();
+					if (all == NULL)
+						return;
+					Parameter* p = all->get_root_param();
+					bool stVirtual = false;
+					//int j = 0;
+					while (p != NULL)
+					{
+						//TODO
+						p = p->get_next_param();
+					} 
+				}
+				temp = temp->get_next();
 			}
 		}
 	}

@@ -1,3 +1,16 @@
+/*public class swapper : ISwapper
+{
+    public void start()
+    {
+
+    }
+}
+
+interface ISwapper
+{
+    void start();
+}
+
 /*public class CSwapper : ISwapper { }
 public static interface ISwapper : CSwapper { }
 interface ISwapper2 { }

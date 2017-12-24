@@ -56,6 +56,10 @@ Function* MyParser::create_function(char* funName, List_Parameters* list_of_par,
 	fun->set_row(row);
 	fun->set_is_constractor(isConstructor);
 	fun->set_function_parameters(list_of_par);
+	if (am == NULL)
+		am = new Access_Modifier();
+	if (ds == NULL)
+		ds = new Data_Storage();
 	fun->set_function_data_modifier(new Data_Modifier(am, ds));
 	Class* clas = (Class*) this->Symbol_Table->get_current_scope()->get_owner_type();
 	if (isConstructor)

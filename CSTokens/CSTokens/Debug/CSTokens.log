@@ -1,30 +1,9 @@
-﻿Build started 12/24/2017 07:59:04 م.
+﻿Build started 12/24/2017 09:37:19 م.
      1>Project "C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\CSTokens\CSTokens.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\lex.yy.cc ..\yacc.cpp MyParser.cpp SymbolTable.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt SymbolTable.cpp
          SymbolTable.cpp
      1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\symboltable.cpp(218): warning C4800: 'bool *' : forcing value to bool 'true' or 'false' (performance warning)
-         MyParser.cpp
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\errorrecovery.h(33): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(118) : see declaration of 'strcat'
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\errorrecovery.h(36): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(118) : see declaration of 'strcat'
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\myparser.cpp(444): warning C4018: '<' : signed/unsigned mismatch
-         yacc.cpp
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(545): warning C4273: 'malloc' : inconsistent dll linkage
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(642) : see previous definition of 'malloc'
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(552): warning C4273: 'free' : inconsistent dll linkage
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdlib.h(641) : see previous definition of 'free'
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(2755): warning C4065: switch statement contains 'default' but no 'case' labels
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\yacc.cpp(2787): warning C4065: switch statement contains 'default' but no 'case' labels
-         lex.yy.cc
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\lex.l(1134): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : see declaration of 'strcpy'
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\lex.l(1147): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\lex.l(1175): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\cec\documents\visual studio 2013\projects\cstokens\cstokens\lex.yy.cc(3080): warning C4273: 'isatty' : inconsistent dll linkage
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\io.h(332) : see previous definition of 'isatty'
-         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\CEC\Documents\Visual Studio 2013\Projects\CSTokens\Debug\CSTokens.lib" /MACHINE:X86 Debug\lex.yy.obj
          Debug\yacc.obj
@@ -36,4 +15,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.41
+Time Elapsed 00:00:01.55

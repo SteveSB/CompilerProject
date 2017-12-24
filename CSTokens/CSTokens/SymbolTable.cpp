@@ -278,7 +278,7 @@ int Parameter::get_col(){
 
 std::ostream& operator<<(std::ostream& os, Parameter* obj) {
 	os << "The Parameter name is: " << obj->get_param_name();
-	if (!obj->get_param_virtal())
+	if (obj->get_param_virtal())
 		os << " this is virtual Parameter ";
 	else
 		os << " this is not virtual Parameter ";

@@ -970,7 +970,7 @@ field_declaration
 																							data_storage = nullptr;
 																						}
   ;
-method_declaration
+method_declaration			/*TODO*/
   : method_header method_body				{
 												$<func>$ = p->finish_function_declaration($<func>1);
 												isLocal = false;
@@ -1254,7 +1254,7 @@ variable_initializer_list
   ;
 
 /***** C.2.9 Interfaces *****/
-interface_declaration			/*TODO*/
+interface_declaration
   : interface_header interface_body			{	$<clas>$ = p->finish_class_declaration($<clas>1);	}
   ;
 interface_header
@@ -1291,9 +1291,32 @@ interface_member_declaration
   | interface_indexer_declaration
   ;
 /* inline return_type to avoid conflict with interface_property_declaration */
-interface_method_declaration
-  : attributes_opt new_opt type T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES interface_empty_body
-  | attributes_opt new_opt T_VOID T_IDENTIFIER T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES interface_empty_body
+interface_method_declaration			/*TODO*/
+  : interface_method_header interface_empty_body	{	$<func>$ = p->finish_function_declaration($<func>1);	}
+  ;
+interface_method_header
+  : interface_method_1 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+																	access_modifier = nullptr;
+																	data_storage = nullptr;
+																	isLocal = true;
+																}
+  | interface_method_2 T_OPEN_PARENNTHESES formal_parameter_list_opt T_CLOSE_PARENNTHESES	{
+  																	access_modifier = nullptr;
+																	data_storage = nullptr;
+																	isLocal = true;
+																}
+  ;
+interface_method_1
+  : attributes_opt new_opt type identif		{
+  												lp = new List_Parameters();
+												$<func>$ = p->create_function($<r.str>4, lp, NULL, NULL, false, $<r.myColNo>1, $<r.myLineNo>1);										
+											}
+  ;
+interface_method_2
+  : attributes_opt new_opt T_VOID identif 	{
+  												lp = new List_Parameters();
+												$<func>$ = p->create_function($<r.str>4, lp, NULL, NULL, false, $<r.myColNo>1, $<r.myLineNo>1);										
+											}
   ;
 new_opt
   : /* Nothing */

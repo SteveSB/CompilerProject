@@ -41,6 +41,8 @@ Class* MyParser::finish_class_declaration(Class* clas) {
 				fun->set_function_parameters(nullptr);
 				fun->set_function_data_modifier(new Data_Modifier(am, nullptr));
 				clas->set_has_constructor(true);
+				fun->get_function_scope()->set_parent_scope(this->Symbol_Table->get_current_scope());
+				fun->get_function_scope()->set_owner_type(fun);
 				this->Symbol_Table->add_function_to_current_scope(fun);
 			}
 		}
@@ -203,7 +205,7 @@ void MyParser::sprint(MyMap* map){
 				else if (temp->type == 4) {
 					cout << (Local_Variable*)temp->get_map_element() << endl;
 				}
-				else if (temp->type >= 5 && temp->type <= 10) {
+				else if (temp->type >= 5 && temp->type <= 11) {
 					cout << (Block_Scope*)temp->get_map_element() << endl;
 				}
 				temp = temp->get_next();
@@ -225,17 +227,18 @@ void MyParser::addError(int line, int col, char* error, char* s) {
 void  MyParser::check_all(SymbolTable* obj)
 {
 	Block_Scope* ob = obj->get_root_scope();
-	MyMap* map = ob->get_map();
-	//	this->start_check_main_function(map);
-	this->check_main_Class(map);
-	this->check_class_names_not_used_multiple_times(map);
-	this->check_function_overload_in_all_classes(map);
-	this->check_function_parameters_names(map);
-	this->check_function_parameters_virtual(map);
-	this->check_variables_and_datamembers_names(map);
-	this->check_inheritance_loop(map);
-	vector<string>x;
-	this->check_all_classes_names_over_parents(map, x);
+	 MyMap* map = ob->get_map();
+	 	//	this->start_check_main_function(map);
+		 this->check_main_Class(map);
+	 this->check_class_names_not_used_multiple_times(map);
+	 this->check_function_overload_in_all_classes(map);
+	 this->check_function_parameters_names(map);
+	 this->check_function_parameters_virtual(map);
+	 this->check_variables_and_datamembers_names(map);
+	 this->check_inheritance_loop(map);
+	 vector<string>x;
+	 this->check_all_classes_names_over_parents(map, x);
+	 this->check_all_function_for_overloading(map);
 }
 
 InheritanceList* MyParser::add_class_list(char* name, InheritanceList *il){
@@ -273,7 +276,6 @@ void MyParser::set_Inheritance_pointers(MyMap* map)
 				{
 					//cout << (Class*)temp->get_map_element() << endl;
 					Class* tmp = ((Class*)temp->get_map_element());
-					cout << tmp << endl;
 					Block_Scope* parent_scope = tmp->get_class_scope()->get_parent_scope();
 					if (tmp->get_list_of_inheritance() != NULL)
 					{
@@ -286,13 +288,34 @@ void MyParser::set_Inheritance_pointers(MyMap* map)
 							while (ptr->get_next_parent() != NULL)
 							{
 								//search interface
+								if (ptr->get_parent() == NULL)
+									  {
+									 string name = ptr->get_parent_name();
+									 									//		cout << name << endl;
+										 
+										 Class* p = find_Inheritance_class_by_name(parent_scope, name, true);
+									 if (p != NULL)
+										  {
+										 											//cout << "sssss  " << p << endl;
+											 ptr->set_parent(p);
+										 cout << tmp->get_class_name() << "  inheret from interface  " << p->get_class_name() << endl;
+										 
+											 }
+									 else {
+										 cout << "error in inheretance interface not found  " << ptr->get_parent_name() << endl;
+										 
+									}
+									 }
 								ptr = ptr->get_next_parent();
 							}
 							if (ptr->get_parent() == NULL)
 							{
 								string name = ptr->get_parent_name();
 								//		cout << name << endl;
-								Class* p = find_Inheritance_class_by_name(parent_scope, name);
+								Class* p;
+								if (tmp->get_is_interface())
+									p = find_Inheritance_class_by_name(parent_scope, name, true);
+								else p = find_Inheritance_class_by_name(parent_scope, name, false);
 								if (p != NULL)
 								{
 									if (!p->get_class_data_modifier()->get_data_storage()->get_final())
@@ -322,7 +345,7 @@ void MyParser::set_Inheritance_pointers(MyMap* map)
 
 }
 
-Class* MyParser::find_Inheritance_class_by_name(Block_Scope* scope, string name)
+Class* MyParser::find_Inheritance_class_by_name(Block_Scope* scope, string name, bool isInterface)
 {
 
 	MyMap* map = scope->get_map();
@@ -330,75 +353,169 @@ Class* MyParser::find_Inheritance_class_by_name(Block_Scope* scope, string name)
 	//	Class* c = ((Class*)scope->get_owner_type());
 	//	if (c->get_list_of_inheritance() == nullptr)return NULL;
 	//	cout << c << endl;
-
-	for (int i = 0; i < MAX_LENGTH; i++)
+	if (isInterface)
 	{
-		if (map->Map_Array[i] != NULL)
+		for (int i = 0; i < MAX_LENGTH; i++)
 		{
-			MapElement* temp = map->Map_Array[i];
-			while (temp != NULL)
+			if (map->Map_Array[i] != NULL)
 			{
-				if (temp->type == 1)
+				MapElement* temp = map->Map_Array[i];
+				while (temp != NULL)
 				{
-					//cout << (Class*)temp->get_map_element() << endl;
-					Class* tmp = ((Class*)temp->get_map_element());
-					//cout << tmp << endl;
-					string nn = tmp->get_class_name();
-					if (nn == name)
-						return tmp;
+					if (temp->type == 1)
+					{
+						//cout << (Class*)temp->get_map_element() << endl;
+						Class* tmp = ((Class*)temp->get_map_element());
+						//cout << tmp << endl;
+						string nn = tmp->get_class_name();
+						if (nn == name&&tmp->get_is_interface())
+							return tmp;
 
+					}
+					temp = temp->get_next();
 				}
-				temp = temp->get_next();
 			}
 		}
-	}
-	if (scope->get_parent_scope() == NULL)
-		return NULL;
-	//	Class* cur =(Class *) scope->get_owner_type();
-	Class* par = (Class *)scope->get_owner_type();
-	//		cout << par << endl;
-	if (par->get_list_of_inheritance() != NULL)
-	{
-		InheritanceList* ptr = par->get_list_of_inheritance()->get_root_parent();
-		if (ptr != NULL)
+		if (scope->get_parent_scope() == NULL)
+			return NULL;
+		//	Class* cur =(Class *) scope->get_owner_type();
+		Class* par = (Class *)scope->get_owner_type();
+		//		cout << par << endl;
+		if (par->get_list_of_inheritance() != NULL)
 		{
-			while (ptr->get_next_parent() != NULL)
+			InheritanceList* ptr = par->get_list_of_inheritance()->get_root_parent();
+			if (ptr != NULL)
 			{
-				//search interface
-				ptr = ptr->get_next_parent();
-			}
-			if (ptr->get_parent() == NULL)
-			{
-				string name = ptr->get_parent_name();
-				cout << name << endl;
-				Class* p = find_Inheritance_class_by_name(par->get_class_scope()->get_parent_scope(), name);
-				if (p != NULL)
+				while (ptr != NULL)
 				{
-					//cout << "sssss  " << ptr-> << endl;
-					ptr->set_parent(p);
-					cout << par->get_class_name() << "  inheret from  " << p->get_class_name() << endl;
+					if (ptr->get_parent() == NULL)
+					{
+						string name = ptr->get_parent_name();
+						//cout << name << endl;
+						Class* p = find_Inheritance_class_by_name(par->get_class_scope()->get_parent_scope(), name, true);
+						if (p != NULL)
+						{
+							//cout << "sssss  " << ptr-> << endl;
+							ptr->set_parent(p);
+							cout << par->get_class_name() << "  inheret from interface  " << p->get_class_name() << endl;
 
-				}
-				else {
+						}
+
+					}
+					if (ptr->get_parent() != NULL)
+					{
+						//			cout << ptr->get_parent() << endl;
+						Class*p = find_inner_classes_inheritence_in_scope(ptr->get_parent()->get_class_scope(), name);
+						if (p != NULL)
+						{
+							return p;
+						}
+					}
 					//search interface
+					ptr = ptr->get_next_parent();
 				}
+
 			}
-			if (ptr->get_parent() != NULL)
+		}
+		Block_Scope* parent_scope = scope->get_parent_scope();
+
+		if (parent_scope != NULL)
+			return find_Inheritance_class_by_name(parent_scope, name, true);
+		return NULL;
+	}
+	else
+	{
+		for (int i = 0; i < MAX_LENGTH; i++)
+		{
+			if (map->Map_Array[i] != NULL)
 			{
-				//			cout << ptr->get_parent() << endl;
-				Class*p = find_inner_classes_inheritence_in_scope(ptr->get_parent()->get_class_scope(), name);
-				if (p != NULL)
+				MapElement* temp = map->Map_Array[i];
+				while (temp != NULL)
 				{
-					return p;
+					if (temp->type == 1)
+					{
+						//cout << (Class*)temp->get_map_element() << endl;
+						Class* tmp = ((Class*)temp->get_map_element());
+						//cout << tmp << endl;
+						string nn = tmp->get_class_name();
+						if (nn == name)
+							return tmp;
+
+					}
+					temp = temp->get_next();
 				}
 			}
 		}
-	}
-	Block_Scope* parent_scope = scope->get_parent_scope();
+		if (scope->get_parent_scope() == NULL)
+			return NULL;
+		//	Class* cur =(Class *) scope->get_owner_type();
+		Class* par = (Class *)scope->get_owner_type();
+		//		cout << par << endl;
+		if (par->get_list_of_inheritance() != NULL)
+		{
+			InheritanceList* ptr = par->get_list_of_inheritance()->get_root_parent();
+			if (ptr != NULL)
+			{
+				while (ptr->get_next_parent() != NULL)
+				{
+					if (ptr->get_parent() == NULL)
+					{
+						string name = ptr->get_parent_name();
+						//cout << name << endl;
+						Class* p = find_Inheritance_class_by_name(par->get_class_scope()->get_parent_scope(), name, true);
+						if (p != NULL)
+						{
+							//cout << "sssss  " << ptr-> << endl;
+							ptr->set_parent(p);
+							cout << par->get_class_name() << "  inheret from interface  " << p->get_class_name() << endl;
 
-	if (parent_scope != NULL)
-		return find_Inheritance_class_by_name(parent_scope, name);
-	return NULL;
+						}
+					}
+					if (ptr->get_parent() != NULL)
+					{
+						//			cout << ptr->get_parent() << endl;
+						Class*p = find_inner_classes_inheritence_in_scope(ptr->get_parent()->get_class_scope(), name);
+						if (p != NULL)
+						{
+							return p;
+						}
+					}
+					//search interface
+					ptr = ptr->get_next_parent();
+				}
+				if (ptr->get_parent() == NULL)
+				{
+					string name = ptr->get_parent_name();
+					//	cout << name << endl;
+					Class* p = find_Inheritance_class_by_name(par->get_class_scope()->get_parent_scope(), name, false);
+					if (p != NULL)
+					{
+						//cout << "sssss  " << ptr-> << endl;
+						if (!p->get_class_data_modifier()->get_data_storage()->get_final())
+						{
+							ptr->set_parent(p);
+							cout << par->get_class_name() << "  inheret from  " << p->get_class_name() << endl;
+						}
+
+					}
+				}
+				if (ptr->get_parent() != NULL)
+				{
+					//			cout << ptr->get_parent() << endl;
+					Class*p = find_inner_classes_inheritence_in_scope(ptr->get_parent()->get_class_scope(), name);
+					if (p != NULL)
+					{
+						return p;
+					}
+				}
+			}
+		}
+		Block_Scope* parent_scope = scope->get_parent_scope();
+
+		if (parent_scope != NULL)
+			return find_Inheritance_class_by_name(parent_scope, name, false);
+		return NULL;
+	}
 }
 
 Class* MyParser::find_inner_classes_inheritence_in_scope(Block_Scope* scope, string name)
@@ -526,7 +643,7 @@ bool MyParser::dfs_for_check_inheritance(Class* cur)
 	return sol;
 }
 
-void MyParser::check_main_function(MyMap* map)
+int MyParser::check_main_function(MyMap* map)
 {
 	//	cout << "start  print" << endl;
 	int tot_main_functions = 0;
@@ -543,7 +660,8 @@ void MyParser::check_main_function(MyMap* map)
 					Function* func = (Function*)temp->get_map_element();
 					//cout <<"fff   "<< (Function*)temp->get_map_element() << endl;
 					string s = func->get_function_name();
-					if (s == "main")
+					if (s == "main"&&func->get_function_data_midufuer()->get_access_modifier()->get_public() &&
+						func->get_function_data_midufuer()->get_data_storage()->get_static())
 					{
 						//cout << "adfsadasdasdasds" << endl;
 						tot_main_functions++;
@@ -557,22 +675,12 @@ void MyParser::check_main_function(MyMap* map)
 
 		}
 	}
-	if (tot_main_functions > 1)
-	{
-
-	}
-	else if (tot_main_functions == 1)
-	{
-
-	}
-	else
-	{
-
-	}
+	return tot_main_functions;
 }
 
 void MyParser::check_main_Class(MyMap* map)
 {
+	int tot = 0;
 	//	cout << "start  print" << endl;
 	for (int i = 0; i < MAX_LENGTH; i++)
 	{
@@ -584,13 +692,22 @@ void MyParser::check_main_Class(MyMap* map)
 				if (temp->type == 1)
 				{
 					Class* tmp = ((Class*)temp->get_map_element());
-					check_main_function(tmp->get_class_scope()->get_map());
+					if (tmp->get_class_data_modifier()->get_access_modifier()->get_public())
+						 tot += check_main_function(tmp->get_class_scope()->get_map());
 					//cout <<"claaaaas  "<< (Class*)temp->get_map_element() << endl;
 				}
 				temp = temp->get_next();
 			}
 		}
 	}
+	if (tot == 0)
+		  {
+		 cout << "error main function not found" << endl;
+		 }
+	 if (tot > 1)
+		  {
+		 cout << "error to many main functions " << endl;
+		 }
 	//error
 }
 
@@ -647,6 +764,11 @@ void MyParser::check_function_overload_in_class(MyMap*map)
 			{
 				List_Parameters* par1 = allFunctions[i]->get_function_parameters();
 				List_Parameters* par2 = allFunctions[j]->get_function_parameters();
+				if (par1 == NULL&&par2 == NULL)
+					{
+					cout << "function overload error  " << allFunctions[i]->get_function_name() << endl;
+					return;
+					}
 				if (par1 == NULL || par2 == NULL)
 					return;
 				Parameter* p = par1->get_root_param();
@@ -861,7 +983,16 @@ void MyParser::check_function_parameters_virtual(MyMap* map)
 					//int j = 0;
 					while (p != NULL)
 					{
-						//TODO
+						if (p->get_param_virtal())
+							  stVirtual = true;
+						 else
+							  {
+							 if (stVirtual)
+								 {
+								 cout << "error virtual parameters must apear in the end" << endl;
+								 break;
+								 }
+							 }
 						p = p->get_next_param();
 					} 
 				}
@@ -870,3 +1001,187 @@ void MyParser::check_function_parameters_virtual(MyMap* map)
 		}
 	}
 }
+
+bool MyParser::checked_file_class(MyMap* map, char* filename){
+	int numb_class = 0, cl_file = 0;
+	for (int i = 0; i < MAX_LENGTH; i++)
+	{
+		if (map->Map_Array[i] != NULL)
+		{
+			MapElement* temp = map->Map_Array[i];
+			while (temp != NULL)
+			{
+				if (temp->type == 1)
+				{
+					Class* tmp = ((Class*)temp->get_map_element());
+					if (tmp->get_class_data_modifier()->get_access_modifier()->get_public())
+					{
+						numb_class++;
+					}
+					else{
+						if (tmp->get_class_name() == filename){
+							numb_class++;
+							cout << "class have namefile and not public";
+						}
+					}
+				}
+				temp = temp->get_next();
+			}
+		}
+	}
+	if (numb_class > 1 || numb_class == 0)
+		return false;
+	else
+		return true;
+
+}
+
+void MyParser::start(vector<MyParser*>sy_main){
+	int i = 0;
+	while (i<10){
+		if (sy_main[i]){
+			Block_Scope* ob = sy_main[i]->Symbol_Table->get_root_scope();
+			MyMap* map = ob->get_map();
+			if (this->checked_file_class(map, sy_main[i]->filename))
+			{
+				this->check_main_function(map);
+			}
+		}
+		i++;
+	}
+}
+
+void MyParser::check_all_function_for_overloading(MyMap* map)
+  {
+	for (int i = 0; i < MAX_LENGTH; i++)
+		  {
+		 if (map->Map_Array[i] != NULL)
+			  {
+			 MapElement* temp = map->Map_Array[i];
+			 
+				 while (temp != NULL)
+				  {
+				 if (temp->type == 1)
+					  {
+					 					//cout << (Class*)temp->get_map_element() << endl;
+						 Class* tmp = ((Class*)temp->get_map_element());
+					 check_all_function_for_overloading(tmp->get_class_scope()->get_map());
+					 }
+				 else if (temp->type == 2)
+					  {
+					 					//cout << (Function*)temp->get_map_element() << endl;
+						 Function* x = (Function*)temp->get_map_element();
+					 if (x->get_function_scope()->get_parent_scope() != NULL&&!x->get_is_constractor())
+						  {
+						 Class* p = (Class*)x->get_function_scope()->get_parent_scope()->get_owner_type();
+						 if (p != NULL)
+							  {
+							 InheritanceList* list = p->get_list_of_inheritance();
+							 if (list != NULL)
+								  {
+								 
+									 if (list->get_root_parent() != NULL)
+									  {
+									 list = list->get_root_parent();
+									 int sol = 0;
+									 while (list != NULL)
+										  {
+										 Class* pp = list->get_parent();
+										 if (pp != NULL)
+											  {
+											 sol += check_override_from_final_function(pp, x);
+											 }
+										 list = list->get_next_parent();
+										 }
+									 if (sol < 0)
+										  {
+										 cout << "error function  " << x->get_function_name() << "  override from final function" << endl;
+										 }
+									 else if (sol>1)
+										  {
+										 if (x->get_function_data_midufuer()->get_data_storage()->get_static())
+											  {
+											 cout << "error static function cant override  " << x->get_function_name() << endl;
+											 }
+										 else if (!x->get_function_data_midufuer()->get_access_modifier()->get_public())
+											  {
+											 cout << "error function that overrides from interface  must be public " << x->get_function_name() << endl;
+											 }
+										 }
+									 else if (sol == 1)
+										  {
+										 if (x->get_function_data_midufuer()->get_data_storage()->get_static())
+											  {
+											 cout << "error static function cant override  " << x->get_function_name() << endl;
+											 }
+										 }
+									 }
+								 }
+							 }
+						 					//	check_override_from_final_function(p, x);
+							 }
+					 }
+				 temp = temp->get_next();
+				 }
+			 }
+		 }
+	 
+		 }
+ 
+ int MyParser::check_override_from_final_function(Class* par, Function* function_to_check)
+  {
+	 
+		 MyMap *map = par->get_class_scope()->get_map();
+	 
+		 for (int i = 0; i < MAX_LENGTH; i++)
+		  {
+		 if (map->Map_Array[i] != NULL)
+			  {
+			 MapElement* temp = map->Map_Array[i];
+			 while (temp != NULL)
+				  {
+				 if (temp->type == 2)
+					  {
+					 					//cout << (Function*)temp->get_map_element() << endl;
+						 Function* x = (Function*)temp->get_map_element();
+					 if (!x->get_is_constractor() && function_to_check->isEqual(x))
+						  {
+						 
+							 if (x->get_function_data_midufuer()->get_data_storage()->get_final())
+							  {
+							 							//cout << "error function averload final function   " << x->get_function_name() << endl;
+								 return -1000;
+							 }
+						 else
+							  if (par->get_is_interface())
+							  return 2;
+						 else return 1;
+						 }
+					 
+						 
+						 }
+				 temp = temp->get_next();
+				 }
+			 }
+		 }
+	 int sol = 0;
+	 InheritanceList* list = par->get_list_of_inheritance();
+	 if (list != NULL)
+		  {
+		 if (list->get_root_parent() != NULL)
+			  {
+			 list = list->get_root_parent();
+			 while (list != NULL)
+				  {
+				 Class* p = list->get_parent();
+				 if (p != NULL)
+					  {
+					 sol += check_override_from_final_function(p, function_to_check);
+					 }
+				 list = list->get_next_parent();
+				 }
+			 
+				 }
+		 }
+	 return sol;
+	 }

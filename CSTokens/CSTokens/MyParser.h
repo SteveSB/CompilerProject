@@ -9,6 +9,7 @@ class MyParser {
 public:
 	SymbolTable* Symbol_Table;
 	ErrorRecovery Error_Recovery;
+	char* filename;
 	MyParser();
 	Class* create_class(char*, bool, InheritanceList*, Access_Modifier*, Data_Storage*, int, int);//add colNo & LineNo
 	Class* start_class_declaration(Class*);
@@ -30,11 +31,11 @@ public:
 	void addError(int, int, char*, char*);
 	InheritanceList* add_class_list(char*, InheritanceList*);
 	void set_Inheritance_pointers(MyMap*);
-	Class* find_Inheritance_class_by_name(Block_Scope*, string);
+	Class* find_Inheritance_class_by_name(Block_Scope*, string, bool);
 	Class* find_inner_classes_inheritence_in_scope(Block_Scope*, string);
 
 	void check_all(SymbolTable*);
-	void check_main_function(MyMap*);
+	int check_main_function(MyMap*);
 	void check_main_Class(MyMap*);
 	void check_function_overload_in_all_classes(MyMap*);
 	void check_function_overload_in_class(MyMap*);
@@ -45,6 +46,10 @@ public:
 	void check_all_classes_names_over_parents(MyMap*, vector<string>);
 	bool dfs_for_check_inheritance(Class*);
 	void check_function_parameters_virtual(MyMap*);
+	void start(vector<MyParser*>sy_main);
+	bool checked_file_class(MyMap* map, char*);
+	void check_all_function_for_overloading(MyMap*);
+	int check_override_from_final_function(Class*, Function*);
 private:
 	set<Class*> checked_classes_gray;
 	set<Class*>	checked_classes_black;

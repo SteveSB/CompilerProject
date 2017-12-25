@@ -1,15 +1,28 @@
-public class swapper : ISwapper
+class swapper
 {
-    public void start(int x)
+    void start(int x)
     {
 
     }
+    class ww
+    {
+
+    }
+    interface ee
+    {
+
+    }
+    class xx:ww,ee
+    {
+        void fun(int x, int y)
+        {
+
+        }
+    
+    }
 }
 
-interface ISwapper
-{
-    void start(int x);
-}
+
 
 /*public class CSwapper : ISwapper { }
 public static interface ISwapper : CSwapper { }

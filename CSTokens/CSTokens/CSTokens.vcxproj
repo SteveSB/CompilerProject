@@ -87,7 +87,6 @@
   <ItemGroup>
     <Text Include="..\code samples.txt" />
     <Text Include="..\errors.txt" />
-    <Text Include="..\in.cs" />
     <Text Include="..\out.txt" />
   </ItemGroup>
   <ItemGroup>

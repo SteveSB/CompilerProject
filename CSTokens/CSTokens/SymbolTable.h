@@ -161,6 +161,7 @@ public:
 	List_Parameters* get_function_parameters();
 	Data_Modifier* get_function_data_midufuer();
 	bool get_is_constractor();
+	bool isEqual(Function *);
 	//void print_function();
 };
 

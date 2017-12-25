@@ -1,128 +1,159 @@
-public
+in.cs
+==============================================================
+	it is a single line comment
 		 Added modifier
-class
-Found ID:	swapper
-:
-Found ID:	ISwapper
-{
-		 Added class base
-public
-		 Added modifier
-void
-Found ID:	start
-(
-int
-Found ID:	x
-)
-{
-}
-}
 		 Added class body
-interface
-Found ID:	ISwapper
-{
-void
-Found ID:	start
-(
-int
-Found ID:	x
-)
-;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	 it is a Multi Line Comment 
-		 Added interface bodyInterface Name :ISwapper
-
+		 Added modifier
+		 Added class base
+		 Added class body
+	it is a single line comment
+	it is a single line comment
+		 Added modifier
+		 Added modifier
+Add if
+"f"	 if without else
+Add while
+Add if
+	 if without else
+Add switch
+Add case
+Add foreach
+Add for 
+		 Added class body
+Class Name :two
+
+
+Data_Member Name is: firstMember
+Function Name is: thirdMethod
+ List_Parameters : 
+The Parameter name is: m1 this is not virtual Parameter 
+The Parameter name is: t2 this is not virtual Parameter 
+The Parameter name is: q1 this is not virtual Parameter 
+The Parameter name is: p1 this is not virtual Parameter 
+
+The Local_Variable name is: firstLocal
+Data_Member Name is: thirdMember
+Class Name :fClass
+
+
+Function Name is: firstMethod
+ List_Parameters : 
+The Parameter name is: x this is not virtual Parameter 
+The Parameter name is: y this is not virtual Parameter 
+The Parameter name is: z this is virtual Parameter 
+The Parameter name is: r this is virtual Parameter 
+
+Function Name is: fClass
+ is constractor
+Data_Member Name is: secondMember
+Data_Member Name is: TESTING
+Function Name is: secondMethod
+Function Name is: secondMethod
+The Local_Variable name is: firstObject
+The Local_Variable name is: secondObject
+Function Name is: main
+
+ List_Blockscope : 
+the type of Block scope is :while
+
+
+ List_Blockscope : 
+the type of Block scope is :if
+
+The Local_Variable name is: k
+The Local_Variable name is: firstLocal
+Class Name :firstClass
+staticPUBLIC
+ the name fClass
+Function Name is: x
+ List_Parameters : 
+The Parameter name is: t this is not virtual Parameter 
+
+Function Name is: x
+ List_Parameters : 
+The Parameter name is: t this is not virtual Parameter 
+
+Function Name is: firstClass
+ is constractor
+Function Name is: two
+ is constractor
+firstClass  inheret from  fClass
+error main function not found
+function overload error  secondMethod
+function overload error  x
+TESTING
+in2.cs
+==============================================================
+		 Added modifier
+		 Added class base
+		 Added modifier
+Add while
+Add if
+Add while
+Add if
+	 if without else
+	 if without else
+Add switch
+Add case
+Add case
+Add case
+		 Added class body
+		 Added modifier
+		 Added interface body
+Interface Name :ISwapper
+PRIVATE
 
 Function Name is: start
  List_Parameters : 
 The Parameter name is: x this is not virtual Parameter 
 
-Class Name :swapper
+Class Name :one
 PUBLIC
  the name ISwapper
 Function Name is: start
  List_Parameters : 
 The Parameter name is: x this is not virtual Parameter 
 
+
+ List_Blockscope : 
+the type of Block scope is :while
+
+Function Name is: one
+ is constractor
+one  inheret from  ISwapper
+error main function not found
+TESTING
+in3.cs
+==============================================================
+		 Added modifier
+		 Added class base
+		 Added class body
+		 Added modifier
+		 Added interface base
+		 Added interface body
+		 Added interface body
+		 Added modifier
+		 Added class base
+		 Added class body
+Interface Name :ISwapper2
+
+
+Interface Name :ISwapper
+staticPUBLIC
+
+Class Name :three
+PUBLIC
+ the name ISwapper
+Function Name is: three
+ is constractor
+Class Name :swapper
+PUBLIC
+ the name ISwapper the name ISwapper2 the name three
 Function Name is: swapper
  is constractor
-Interface Name :ISwapper
-
-
-Class Name :swapper
-PUBLIC
- the name ISwapper
-swapper  inheret from  ISwapper
+three  inheret from  ISwapper
+swapper  inheret from interface  ISwapper
+swapper  inheret from interface  ISwapper2
+swapper  inheret from  three
+error main function not found
 TESTING

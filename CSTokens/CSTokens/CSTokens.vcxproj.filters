@@ -29,7 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\out.txt" />
-    <Text Include="..\in.cs" />
     <Text Include="..\code samples.txt" />
     <Text Include="..\errors.txt" />
   </ItemGroup>

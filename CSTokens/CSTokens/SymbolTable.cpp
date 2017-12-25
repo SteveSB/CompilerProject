@@ -393,6 +393,8 @@ std::ostream& operator<<(std::ostream& os, Block_Scope* obj) {
 		name = "foreach";
 	else if (type == 10)
 		name = "if";
+	else if (type == 11)
+		name = "case";
 	cout << "the type of Block scope is :" << name << endl;
 	return os;
 }
@@ -463,6 +465,39 @@ int Function::get_row(){
 
 int Function::get_col(){
 	return this->col;
+}
+
+bool Function::isEqual(Function *a)
+{
+	string name1 = this->get_function_name();
+	string name2 = a->get_function_name();
+	if (name1 == name2)
+	{
+		List_Parameters* par1 = this->get_function_parameters();
+		List_Parameters* par2 = this->get_function_parameters();
+		if (par1 == NULL&&par2 == NULL)
+		{
+			return 1;
+		}
+		if (par1 == NULL || par2 == NULL)
+			 return 0;
+		Parameter* p = par1->get_root_param();
+		Parameter* p2 = par2->get_root_param();
+		while (p != NULL && p2 != NULL)
+		{
+			string pp1 = p->get_param_name();
+			string pp2 = p2->get_param_name();
+			if (pp1 != pp2)
+				break;
+			p = p->get_next_param();
+			p2 = p2->get_next_param();
+		}
+		if (p == NULL&&p2 == NULL)
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
 
 std::ostream& operator<<(std::ostream& os, Function* obj) {
@@ -861,6 +896,8 @@ void SymbolTable::add_scope_to_current_scope(Block_Scope *bs, int type){
 		name = "foreach";
 	else if (type == 10)
 		name = "if";
+	else if (type == 11)
+		name = "case";
 	this->get_current_scope()->get_map()->put_element_in_map_array(name, bs, type);
 }
 

@@ -5,6 +5,12 @@
   #define _CRT_SECURE_NO_WARNINGS
   #define YYDEBUG 1
   #include <iostream>
+  #include <string.h>
+  #include <fstream>   // file I/O
+  #include <iomanip>   // format manipulation
+  #include "dirent.h" //new lib for dirctor
+  #include<conio.h>
+  #include <vector>
   #include "ErrorRecovery.h"
   #include "CSTokens\MyParser.h"
   using namespace std;
@@ -579,16 +585,27 @@ switch_sections
   | switch_sections switch_section
   ;
 switch_section
-  : switch_labels statement_list
+  : switch_labels statment_ff
+  ; 
+  statment_ff
+  : statement_list{
+	bs = p->create_scope(11);
+  }
   ;
+   
 switch_labels
   : switch_label
   | switch_labels switch_label
   ;
 switch_label
-  : T_CASE constant_expression T_COLON
-  | T_DEFAULT T_COLON
-  | T_CASE T_COLON { errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"expecting type,you can\'t  without type case ('')","");}
+  : T_CASE constant_expression T_COLON{
+		cout<<"Add case"<<endl;bs = p->finish_scope_declaration(bs, 11);
+  }
+  | T_DEFAULT T_COLON{
+		cout<<"Add case"<<endl;bs = p->finish_scope_declaration(bs,11);
+  }
+  | T_CASE T_COLON { cout<<"Add case "<<endl;bs = p->finish_scope_declaration(bs, 11);
+  errorRec.errQ->enqueue($<r.myLineNo>1,$<r.myColNo>1,"expecting type,you can\'t  without type case ('')","");}
   
   ;
 iteration_statement
@@ -1274,7 +1291,7 @@ interface_base
   | T_COLON qualified_identifier
   ;
 interface_body
-  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS  comma_opt { cout << "\t\t Added interface body"; }
+  : T_OPEN_BRACKETS interface_member_declarations_opt T_CLOSE_BRACKETS  comma_opt { cout << "\t\t Added interface body\n"; }
   ;
 interface_member_declarations_opt
   : /* Nothing */
@@ -1488,22 +1505,44 @@ int yylex()
 }
 
 void main(void)
-{				
+{
+	vector<MyParser*> symbol(100);	
 	yydebug = 1;
-	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\in.cs", "r", stdin)) {
-		cout << "cant't open input file!" << endl;
-	}
-
+	int done, i = 1, j=0;
+	DIR *dir;
+	dirent *pdir;
+	string dirc = "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\CSTokens\\input\\";
+	dir = opendir("input");
 	if(!freopen("C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\out.txt", "w", stdout)) {
 		cout << "can't open output file!" << endl;
 	} 
-   
-	Parser* p = new Parser();
-	p->parse();
-
+	Parser* par = new Parser();
+	while (pdir = readdir(dir))
+	{	
+		ifstream myfile;
+		char * s = pdir->d_name;	
+		if (i > 2){
+			string  temp = dirc;
+		    temp.append(s);
+			cout << s <<endl;
+			cout<<"=============================================================="<<endl;
+			ifstream myfile;
+			streambuf *cinbuf = std::cin.rdbuf(); //save old buf
+			cin.rdbuf(myfile.rdbuf()); //redirect std::cin to in.txt!
+			myfile.open(temp.c_str(), ios::in);
+			if (!myfile) {
+					cout << "cant't open input file!" << endl;
+				}
+				par->parse();
+				p->filename=s;
+				symbol[i]=p;
+		}
+		i++;
+		p= new MyParser();
+		myfile.close();
+	}
+	p->start(symbol);
 	fclose(stdout);
-	fclose(stdin);
-	//fclose(stderr);
-	
+	closedir(dir);
 	errorRec.printErrQueue();
 }

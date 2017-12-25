@@ -26,7 +26,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 %%
 "if"					{
 							colNo += strlen(yytext);
-							cout<<"if\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IF;
@@ -34,7 +33,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "class"					{
 							colNo += strlen(yytext);
-							cout<<"class\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CLASS;
@@ -42,7 +40,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "public"				{
 							colNo += strlen(yytext);
-							cout<<"public\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PUBLIC;
@@ -50,7 +47,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "lnumber"				{
 							colNo += strlen(yytext);
-							cout<<"lnumber\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_LNUMBER;
@@ -58,15 +54,17 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "int"			        {
 							colNo += strlen(yytext);
-							cout<<"int\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_INT;
 						}
 
 "abstract"				{
 							colNo += strlen(yytext);
-							cout<<"abstract\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ABSTRACT;
@@ -74,7 +72,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "byte"					{
 							colNo += strlen(yytext);
-							cout<<"byte\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BYTE;
@@ -82,7 +79,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "delegate"				{
 							colNo += strlen(yytext);
-							cout<<"delegate\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DELEGATE;
@@ -90,7 +86,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "event"					{
 							colNo += strlen(yytext);
-							cout<<"event\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_EVENT;
@@ -98,7 +93,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "fixed"					{
 							colNo += strlen(yytext);
-							cout<<"fixed\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FIXED;
@@ -106,7 +100,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "goto"					{
 							colNo += strlen(yytext);
-							cout<<"goto\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_GOTO;
@@ -114,7 +107,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "interface"				{
 							colNo += strlen(yytext);
-							cout<<"interface\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_INTERFACE;
@@ -122,7 +114,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "namespace"				{
 							colNo += strlen(yytext);
-							cout<<"namespace\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_NAMESPACE;
@@ -130,7 +121,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "out"					{
 							colNo += strlen(yytext);
-							cout<<"out\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OUT;
@@ -138,7 +128,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "sealed"				{
 							colNo += strlen(yytext);
-							cout<<"sealed\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SEALED;
@@ -146,7 +135,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "static"				{
 							colNo += strlen(yytext);
-							cout<<"static\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_STATIC;
@@ -154,7 +142,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "throw"					{
 							colNo += strlen(yytext);
-							cout<<"throw\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_THROW;
@@ -162,7 +149,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "ulong"					{
 							colNo += strlen(yytext);
-							cout<<"ulong\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ULONG;
@@ -170,7 +156,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "var"					{
 							colNo += strlen(yytext);
-							cout<<"var\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_VAR;
@@ -178,23 +163,28 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "bool"      			{
 							colNo += strlen(yytext);
-							cout<<"bool\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_BOOL;
 						}
 
 "char"					{
 							colNo += strlen(yytext);
-							cout<<"char\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_CHAR;
 						}
 
 "decimal"				{
 							colNo +=strlen(yytext);
-							cout<<"decimal\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DECIMAL;
@@ -202,7 +192,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "else"					{
 							colNo +=strlen(yytext);
-							cout<<"else\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ELSE;
@@ -210,7 +199,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "foreach"				{
 							colNo +=strlen(yytext);
-							cout<<"foreach\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FOREACH;
@@ -218,7 +206,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "in"					{
 							colNo +=strlen(yytext);
-							cout<<"in\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IN;
@@ -226,7 +213,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "lock"					{
 							colNo +=strlen(yytext);
-							cout<<"lock\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_LOCK;
@@ -234,7 +220,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "object"				{
 							colNo +=strlen(yytext);
-							cout<<"object\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OBJECT;
@@ -242,7 +227,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "private"				{
 							colNo +=strlen(yytext);
-							cout<<"private\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PRIVATE;
@@ -250,7 +234,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "return"				{
 							colNo +=strlen(yytext);
-							cout<<"return\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_RETURN;
@@ -258,7 +241,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "stackalloc"			{
 							colNo +=strlen(yytext);
-							cout<<"stackalloc\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_STACKALLOC;
@@ -266,7 +248,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "switch"				{
 							colNo +=strlen(yytext);
-							cout<<"switch\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SWITCH;
@@ -274,7 +255,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "typeof"				{
 							colNo +=strlen(yytext);
-							cout<<"typeof\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_TYPEOF;
@@ -282,15 +262,17 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "ushort"				{
 							colNo +=strlen(yytext);
-							cout<<"ushort\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_USHORT;
 						}
 
 "volatile"				{
 							colNo +=strlen(yytext);
-							cout<<"volatile\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_VOLATILE;
@@ -298,7 +280,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "break"					{
 							colNo += strlen(yytext); 
-							cout<<"break\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BREAK;
@@ -306,7 +287,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "checked"				{
 							colNo += strlen(yytext); 
-							cout<<"checked\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CHECKED;
@@ -314,7 +294,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "default"				{
 							colNo += strlen(yytext); 
-							cout<<"default\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DEFAULT;
@@ -322,7 +301,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "enum"					{
 							colNo += strlen(yytext); 
-							cout<<"enum\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ENUM;
@@ -330,7 +308,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "finally"				{
 							colNo += strlen(yytext); 
-							cout<<"finally\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FINALLY;
@@ -338,15 +315,17 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "long"					{
 							colNo += strlen(yytext); 
-							cout<<"long\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_LONG;
 						}
 
 "operator"				{
 							colNo += strlen(yytext); 
-							cout<<"operator\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OPERATOR;
@@ -354,7 +333,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "protected"				{
 							colNo += strlen(yytext); 
-							cout<<"protected\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PROTECTED;
@@ -362,7 +340,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "sbyte"					{
 							colNo += strlen(yytext); 
-							cout<<"sbyte\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SBYTE;
@@ -370,7 +347,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "this"					{
 							colNo += strlen(yytext); 
-							cout<<"this\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_THIS;
@@ -378,7 +354,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "uint"					{
 							colNo += strlen(yytext); 
-							cout<<"unit\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_UINT;
@@ -386,7 +361,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "using"					{
 							colNo += strlen(yytext); 
-							cout<<"using\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_USING;
@@ -394,7 +368,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "while"					{
 							colNo += strlen(yytext); 
-							cout<<"while\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_WHILE;
@@ -402,7 +375,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "as"					{
 							colNo+=strlen(yytext);
-							cout<<"as\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_AS;
@@ -410,7 +382,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "case"                  {
 							colNo+=strlen(yytext);
-							cout<<"case\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CASE;
@@ -418,7 +389,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "const"					{
 							colNo+=strlen(yytext);
-							cout<<"const\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CONST;
@@ -426,7 +396,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "do"					{
 							colNo+=strlen(yytext);
-							cout<<"do\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DO;
@@ -434,7 +403,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "explicit"				{	
 							colNo+=strlen(yytext);
-							cout<<"explicit\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_EXPLICIT;
@@ -442,15 +410,17 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "float"					{
 							colNo+=strlen(yytext);
-							cout<<"float\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_FLOAT;
 						}
 
 "internal"				{
 							colNo+=strlen(yytext);
-							cout<<"internal\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_INTERNAL;
@@ -458,7 +428,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "new"					{
 							colNo+=strlen(yytext);
-							cout<<"new\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_NEW;
@@ -466,7 +435,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "override"				{
 							colNo+=strlen(yytext);
-							cout<<"override\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OVERRIDE;
@@ -474,7 +442,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "readonly"				{
 							colNo+=strlen(yytext);
-							cout<<"readonly\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_READONLY;
@@ -482,23 +449,28 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "short"					{	
 							colNo+=strlen(yytext);
-							cout<<"short\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_SHORT;
 						}
 
 "string"				{	
 							colNo+=strlen(yytext);
-							cout<<"string\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_STRING;
 						}
 
 "unchecked"				{
 							colNo+=strlen(yytext);
-							cout<<"unchecked\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_UNCHECKED;
@@ -506,7 +478,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "virtual"				{
 							colNo+=strlen(yytext);
-							cout<<"virtual\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_VIRTUAL;
@@ -514,7 +485,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "base"					{
 							colNo += strlen(yytext);
-							cout<<"base\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BASE;
@@ -522,7 +492,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "catch"					{
 							colNo += strlen(yytext);
-							cout<<"catch\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CATCH;
@@ -530,7 +499,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "continue"				{
 							colNo += strlen(yytext);
-							cout<<"continue\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CONTINUE;
@@ -538,15 +506,17 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "double"				{
 							colNo += strlen(yytext);
-							cout<<"double\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_DOUBLE;
 						}						
 						
 "extern"				{
 							colNo += strlen(yytext);
-							cout<<"extern\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_EXTERN;
@@ -554,7 +524,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "for"					{
 							colNo += strlen(yytext);
-							cout<<"for\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FOR;
@@ -562,7 +531,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "implicit"	    		{
 							colNo += strlen(yytext);
-							cout<<"implicit\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IMPLICIT;
@@ -570,7 +538,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "is"		    		{
 							colNo += strlen(yytext);
-							cout<<"is\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IS;
@@ -578,7 +545,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "null"					{
 							colNo += strlen(yytext);
-							cout<<"null\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_NULL_LITERAL;
@@ -586,7 +552,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "params"				{
 							colNo += strlen(yytext);
-							cout<<"params\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PARAMS;
@@ -594,7 +559,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "ref"					{
 							colNo += strlen(yytext);
-							cout<<"ref\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_REF;
@@ -602,7 +566,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "sizeof"	    		{
 							colNo += strlen(yytext);
-							cout<<"sizeof\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SIZEOF;
@@ -610,7 +573,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "struct"	    		{
 							colNo += strlen(yytext);
-							cout<<"struct\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_STRUCT;
@@ -618,7 +580,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "try"           		{
 							colNo += strlen(yytext);
-							cout<<"try\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_TRY;
@@ -626,7 +587,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "unsafe"        		{
 							colNo += strlen(yytext);
-							cout<<"unsafe\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_UNSAFE;
@@ -634,15 +594,17 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "void"					{
 							colNo += strlen(yytext);
-							cout<<"void\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_VOID;
 						}
 
 "get"					{
 							colNo += strlen(yytext);
-							cout<<"get\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_GET;
@@ -650,7 +612,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "set"					{
 							colNo += strlen(yytext);
-							cout<<"set\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SET;
@@ -665,7 +626,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 \0                      {
 							colNo += strlen(yytext);
-							cout<<"0\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_STRING_END;
@@ -674,7 +634,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 \b                      {
 							if(colNo>1)
 								colNo--;
-							cout<<"backspace\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSPACE;
@@ -682,7 +641,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 \f                      {
 							colNo += strlen(yytext);
-							cout<<"f\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_F;
@@ -690,7 +648,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 \v                      {
 							colNo += strlen(yytext);
-							cout<<"v\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_V;
@@ -698,14 +655,12 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 \+						{
 							colNo += strlen(yytext); 
-							cout<<"plus\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BACKSLASH_PLUS;
 						}
 						
 \a                      {
-							cout<<"beeb\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_A;
@@ -720,7 +675,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 \\                      {
 							colNo += strlen(yytext);
-							cout<<"\\\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_DOUBLE_BACKSLASH;
@@ -729,7 +683,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 \r                      {
 							colNo=1;
 							lineNo++;
-							cout<<"r\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_R;
@@ -737,7 +690,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 \'                      {
 							colNo += strlen(yytext);
-							cout<<"'\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_SINGLE_COTATION;
@@ -752,7 +704,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "-"						{
 							colNo += strlen(yytext);
-							cout<<"-\n"; 
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_MINUS;
@@ -760,14 +711,12 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "/"						{
 							colNo += strlen(yytext); 
-							cout<<"/\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DEVIDE;
 						}
 "*"						{
 							colNo += strlen(yytext); 
-							cout<<"*\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_MULTIPLY;
@@ -775,7 +724,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "<"						{
 							colNo += strlen(yytext); 
-							cout<<"<\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SMALLER;
@@ -783,7 +731,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 ">"						{
 							colNo += strlen(yytext);
-							cout<<">\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BIGGER;
@@ -791,7 +738,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "="						{
 							colNo += strlen(yytext);
-							cout<<"=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_EQUAL;
@@ -799,7 +745,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 ";"						{
 							colNo += strlen(yytext);
-							cout<<";\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_SEMICOLON;
@@ -807,7 +752,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 ","						{
 							colNo += strlen(yytext); 
-							cout<<",\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_COMMA;
@@ -815,7 +759,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "."						{
 							colNo += strlen(yytext); 
-							cout<<".\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_DOT;
@@ -823,7 +766,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "!"						{
 							colNo += strlen(yytext);
-							cout<<"!\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_NOT;
@@ -831,7 +773,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "^"						{
 							colNo += strlen(yytext);
-							cout<<"^\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_XOR;
@@ -839,7 +780,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "%"						{
 							colNo += strlen(yytext);
-							cout<<"%\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MOD;
@@ -847,7 +787,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "#"						{
 							colNo += strlen(yytext);
-							cout<<"#\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_HASH;
@@ -855,7 +794,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "&"						{
 							colNo += strlen(yytext);
-							cout<<"&\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_AND;
@@ -863,7 +801,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "|"						{
 							colNo += strlen(yytext);
-							cout<<"|\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OR;
@@ -871,7 +808,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "{"						{
 							colNo += strlen(yytext);
-							cout<<"{\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OPEN_BRACKETS;
@@ -879,7 +815,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "}"						{
 							colNo += strlen(yytext);
-							cout<<"}\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_CLOSE_BRACKETS;
@@ -888,7 +823,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 												
 "("						{
 							colNo += strlen(yytext);
-							cout<<"(\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OPEN_PARENNTHESES;
@@ -896,7 +830,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 ")"						{
 							colNo += strlen(yytext);
-							cout<<")\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_CLOSE_PARENNTHESES;
@@ -904,22 +837,27 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 										
 "["						{
 							colNo += strlen(yytext);
-							cout<<"[\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_OPEN_ARRAY;
 						}
 
 "]"						{
-								colNo += strlen(yytext);
-								cout<<"]\n";
-								yylval.r.myLineNo=lineNo;
-								yylval.r.myColNo=colNo;  
-								return T_CLOSE_ARRAY;
+							colNo += strlen(yytext);
+							yylval.r.myLineNo=lineNo;
+							yylval.r.myColNo=colNo;  
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
+							return T_CLOSE_ARRAY;
 						}
 ":"						{
 							colNo += strlen(yytext);
-							cout<<":\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_COLON;
@@ -927,7 +865,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "~"						{
 							colNo += strlen(yytext);
-							cout<<"~\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_TILDE;
@@ -935,7 +872,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "?"						{
 							colNo += strlen(yytext);
-							cout<<"?\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_QUESTION_MARK;
@@ -944,7 +880,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 	
 ">>"					{
 							colNo += strlen(yytext);
-							cout<<">>\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_GTGT;
@@ -952,7 +887,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 	
 "<<"					{
 							colNo += strlen(yytext);
-							cout<<"<<\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_LTLT;
@@ -960,7 +894,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 	
 "<="					{
 							colNo += strlen(yytext);
-							cout<<"<=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_LEQ;
@@ -968,7 +901,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 ">="					{
 							colNo += strlen(yytext);
-							cout<<">=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_GEQ;
@@ -976,7 +908,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "=="					{
 							colNo += strlen(yytext);
-							cout<<"==\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_EQEQ;
@@ -984,7 +915,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "!="					{
 							colNo += strlen(yytext);
-							cout<<"!=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_NOTEQ;
@@ -992,7 +922,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "&&"					{
 							colNo += strlen(yytext);
-							cout<<"&&\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_ANDAND;
@@ -1000,7 +929,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "||"					{
 							colNo += strlen(yytext);
-							cout<<"||\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OROR;
@@ -1008,7 +936,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 					
 "++"					{
 							colNo += strlen(yytext);
-							cout<<"++\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_PLUSPLUS;
@@ -1016,7 +943,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 						
 "--"					{
 							colNo += strlen(yytext);
-							cout<<"--\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MINUSMINUS;
@@ -1024,7 +950,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "+="					{
 							colNo += strlen(yytext);
-							cout<<"+=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_PLUSEQ; 
@@ -1032,7 +957,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "-="					{ 
 							colNo += strlen(yytext);
-							cout<<"-=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MINUSEQ; 
@@ -1040,7 +964,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "*="					{ 
 							colNo += strlen(yytext);
-							cout<<"*=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_STAREQ; 
@@ -1048,7 +971,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "/="					{ 
 							colNo += strlen(yytext);
-							cout<<"/=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_DIVEQ;
@@ -1056,7 +978,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "%="					{ 
 							colNo += strlen(yytext);
-							cout<<"%=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MODEQ; 
@@ -1064,7 +985,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "^="					{ 
 							colNo += strlen(yytext);
-							cout<<"^=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_XOREQ; 
@@ -1072,7 +992,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "&="					{ 
 							colNo += strlen(yytext);
-							cout<<"&=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_ANDEQ; 
@@ -1080,7 +999,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "|="					{ 
 							colNo += strlen(yytext);
-							cout<<"|=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OREQ; 
@@ -1088,7 +1006,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "->"					{ 
 							colNo += strlen(yytext);
-							cout<<"->\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_ARROW; 
@@ -1096,7 +1013,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 ">>="					{ 
 							colNo += strlen(yytext);
-							cout<<">>=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_GTGTEQ; 
@@ -1104,7 +1020,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 "<<="					{ 
 							colNo += strlen(yytext);
-							cout<<"<<=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_LTLTEQ; 
@@ -1122,13 +1037,11 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 {Boolean}							{
 										colNo += strlen(yytext);
-										cout<<"Booool:	"<<yytext<<endl;
 										return T_LITERAL_BOOLEAN;
 									}
 		
 {Identifier}						{
 										colNo += strlen(yytext);
-										cout << "Found ID:	" << yytext << endl;
 										char * x = new char[255];
 										x[0] = '\0';
 										strcpy(x, yytext);
@@ -1138,14 +1051,12 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 {NotIdentifier}                     {
                                        colNo += strlen(yytext);
-									   cout << "notID!!   :" << yytext << endl;
 									   return T_NOT_IDENTIFIER;
                                     }
 
 {Float}								{
 										colNo += strlen(yytext);
 										float f = atof(yytext);
-										cout << "Found float:	" << f << endl;
 										yylval.r.f = f;
 										return T_LITERAL_FLOAT;
 									}
@@ -1154,7 +1065,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 										colNo += strlen(yytext);
 										int i = atoi(yytext);
 										yylval.r.i = i;
-										cout << "Found int:	"<< i << endl;
 										if(strlen(yytext) <= 4)
 											return T_LITERAL_INTEGER;
 										else
@@ -1163,7 +1073,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 {Character}							{
 										colNo += strlen(yytext);
-										cout<<"Found Char:	"<<yytext<<endl;
 										yylval.r.c = yytext[0];
 										return T_LITERAL_CHARACTER;
 									}
@@ -1213,7 +1122,6 @@ Double                  ([+-]?[0-9]+"."[0-9]+"d"?)|[0-9]+"d"
 
 {Double}                            {
 										colNo += strlen(yytext);
-										cout<<"Found double:	"<<yytext<<endl;
 										return T_LITERAL_DOUBLE;
                                     }
 %%

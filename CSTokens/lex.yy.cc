@@ -830,7 +830,6 @@ YY_RULE_SETUP
 #line 27 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"if\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IF;
@@ -838,10 +837,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 35 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 34 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"class\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CLASS;
@@ -849,10 +847,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 43 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 41 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"public\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PUBLIC;
@@ -860,10 +857,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 51 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 48 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"lnumber\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_LNUMBER;
@@ -871,21 +867,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 59 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 55 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"int\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_INT;
 						}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 67 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 66 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"abstract\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ABSTRACT;
@@ -893,10 +891,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 75 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 73 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"byte\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BYTE;
@@ -904,10 +901,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 83 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 80 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"delegate\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DELEGATE;
@@ -915,10 +911,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 91 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 87 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"event\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_EVENT;
@@ -926,10 +921,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 99 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 94 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"fixed\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FIXED;
@@ -937,10 +931,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 107 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 101 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"goto\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_GOTO;
@@ -948,10 +941,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 115 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 108 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"interface\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_INTERFACE;
@@ -959,10 +951,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 123 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 115 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"namespace\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_NAMESPACE;
@@ -970,10 +961,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 131 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 122 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"out\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OUT;
@@ -981,10 +971,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 139 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 129 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"sealed\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SEALED;
@@ -992,10 +981,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 147 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 136 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"static\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_STATIC;
@@ -1003,10 +991,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 155 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 143 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"throw\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_THROW;
@@ -1014,10 +1001,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 163 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 150 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"ulong\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ULONG;
@@ -1025,10 +1011,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 171 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 157 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"var\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_VAR;
@@ -1036,32 +1021,37 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 179 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 164 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"bool\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_BOOL;
 						}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 187 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 175 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"char\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_CHAR;
 						}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 195 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 186 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"decimal\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DECIMAL;
@@ -1069,10 +1059,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 203 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 193 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"else\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ELSE;
@@ -1080,10 +1069,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 211 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 200 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"foreach\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FOREACH;
@@ -1091,10 +1079,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 219 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 207 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"in\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IN;
@@ -1102,10 +1089,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 227 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 214 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"lock\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_LOCK;
@@ -1113,10 +1099,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 235 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 221 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"object\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OBJECT;
@@ -1124,10 +1109,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 243 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 228 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"private\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PRIVATE;
@@ -1135,10 +1119,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 251 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 235 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"return\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_RETURN;
@@ -1146,10 +1129,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 259 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 242 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"stackalloc\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_STACKALLOC;
@@ -1157,10 +1139,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 267 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 249 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"switch\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SWITCH;
@@ -1168,10 +1149,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 275 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 256 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"typeof\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_TYPEOF;
@@ -1179,21 +1159,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 283 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 263 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"ushort\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_USHORT;
 						}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 291 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 274 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo +=strlen(yytext);
-							cout<<"volatile\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_VOLATILE;
@@ -1201,10 +1183,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 299 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 281 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"break\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BREAK;
@@ -1212,10 +1193,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 307 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 288 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"checked\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CHECKED;
@@ -1223,10 +1203,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 315 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 295 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"default\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DEFAULT;
@@ -1234,10 +1213,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 323 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 302 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"enum\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_ENUM;
@@ -1245,10 +1223,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 331 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 309 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"finally\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FINALLY;
@@ -1256,21 +1233,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 339 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 316 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"long\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_LONG;
 						}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 347 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 327 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"operator\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OPERATOR;
@@ -1278,10 +1257,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 355 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 334 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"protected\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PROTECTED;
@@ -1289,10 +1267,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 363 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 341 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"sbyte\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SBYTE;
@@ -1300,10 +1277,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 371 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 348 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"this\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_THIS;
@@ -1311,10 +1287,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 379 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 355 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"unit\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_UINT;
@@ -1322,10 +1297,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 387 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 362 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"using\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_USING;
@@ -1333,10 +1307,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 395 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 369 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"while\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_WHILE;
@@ -1344,10 +1317,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 403 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 376 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"as\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_AS;
@@ -1355,10 +1327,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 411 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 383 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"case\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CASE;
@@ -1366,10 +1337,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 419 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 390 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"const\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CONST;
@@ -1377,10 +1347,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 427 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 397 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"do\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DO;
@@ -1388,10 +1357,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 435 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 404 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {	
 							colNo+=strlen(yytext);
-							cout<<"explicit\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_EXPLICIT;
@@ -1399,21 +1367,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 443 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 411 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"float\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_FLOAT;
 						}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 451 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 422 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"internal\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_INTERNAL;
@@ -1421,10 +1391,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 459 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 429 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"new\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_NEW;
@@ -1432,10 +1401,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 467 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 436 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"override\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_OVERRIDE;
@@ -1443,10 +1411,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 475 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 443 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"readonly\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_READONLY;
@@ -1454,32 +1421,37 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 483 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 450 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {	
 							colNo+=strlen(yytext);
-							cout<<"short\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_SHORT;
 						}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 491 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 461 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {	
 							colNo+=strlen(yytext);
-							cout<<"string\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_STRING;
 						}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 499 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 472 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"unchecked\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_UNCHECKED;
@@ -1487,10 +1459,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 507 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 479 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo+=strlen(yytext);
-							cout<<"virtual\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_VIRTUAL;
@@ -1498,10 +1469,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 515 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 486 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"base\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BASE;
@@ -1509,10 +1479,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 523 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 493 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"catch\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CATCH;
@@ -1520,10 +1489,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 531 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 500 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"continue\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_CONTINUE;
@@ -1531,21 +1499,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 539 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 507 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"double\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_DOUBLE;
 						}						
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 547 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 518 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"extern\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_EXTERN;
@@ -1553,10 +1523,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 555 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 525 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"for\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_FOR;
@@ -1564,10 +1533,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 563 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 532 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"implicit\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IMPLICIT;
@@ -1575,10 +1543,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 571 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 539 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"is\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_IS;
@@ -1586,10 +1553,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 579 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 546 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"null\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_NULL_LITERAL;
@@ -1597,10 +1563,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 587 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 553 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"params\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_PARAMS;
@@ -1608,10 +1573,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 595 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 560 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"ref\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_REF;
@@ -1619,10 +1583,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 603 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 567 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"sizeof\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SIZEOF;
@@ -1630,10 +1593,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 611 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 574 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"struct\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_STRUCT;
@@ -1641,10 +1603,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 619 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 581 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"try\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_TRY;
@@ -1652,10 +1613,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 627 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 588 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"unsafe\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_UNSAFE;
@@ -1663,21 +1623,23 @@ YY_RULE_SETUP
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 635 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 595 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"void\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_VOID;
 						}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 643 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 606 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"get\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_GET;
@@ -1685,10 +1647,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 651 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 613 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"set\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SET;
@@ -1696,7 +1657,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 659 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 620 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += 3;
 							yylval.r.myLineNo=lineNo;
@@ -1706,10 +1667,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 666 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 627 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"0\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_STRING_END;
@@ -1717,11 +1677,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 674 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 634 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							if(colNo>1)
 								colNo--;
-							cout<<"backspace\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSPACE;
@@ -1729,10 +1688,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 683 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 642 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"f\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_F;
@@ -1740,10 +1698,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 691 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 649 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"v\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_V;
@@ -1751,10 +1708,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 699 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 656 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"plus\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BACKSLASH_PLUS;
@@ -1762,9 +1718,8 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 707 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 663 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
-							cout<<"beeb\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_A;
@@ -1772,7 +1727,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 713 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 668 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
                             colNo=1;
                             lineNo +=1;
@@ -1783,10 +1738,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 721 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 676 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"\\\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_DOUBLE_BACKSLASH;
@@ -1794,11 +1748,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 729 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 683 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo=1;
 							lineNo++;
-							cout<<"r\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_R;
@@ -1806,10 +1759,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 738 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 691 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"'\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
                         	return T_BACKSLASH_SINGLE_COTATION;
@@ -1817,7 +1769,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 746 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 698 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += 1;
 							yylval.r.myLineNo=lineNo;
@@ -1827,10 +1779,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 753 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 705 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"-\n"; 
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_MINUS;
@@ -1838,10 +1789,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 761 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 712 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"/\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_DEVIDE;
@@ -1849,10 +1799,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 768 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 718 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"*\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_MULTIPLY;
@@ -1860,10 +1809,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 776 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 725 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<"<\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_SMALLER;
@@ -1871,10 +1819,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 784 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 732 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<">\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;
 							return T_BIGGER;
@@ -1882,10 +1829,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 792 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 739 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_EQUAL;
@@ -1893,10 +1839,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 800 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 746 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<";\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_SEMICOLON;
@@ -1904,10 +1849,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 808 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 753 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<",\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_COMMA;
@@ -1915,10 +1859,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 816 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 760 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext); 
-							cout<<".\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_DOT;
@@ -1926,10 +1869,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 824 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 767 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"!\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_NOT;
@@ -1937,10 +1879,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 832 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 774 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"^\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_XOR;
@@ -1948,10 +1889,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 840 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 781 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"%\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MOD;
@@ -1959,10 +1899,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 848 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 788 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"#\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_HASH;
@@ -1970,10 +1909,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 856 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 795 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"&\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_AND;
@@ -1981,10 +1919,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 864 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 802 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"|\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OR;
@@ -1992,10 +1929,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 872 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 809 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"{\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OPEN_BRACKETS;
@@ -2003,10 +1939,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 880 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 816 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"}\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_CLOSE_BRACKETS;
@@ -2015,10 +1950,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 889 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 824 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"(\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OPEN_PARENNTHESES;
@@ -2026,10 +1960,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 897 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 831 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<")\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_CLOSE_PARENNTHESES;
@@ -2037,32 +1970,37 @@ YY_RULE_SETUP
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 905 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 838 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"[\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
 							return T_OPEN_ARRAY;
 						}
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 913 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 849 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
-								colNo += strlen(yytext);
-								cout<<"]\n";
-								yylval.r.myLineNo=lineNo;
-								yylval.r.myColNo=colNo;  
-								return T_CLOSE_ARRAY;
+							colNo += strlen(yytext);
+							yylval.r.myLineNo=lineNo;
+							yylval.r.myColNo=colNo;  
+							char * x = new char[255];
+							x[0] = '\0';
+							strcpy(x, yytext);
+							yylval.r.str = x;
+							return T_CLOSE_ARRAY;
 						}
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 920 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 859 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<":\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_COLON;
@@ -2070,10 +2008,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 928 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 866 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"~\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_TILDE;
@@ -2081,10 +2018,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 936 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 873 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"?\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_QUESTION_MARK;
@@ -2092,10 +2028,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
-#line 945 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 881 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<">>\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_GTGT;
@@ -2103,10 +2038,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 953 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 888 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"<<\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_LTLT;
@@ -2114,10 +2048,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 961 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 895 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"<=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_LEQ;
@@ -2125,10 +2058,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 969 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 902 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<">=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_GEQ;
@@ -2136,10 +2068,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
-#line 977 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 909 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"==\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_EQEQ;
@@ -2147,10 +2078,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
-#line 985 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 916 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"!=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo; 
 							return T_NOTEQ;
@@ -2158,10 +2088,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
-#line 993 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 923 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"&&\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_ANDAND;
@@ -2169,10 +2098,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 1001 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 930 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"||\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OROR;
@@ -2180,10 +2108,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 1009 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 937 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"++\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_PLUSPLUS;
@@ -2191,10 +2118,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 1017 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 944 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"--\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MINUSMINUS;
@@ -2202,10 +2128,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 1025 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 951 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 							colNo += strlen(yytext);
-							cout<<"+=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_PLUSEQ; 
@@ -2213,10 +2138,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 1033 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 958 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"-=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MINUSEQ; 
@@ -2224,10 +2148,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
-#line 1041 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 965 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"*=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_STAREQ; 
@@ -2235,10 +2158,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 1049 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 972 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"/=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_DIVEQ;
@@ -2246,10 +2168,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 1057 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 979 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"%=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_MODEQ; 
@@ -2257,10 +2178,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 131:
 YY_RULE_SETUP
-#line 1065 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 986 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"^=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_XOREQ; 
@@ -2268,10 +2188,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 132:
 YY_RULE_SETUP
-#line 1073 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 993 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"&=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_ANDEQ; 
@@ -2279,10 +2198,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 133:
 YY_RULE_SETUP
-#line 1081 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1000 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"|=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_OREQ; 
@@ -2290,10 +2208,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 134:
 YY_RULE_SETUP
-#line 1089 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1007 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"->\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_ARROW; 
@@ -2301,10 +2218,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 135:
 YY_RULE_SETUP
-#line 1097 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1014 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<">>=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_GTGTEQ; 
@@ -2312,10 +2228,9 @@ YY_RULE_SETUP
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
-#line 1105 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1021 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { 
 							colNo += strlen(yytext);
-							cout<<"<<=\n";
 							yylval.r.myLineNo=lineNo;
 							yylval.r.myColNo=colNo;  
 							return T_LTLTEQ; 
@@ -2323,27 +2238,27 @@ YY_RULE_SETUP
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
-#line 1113 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1028 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { BEGIN multilinecomment; }
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
-#line 1114 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1029 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {;}
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
-#line 1115 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1030 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {lineNo++;}
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
-#line 1116 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1031 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 { BEGIN INITIAL;cout<<"\t it is a Multi Line Comment \n";}
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
-#line 1118 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1033 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										cout<<"\tit is a single line comment"<<endl;
 										lineNo++;
@@ -2351,19 +2266,17 @@ YY_RULE_SETUP
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
-#line 1123 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1038 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										colNo += strlen(yytext);
-										cout<<"Booool:	"<<yytext<<endl;
 										return T_LITERAL_BOOLEAN;
 									}
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
-#line 1129 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1043 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										colNo += strlen(yytext);
-										cout << "Found ID:	" << yytext << endl;
 										char * x = new char[255];
 										x[0] = '\0';
 										strcpy(x, yytext);
@@ -2373,32 +2286,29 @@ YY_RULE_SETUP
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
-#line 1139 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1052 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
                                        colNo += strlen(yytext);
-									   cout << "notID!!   :" << yytext << endl;
 									   return T_NOT_IDENTIFIER;
                                     }
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
-#line 1145 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1057 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										colNo += strlen(yytext);
 										float f = atof(yytext);
-										cout << "Found float:	" << f << endl;
 										yylval.r.f = f;
 										return T_LITERAL_FLOAT;
 									}
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
-#line 1153 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1064 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										colNo += strlen(yytext);
 										int i = atoi(yytext);
 										yylval.r.i = i;
-										cout << "Found int:	"<< i << endl;
 										if(strlen(yytext) <= 4)
 											return T_LITERAL_INTEGER;
 										else
@@ -2407,17 +2317,16 @@ YY_RULE_SETUP
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
-#line 1164 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1074 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										colNo += strlen(yytext);
-										cout<<"Found Char:	"<<yytext<<endl;
 										yylval.r.c = yytext[0];
 										return T_LITERAL_CHARACTER;
 									}
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
-#line 1172 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1081 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										string temp="";
 										int i=0;
@@ -2462,19 +2371,18 @@ YY_RULE_SETUP
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
-#line 1214 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1123 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 {
 										colNo += strlen(yytext);
-										cout<<"Found double:	"<<yytext<<endl;
 										return T_LITERAL_DOUBLE;
                                     }
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
-#line 1219 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
+#line 1127 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
 ECHO;
 	YY_BREAK
-#line 2477 "lex.yy.cc"
+#line 2385 "lex.yy.cc"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(multilinecomment):
 	yyterminate();
@@ -3282,5 +3190,4 @@ int main()
 	return 0;
 	}
 #endif
-#line 1219 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"
-
+#line 1127 "C:\\Users\\CEC\\Documents\\Visual Studio 2013\\Projects\\CSTokens\\lex.l"

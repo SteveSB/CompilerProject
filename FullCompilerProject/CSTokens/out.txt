@@ -1,0 +1,90 @@
+in.cs
+==============================================================
+		 Added class body
+		 Added interface body
+		 Added interface base
+		 Added interface body
+		 Added class base
+		 Added class body
+		 Added modifier
+	it is a single line comment
+		 Added modifier
+		 Added class body
+	it is a single line comment
+	it is a single line comment
+		 Added interface base
+		 Added interface body
+		 Added modifier
+		 Added class base
+		 Added class body
+	it is a single line comment
+	it is a single line comment
+		 Added modifier
+		 Added class body
+Interface Name :ss
+
+
+Class Name :ss
+sealed
+
+Function Name is: ss
+ is constractor
+Interface Name :ww
+
+ the name ss
+Class Name :x
+
+ the name ss the name ww
+Function Name is: x
+ is constractor
+Class Name :two
+PUBLIC
+
+Data_Member Name is: firstMember
+Data_Member Name is: thirdMember
+Class Name :fClass
+
+
+Function Name is: firstMethod
+ List_Parameters : 
+The Parameter name is: x::int this is not virtual Parameter 
+The Parameter name is: y::int this is not virtual Parameter 
+The Parameter name is: z::int this is virtual Parameter 
+The Parameter name is: r::int this is virtual Parameter 
+
+Function Name is: fClass
+ is constractor
+Data_Member Name is: secondMember
+Data_Member Name is: TESTING
+Function Name is: secondMethod
+Function Name is: secondMethod
+The Local_Variable name is: firstObject
+The Local_Variable name is: secondObject
+Function Name is: main
+Interface Name :w
+
+ the name ff
+Class Name :firstClass
+staticPUBLIC
+ the name fClass
+Function Name is: x
+ List_Parameters : 
+The Parameter name is: z::int this is not virtual Parameter 
+
+Function Name is: x
+ List_Parameters : 
+The Parameter name is: t::int this is not virtual Parameter 
+
+Function Name is: firstClass
+ is constractor
+Function Name is: two
+ is constractor
+ww  inheret from  ss
+x  inheret from  ss
+x  inheret from interface  ww
+error in inheretance interface not found  ff
+firstClass  inheret from  fClass
+class names equal error ss
+error function overload error  secondMethod
+error function overload error  x
+TESTING
